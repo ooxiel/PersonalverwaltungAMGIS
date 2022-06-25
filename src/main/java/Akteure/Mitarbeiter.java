@@ -209,30 +209,4 @@ public class Mitarbeiter implements Serializable {
     /*
         Mitarbeiter-Info -> Abruf aller Getter-Methoden in einem Methodenaufruf
     */
-
-    public void info (){
-
-        getVorName();
-        getZweitName();
-        getNachName();
-
-        getGeschlecht();
-
-        getStraße();
-        getHausnummer();
-        getPostLeitZahl();
-        getLand();
-
-        //___________________________
-
-        getJobBezeichnung();
-        getPid();
-        getBueroNummer();
-        getAbteilung();
-        getBereich();
-        getPosition();
-        getVorgesetzter();
-        getAbteilungsLeiter();
-
-    }
 }

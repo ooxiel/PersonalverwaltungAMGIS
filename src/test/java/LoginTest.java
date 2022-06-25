@@ -1,7 +1,7 @@
+
 import Login.LoginGenerate;
 import org.junit.jupiter.api.Test;
-
-import static  org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -14,15 +14,12 @@ import static  org.junit.jupiter.api.Assertions.*;
  */
 
 
-
 public class LoginTest {
 
     @Test
     public void test(){
 
         LoginGenerate login = new LoginGenerate();
-
-        LoginTest test = new LoginTest();
 
         assertEquals("4",login.passwordGenerate());
 
@@ -32,9 +29,9 @@ public class LoginTest {
     public void userTest(){
         LoginGenerate login = new LoginGenerate();
 
-        LoginTest test = new LoginTest();
-
-        assertEquals(null, login.usernameGenerate());
+        assertNull(login.usernameGenerate());
     }
 
 }
+
+
