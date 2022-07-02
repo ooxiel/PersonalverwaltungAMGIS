@@ -1,37 +1,23 @@
-
-import Login.LoginGenerate;
+import Login.Login;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-
-/**
- * Aufbau Unit-Tests:
- *
- *  1. Input
- *  2. Expected Output
- *  3. Validation
- *
- */
-
 
 public class LoginTest {
 
+    Login login = new Login();
+
+
     @Test
-    public void test(){
+    public void userName(){
 
-        LoginGenerate login = new LoginGenerate();
+        login.userNameProof("farnz");
 
-        assertEquals("4",login.passwordGenerate());
 
     }
 
-    @Test
-    public void userTest(){
-        LoginGenerate login = new LoginGenerate();
-
-        assertNull(login.usernameGenerate());
+    public void password(){
+        login.passwordProof("password");
     }
-
+    public void personalID(){
+        login.personalIDProof("farnz","f");
+    }
 }
-
-

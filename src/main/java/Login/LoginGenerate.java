@@ -1,23 +1,52 @@
 package Login;
 
-import org.apache.poi.ooxml.POIXMLDocument;
-import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
-import org.apache.poi.openxml4j.opc.PackagePart;
-import org.apache.poi.poifs.filesystem.POIFSDocument;
-
-import java.util.List;
+import Akteure.Mitarbeiter;
 import java.util.Random;
+
+
 
 public class LoginGenerate {
 
-    public String usernameGenerate (){
+    public String generateUsername (Mitarbeiter mitarbeiter){
 
+        // UsernameGenerate gilt hier für normale User
 
         /*
-            Nachname (kommplett)+ "_"+Vorname (Anfangsbuchstabe)+Personal ID
+            Aufbau Username = "Nachname"+"_"+"Anfangsbuchstabe des Vornamens"
 
          */
-        return null;
+
+        String nachN    = mitarbeiter.getNachName().toLowerCase();
+        String vorN     = mitarbeiter.getVorName();
+
+
+        char [] getFirstL = vorN.toCharArray();
+        vorN = String.valueOf(getFirstL[0]);
+
+
+        return vorN+"_"+nachN;
+    }
+
+    public String generateHRUsername(Mitarbeiter mitarbeiter){
+
+        // UsernameGenerate gilt hier für HR User
+
+        /*
+            Aufbau Username = "Nachname"+"_"+"Anfangsbuchstabe des Vornamens"+"_"+"Anwender-Typ"
+
+         */
+
+        String nachN    = mitarbeiter.getNachName().toLowerCase();
+        String vorN     = mitarbeiter.getVorName();
+        String type     = "adm";
+
+
+        char [] getFirstL = vorN.toCharArray();
+        vorN = String.valueOf(getFirstL[0]);
+
+
+        return vorN+"_"+nachN+"_"+type;
+
     }
 
     public String passwordGenerate(){
@@ -36,16 +65,6 @@ public class LoginGenerate {
         }
 
         return stringbuilder.toString();
-
-    }
-
-    public void printUserAndPassword (){
-
-        System.out.println("Username: "+usernameGenerate());
-        System.out.println("Passwort: "+passwordGenerate());
-
-        System.out.println("Notieren Sie den Username und das Passwort und geben Sie diesen na die entsprechende Person weiter!");
-
 
     }
 }

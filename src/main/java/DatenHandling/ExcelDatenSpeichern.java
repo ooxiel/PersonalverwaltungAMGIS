@@ -2,6 +2,7 @@ package DatenHandling;
 
 
 import Akteure.Mitarbeiter;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.formula.FormulaParseException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellAddress;
@@ -28,45 +29,12 @@ public class ExcelDatenSpeichern {
 
     public static void main(String[] args) {
 
+        HSSFWorkbook datei = new HSSFWorkbook();
 
-        XSSFWorkbook workbook = new XSSFWorkbook();
-
-        XSSFSheet sheet = workbook.createSheet("Employee Data");
-
-
-        List<Mitarbeiter> mitarbeiterList = new ArrayList<>();
-
-        mitarbeiterList.add(new Mitarbeiter("Farnz", "", "Whey", "weib", "Farnz-Street", "19a", 243545, "Dutschland", "Theoretisch WI", "12345", "1.2.3.4.5.6", "Abteilung", "Bereich", "Position", "Vorgesetzter", "Leiter"));
-        mitarbeiterList.add(new Mitarbeiter("Farnz", "", "Whey", "weib", "Farnz-Street", "19a", 243545, "Dutschland", "Theoretisch WI", "12345", "1.2.3.4.5.6", "Abteilung", "Bereich", "Position", "Vorgesetzter", "Leiter"));
-
-
-        System.out.println(mitarbeiterList);
-
-        int rowNum = 0;
-        int colNum = 0;
-
-        sheet.createRow(rowNum);
+        Sheet blatt = datei.createSheet("Sheet 1");
 
 
 
-
-
-
-
-        try {
-            FileOutputStream outputStream = new FileOutputStream("");
-            workbook.write(outputStream);
-            workbook.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-
-
-        System.out.println("Done");
     }
 
     }

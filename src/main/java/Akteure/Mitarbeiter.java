@@ -28,7 +28,7 @@ public class Mitarbeiter implements Serializable {
 
             private String straße;
             private String hausnummer;
-            private int postLeitZahl;
+            private String postLeitZahl;
             private String land;
 
     // Jobspezifische Angaben
@@ -46,7 +46,7 @@ public class Mitarbeiter implements Serializable {
         Konstruktor
      */
 
-    public Mitarbeiter(String userType, String vorName, String zweitName, String nachName, String geschlecht, String straße, int postLeitZahl, String land, String jobBezeichnung, String pid, String bueroNummer, String abteilung, String bereich, String position, String vorgesetzter, String abteilungsLeiter) {
+    public Mitarbeiter(String userType, String vorName, String zweitName, String nachName, String geschlecht, String straße, String hausnummer, String postLeitZahl, String land, String jobBezeichnung, String pid, String bueroNummer, String abteilung, String bereich, String position, String vorgesetzter, String abteilungsLeiter) {
         this.userType = userType;
         this.vorName = vorName;
         this.zweitName = zweitName;
@@ -126,11 +126,11 @@ public class Mitarbeiter implements Serializable {
             this.hausnummer = hausnummer;
         }
 
-        public int getPostLeitZahl() {
+        public String getPostLeitZahl() {
             return postLeitZahl;
         }
 
-        public void setPostLeitZahl(int postLeitZahl) {
+        public void setPostLeitZahl(String postLeitZahl) {
             this.postLeitZahl = postLeitZahl;
         }
 
