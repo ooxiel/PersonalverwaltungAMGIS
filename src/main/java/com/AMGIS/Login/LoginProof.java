@@ -1,19 +1,28 @@
 package com.AMGIS.Login;
 
 
-
+import java.lang.reflect.Array;
 
 public class LoginProof {
 
-    String userName = "get.Username aus Login-Feld";
-    String password = "get.Password aus Login-Feld";
+    private String username;
+    private char[] password;
 
-    public boolean checkNull(String userName, String password){
 
-        return false;
+    public boolean checkNull(String username, char[] password){
+
+            if (username == null || username.length() == 0){
+                return false;
+            }
+
+            if(password == null || password.length == 0){
+                return false;
+            }
+
+        return true;
     }
 
-    public boolean username (String userName){
+    public boolean username (String username){
 
         // Ueberpruefung von Username mit Datenbank
 
@@ -23,7 +32,7 @@ public class LoginProof {
         return true;
     }
 
-    public boolean passwordProof(String password){
+    public boolean passwordProof(char[] password){
         // Ueberpruefung von Password mit Datenbank
 
             /*
@@ -32,7 +41,7 @@ public class LoginProof {
         return true;
     }
 
-    public boolean personalIDProof(String userName, String CellNumber){
+    public boolean personalIDProof(String username, String CellNumber){
         // Ueberprufung ob Username + Password mit Mitarbeiter ID verbunden sind
 
             /*

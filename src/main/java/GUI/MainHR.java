@@ -7,11 +7,11 @@ import java.awt.event.ActionListener;
 public class MainHR {
     private JPanel main;
     private JButton dashboardButton;
-    private JButton button2;
     private JButton personalakteErstellenButton;
-    private JButton button4;
     private JTabbedPane tabbedPane1;
+    private JButton abmeldenButton;
     private JPanel dashboardPanel;
+    private JPanel personalakteErstellen;
 
     public static void main(String[] args) {
         new MainHR();
@@ -33,7 +33,15 @@ public class MainHR {
         dashboardButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tabbedPane1.setSelectedIndex(0);
+                tabbedPane1.setSelectedComponent(dashboardPanel);
+            }
+        });
+
+
+        personalakteErstellenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tabbedPane1.setSelectedComponent(personalakteErstellen);
             }
         });
     }

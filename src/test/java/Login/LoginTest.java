@@ -16,7 +16,7 @@ public class LoginTest {
     }
 
     public void password(){
-        login.passwordProof("password");
+        //login.passwordProof("password");
     }
     public void personalID(){
         login.personalIDProof("farnz","f");
