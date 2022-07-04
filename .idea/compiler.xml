@@ -9,5 +9,8 @@
         <module name="Personalverwaltung" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="demo" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
