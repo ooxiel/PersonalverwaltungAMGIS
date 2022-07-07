@@ -1,12 +1,13 @@
 package GUI;
 
-import com.AMGIS.Login.LoginFassade;
-import org.apache.poi.sl.usermodel.ObjectMetaData;
+import com.AMGIS.Facade.LoginFacade;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 
 public class Login {
@@ -16,25 +17,34 @@ public class Login {
         private JPanel main;
             private JPasswordField passwordField;
             private JTextField usernameField;
-            private JButton bestätigenButton;
+            private JButton besteatigenButton;
             private JButton abbrechenButton;
-            private JLabel falseInput;
+
+            private JLabel usernameImage;
+            private JLabel passwordImage;
+                private ImageIcon userImage;
+                private ImageIcon passImage;
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         new Login();
     }
 
-    public Login(){
+    public Login() throws IOException {
+
+
 
     /*
         Login-Panel wird geoeffnet
      */
+
         JFrame frame = new JFrame();
 
             frame.add(main);
             frame.setVisible(true);
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+
 
     /*
         Zentrierung Login-Panel in Abhängigkeit der Monitorauflösung
@@ -42,7 +52,7 @@ public class Login {
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-            frame.setSize(400,200);                             // Groesse des Login-Panel wird auf 400, 200 gesetzt, kann aber auch unabhaengig von unteren Code-Fragmenten variiert werden
+            frame.setSize(500,250);                             // Groesse des Login-Panel wird auf 400, 200 gesetzt, kann aber auch unabhaengig von unteren Code-Fragmenten variiert werden
             frame.setResizable(false);                                      // Groesse des Login-Panel ist fix
 
                 int widthScreen = (int) screenSize.getWidth();              // Monitoraufloesung in horizontale Richtung wird in Variable gespeichert
@@ -67,10 +77,29 @@ public class Login {
         });
 
     /*
+        Design
+     */
+
+        // Icons werden im JLabel
+
+        ImageIcon userIcon      = new ImageIcon("C:\\Users\\Lennard\\IdeaProjects\\PersonalverwaltungAMGIS\\src\\main\\resources\\icons\\user.png");
+        ImageIcon passwordIcon  = new ImageIcon("C:\\Users\\Lennard\\IdeaProjects\\PersonalverwaltungAMGIS\\src\\main\\resources\\icons\\password.png");
+
+            usernameImage.setIcon(userIcon);
+            passwordImage.setIcon(passwordIcon);
+
+       // Border-Types werden geändert
+
+        Border border = BorderFactory.createLoweredSoftBevelBorder();
+
+            usernameField.setBorder(border);
+            passwordField.setBorder(border);
+
+    /*
         Username und Password-Eingabe wird zur Ueberpruefung weitergeleitet
      */
 
-        bestätigenButton.addActionListener(new ActionListener() {
+        besteatigenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -81,10 +110,10 @@ public class Login {
 
             // Login-Eingaben überprüfen
 
-                LoginFassade fassade = new LoginFassade();                  // einsetzen des Facade-Patters, da Login-Überprüfung in drei Schritten bei jedem Login-Versuch erfolgen muss
+                LoginFacade fassade = new LoginFacade();                                                        // Einsetzen des Facade-Patters, da Login-Überprüfung in drei Schritten bei jedem Login-Versuch erfolgen muss
 
                 if(!fassade.testLogin(username, password)){
-                    falseInput.setText("Username oder Passwort falsch!");
+                    JOptionPane.showMessageDialog(main,"Username oder Passwort nicht aufgefuellt!");
                 }else{
                     frame.dispose();
                     new MainHR();

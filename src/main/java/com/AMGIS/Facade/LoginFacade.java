@@ -1,9 +1,14 @@
-package com.AMGIS.Login;
+package com.AMGIS.Facade;
 
-public class LoginFassade {
+import com.AMGIS.Akteure.Mitarbeiter;
+import com.AMGIS.Login.LoginGenerate;
+import com.AMGIS.Login.LoginProof;
+
+public class LoginFacade {
 
     public String username;
     public char[] password;
+
 
     public boolean testLogin(String username, char[] password) {
 
@@ -23,5 +28,14 @@ public class LoginFassade {
             }
 
         return true;
+    }
+    public String newUsernamePassword (Mitarbeiter mitarbeiter){
+
+        LoginGenerate generate = new LoginGenerate();
+
+            String newUsername = generate.generateUsername(mitarbeiter);
+            String newPassword = generate.passwordGenerate();
+
+        return "Username: "+newUsername+" | Password: "+newPassword;
     }
 }

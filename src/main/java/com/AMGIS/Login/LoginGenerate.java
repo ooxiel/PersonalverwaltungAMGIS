@@ -28,6 +28,19 @@ public class LoginGenerate {
         return vorN+"_"+nachN;
     }
 
+    public String generateUsernameSecond (Mitarbeiter mitarbeiter){
+
+        String nachN    = mitarbeiter.getNachName().toLowerCase();
+        String vorN     = mitarbeiter.getVorName();
+        String zweitN   = mitarbeiter.getZweitName();
+
+        char [] getFirstL = zweitN.toCharArray();
+        zweitN = String.valueOf(getFirstL[0]);
+
+
+        return vorN+"."+zweitN+"_"+nachN;
+    }
+
     public String generateHRUsername(Mitarbeiter mitarbeiter){
 
         // UsernameGenerate gilt hier für HR User
@@ -48,6 +61,20 @@ public class LoginGenerate {
 
         return vorN+"_"+nachN+"_"+type;
 
+    }
+
+    public String generateHRUsernameSecond (Mitarbeiter mitarbeiter){
+
+        String nachN    = mitarbeiter.getNachName().toLowerCase();
+        String vorN     = mitarbeiter.getVorName();
+        String zweitN   = mitarbeiter.getZweitName();
+        String type     = "adm";
+
+        char [] getFirstL = zweitN.toCharArray();
+        zweitN = String.valueOf(getFirstL[0]);
+
+
+        return vorN+"."+zweitN+"_"+nachN+"_"+type;
     }
 
     public String passwordGenerate(){
