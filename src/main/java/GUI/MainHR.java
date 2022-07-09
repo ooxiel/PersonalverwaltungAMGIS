@@ -1,18 +1,19 @@
 package GUI;
 
 import javax.swing.*;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import org.jfree.chart.*;
-import org.jfree.data.general.DefaultPieDataset;
 
 public class MainHR {
     private JPanel main;
     private JButton dashboardButton;
     private JButton personalakteErstellenButton;
     private JTabbedPane tabbedPane1;
-    private JTable table1;
     private JPanel dash;
+    private JTable mainView;
     private JPanel dashboardPanel;
     private JPanel personalakteErstellen;
 

@@ -1,4 +1,4 @@
 package com.AMGIS.Services;
 
-public class Filter {
+public class  Filter {
 }

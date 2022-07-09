@@ -2,10 +2,11 @@ package GUI;
 
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.jar.JarEntry;
 
 public class Personalakte_erstellen extends JFrame {
 
@@ -45,6 +46,10 @@ public class Personalakte_erstellen extends JFrame {
     private JTextField raumField;
     private JTextField regionField;
     private JLabel requiredInputLabel;
+    private JLabel hintAnrede;
+    private JButton button1;
+    private JTextArea textArea1;
+    private JLabel labeltest;
 
 
     public static void main(String[] args) {
@@ -62,6 +67,7 @@ public class Personalakte_erstellen extends JFrame {
 
         frame.setVisible(true);
 
+
     // Form wird geschlossen
 
         abbrechenButton.addActionListener(new ActionListener() {
@@ -72,50 +78,64 @@ public class Personalakte_erstellen extends JFrame {
         });
 
 
-
-
+    // Ueberprüfung der Angaben sowie Erstellung eines neuen Mitarbeiter-Objektes
 
         personalakteErstellenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-            // ES FEHLT NOCH DIE ÜBERPRÜFUNG FÜR DAS GESCHLECHT
-
             // ArrayList wird erstellt und beinhaltet alle Felder der Form
 
-                ArrayList <JTextField> parameters = new ArrayList<>();
+                ArrayList <JTextField> parametersNotNull = new ArrayList<>();
+
 
                 // Felder des personalInfo-Panels
 
-                    parameters.add(nameField);
-                    parameters.add(vornameField);
-                    // Zweitname nicht vor
-                    parameters.add(geburstagField);
-                    parameters.add(emailField);
-                    parameters.add(telefonField);
+                    parametersNotNull.add(nameField);
+                    parametersNotNull.add(vornameField);
+                    parametersNotNull.add(geburstagField);
+                    parametersNotNull.add(emailField);
+                    parametersNotNull.add(telefonField);
 
                 // Felder des adress-Panels
 
-                    parameters.add(strasseField);
-                    parameters.add(hausnummerField);
-                    parameters.add(landField);
-                    parameters.add(bundeslandField);
-                    parameters.add(plzField);
+                    parametersNotNull.add(strasseField);
+                    parametersNotNull.add(hausnummerField);
+                    parametersNotNull.add(landField);
+                    parametersNotNull.add(bundeslandField);
+                    parametersNotNull.add(plzField);
 
                 // Felder des jobInformation-Panels
 
-                    parameters.add(jobnameField);
-                    parameters.add(beschaeftigungField);
-                    parameters.add(positionField);
-                    parameters.add(abteilungField);
-                    parameters.add(abteilungsLeiterField);
-                    parameters.add(raumField);
-                    parameters.add(regionField);
+                    parametersNotNull.add(jobnameField);
+                    parametersNotNull.add(beschaeftigungField);
+                    parametersNotNull.add(positionField);
+                    parametersNotNull.add(abteilungField);
+                    parametersNotNull.add(abteilungsLeiterField);
+                    parametersNotNull.add(raumField);
+                    parametersNotNull.add(regionField);
 
             // Ueberpruefung, ob eine Eingabe vorgenommen wurde
 
-                for (JTextField k: parameters) {
+                if(geschlecht.getSelectedIndex() == 0){
+                    hintAnrede.setText("Notwendige Angabe fehlt!!!");
 
+                    geschlecht.addFocusListener(new FocusListener() {
+                        @Override
+                        public void focusGained(FocusEvent e) {
+                            hintAnrede.setVisible(false);
+                        }
+
+                        @Override
+                        public void focusLost(FocusEvent e) {
+                            geschlecht.removeFocusListener(this);
+                        }
+                    });
+                }
+
+            // Ueberpruefung, ob eine Eingabe vorgenommen wurde
+
+                for (JTextField k: parametersNotNull) {
 
                     if(k.getText().isEmpty()){                          // False: keine Fehlermeldung
                                                                         // True: Fehlermeldung wird geworfen
@@ -135,11 +155,39 @@ public class Personalakte_erstellen extends JFrame {
                         });
                     }
                 }
+            }
+        });
+
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String appdata = System.getenv("APPDATA");
+
+                File appDataDir = new File(appdata);
+
+                JFileChooser fileChooser = new JFileChooser(appdata);
+                fileChooser.showOpenDialog(new JFrame());
+
 
             }
         });
 
+
+        nameField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+
+                char typed = e.getKeyChar();
+
+                if(!Character.isLetter(typed)){
+                    labeltest.setText("FALSCH!!!");
+
+                }else{
+                    labeltest.setText("Richtig");
+                }
+            }
+        });
     }
-
 }
-

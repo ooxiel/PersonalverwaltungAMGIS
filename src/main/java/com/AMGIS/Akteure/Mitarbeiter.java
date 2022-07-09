@@ -1,5 +1,6 @@
 package com.AMGIS.Akteure;
 
+import java.io.File;
 import java.io.Serializable;
 
 
@@ -38,6 +39,8 @@ public class Mitarbeiter extends HR_Mitarbeiter implements Serializable {
         private String vorgesetzter;
         private String abteilungsLeiter;
 
+
+
     /*
         Konstruktor
      */
@@ -46,7 +49,7 @@ public class Mitarbeiter extends HR_Mitarbeiter implements Serializable {
         super(userType, vorName, zweitName, nachName);
 
         this.geschlecht         = geschlecht;
-        this.strasse             = strasse;
+        this.strasse            = strasse;
         this.hausnummer         = hausnummer;
         this.postCode           = postCode;
         this.land               = land;
@@ -58,7 +61,6 @@ public class Mitarbeiter extends HR_Mitarbeiter implements Serializable {
         this.position           = position;
         this.vorgesetzter       = vorgesetzter;
         this.abteilungsLeiter   = abteilungsLeiter;
-
     }
 
     /*
