@@ -1,7 +1,10 @@
 package GUI;
 
 
+import com.AMGIS.Proof;
+
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -84,110 +87,36 @@ public class Personalakte_erstellen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-            // ArrayList wird erstellt und beinhaltet alle Felder der Form
+                Proof proof = new Proof();
 
-                ArrayList <JTextField> parametersNotNull = new ArrayList<>();
+                proof.jTextFieldisNull(geschlecht, hintAnrede, nameField, vornameField, geburstagField, emailField, telefonField,
+                        strasseField, hausnummerField, landField, bundeslandField, plzField, jobnameField, beschaeftigungField,
+                        positionField, abteilungField, abteilungsLeiterField, raumField, regionField);
 
 
-                // Felder des personalInfo-Panels
+                MaskFormatter phoneNumber = new MaskFormatter();
 
-                    parametersNotNull.add(nameField);
-                    parametersNotNull.add(vornameField);
-                    parametersNotNull.add(geburstagField);
-                    parametersNotNull.add(emailField);
-                    parametersNotNull.add(telefonField);
+                phoneNumber.setValidCharacters("0123456789/+");
 
-                // Felder des adress-Panels
 
-                    parametersNotNull.add(strasseField);
-                    parametersNotNull.add(hausnummerField);
-                    parametersNotNull.add(landField);
-                    parametersNotNull.add(bundeslandField);
-                    parametersNotNull.add(plzField);
+            };
 
-                // Felder des jobInformation-Panels
 
-                    parametersNotNull.add(jobnameField);
-                    parametersNotNull.add(beschaeftigungField);
-                    parametersNotNull.add(positionField);
-                    parametersNotNull.add(abteilungField);
-                    parametersNotNull.add(abteilungsLeiterField);
-                    parametersNotNull.add(raumField);
-                    parametersNotNull.add(regionField);
 
-            // Ueberpruefung, ob eine Eingabe vorgenommen wurde
 
-                if(geschlecht.getSelectedIndex() == 0){
-                    hintAnrede.setText("Notwendige Angabe fehlt!!!");
 
-                    geschlecht.addFocusListener(new FocusListener() {
-                        @Override
-                        public void focusGained(FocusEvent e) {
-                            hintAnrede.setVisible(false);
-                        }
-
-                        @Override
-                        public void focusLost(FocusEvent e) {
-                            geschlecht.removeFocusListener(this);
-                        }
-                    });
-                }
-
-            // Ueberpruefung, ob eine Eingabe vorgenommen wurde
-
-                for (JTextField k: parametersNotNull) {
-
-                    if(k.getText().isEmpty()){                          // False: keine Fehlermeldung
-                                                                        // True: Fehlermeldung wird geworfen
-                        k.setText("Notwendige Angabe fehlt!!!");        // Fehlermeldung = "Notwendige Angabe fehlt"
-
-                        k.addFocusListener(new FocusListener() {
-                            @Override
-                            public void focusGained(FocusEvent e) {
-                                k.setText(null);                        // Fehlermeldung wird gelöscht, sobald das Feld angeklickt wird
-                            }
-
-                            @Override
-                            public void focusLost(FocusEvent e) {
-                                k.removeFocusListener(this);          // Sobald eine neue Eingabe erfolgt ist, kann diese "normal" bearbeteitet werden, ohne, dass das komplette Field gelöscht wird
-
-                            }
-                        });
-                    }
-                }
-            }
         });
-
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 String appdata = System.getenv("APPDATA");
 
                 File appDataDir = new File(appdata);
 
                 JFileChooser fileChooser = new JFileChooser(appdata);
                 fileChooser.showOpenDialog(new JFrame());
-
-
             }
         });
-
-
-        nameField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-
-                char typed = e.getKeyChar();
-
-                if(!Character.isLetter(typed)){
-                    labeltest.setText("FALSCH!!!");
-
-                }else{
-                    labeltest.setText("Richtig");
-                }
-            }
-        });
-    }
+    };
 }
+
