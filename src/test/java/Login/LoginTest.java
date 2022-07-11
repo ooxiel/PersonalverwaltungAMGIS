@@ -1,5 +1,5 @@
 package Login;
-import com.AMGIS.Login.LoginProof;
+import GUI.ProofServices.LoginProof;
 import org.junit.jupiter.api.Test;
 
 public class LoginTest {

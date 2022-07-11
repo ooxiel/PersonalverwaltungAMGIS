@@ -1,7 +1,5 @@
-package com.AMGIS.Login;
+package GUI.ProofServices;
 
-
-import java.lang.reflect.Array;
 
 public class LoginProof {
 
