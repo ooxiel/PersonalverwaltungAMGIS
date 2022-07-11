@@ -2,7 +2,7 @@ package com.AMGIS.Facade;
 
 import com.AMGIS.Akteure.Mitarbeiter;
 import com.AMGIS.Login.LoginGenerate;
-import com.AMGIS.Login.LoginProof;
+import GUI.ProofServices.LoginProof;
 
 public class LoginFacade {
 
@@ -24,7 +24,6 @@ public class LoginFacade {
 
             }else if (!loginToProof.passwordProof(password)){
                     return false;
-
             }
 
         return true;

@@ -1,4 +1,4 @@
-package GUI;
+package GUI.Apperance;
 
 import com.AMGIS.Facade.LoginFacade;
 
@@ -43,6 +43,9 @@ public class Login {
             frame.add(main);
             frame.setVisible(true);
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            frame.setSize(500,250);
+
+
 
 
 
@@ -52,7 +55,7 @@ public class Login {
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-            frame.setSize(500,250);                             // Groesse des Login-Panel wird auf 400, 200 gesetzt, kann aber auch unabhaengig von unteren Code-Fragmenten variiert werden
+                                       // Groesse des Login-Panel wird auf 400, 200 gesetzt, kann aber auch unabhaengig von unteren Code-Fragmenten variiert werden
             frame.setResizable(false);                                      // Groesse des Login-Panel ist fix
 
                 int widthScreen = (int) screenSize.getWidth();              // Monitoraufloesung in horizontale Richtung wird in Variable gespeichert
