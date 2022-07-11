@@ -11,14 +11,16 @@ public class PA_erstellen {
             return;
         }
         try {
-            con = DriverManager.getConnection("jdbc:hsqldb:file:C:\\Users\\Franz\\Documents\\DatabaseProject; shutdown=true", "amgis", "amgis"); //url,user,pw
+            con = DriverManager.getConnection("jdbc:hsqldb:file:C:\\Users\\Public\\Documents\\AmgisDatenbank; shutdown=true", "amgis", "amgis"); //url,user,pw
         }catch(SQLException e){
             e.printStackTrace();
         }
-    } //Konstruktor
+}
 
-    public void einfuegenPA(String anrede, String vorname,String zweitname, String nachname,String geburtsdatum, long telefon, String email,String straße,int strNR,
-                            String land,String bundesland,int plz,String jobname,int besGrad,String abteilung,String abtLeiter,int raum,String region){
+    //Konstruktor
+
+    public void einfuegenPA(String anrede, String vorname,String zweitname, String nachname,String geburtsdatum, String telefon, String email,String strasse,String strNR,
+                            String land,String bundesland,String plz,String jobname,String besGrad,String abteilung,String abtLeiter,String raum,String region){
 
         PA_erstellen m = new PA_erstellen();
 
@@ -36,18 +38,18 @@ public class PA_erstellen {
             prep.setString(4,zweitname);
             prep.setString(5,nachname);
             prep.setString(6,geburtsdatum);
-            prep.setLong(7,telefon);
+            prep.setString(7,telefon);
             prep.setString(8,email);
-            prep.setString(9,straße);
-            prep.setInt(10,strNR);
+            prep.setString(9,strasse);
+            prep.setString(10,strNR);
             prep.setString(11,land);
             prep.setString(12,bundesland);
-            prep.setInt(13,plz);
+            prep.setString(13,plz);
             prep.setString(14,jobname);
-            prep.setInt(15,besGrad);
+            prep.setString(15,besGrad);
             prep.setString(16,abteilung);
             prep.setString(17,abtLeiter);
-            prep.setInt(18,raum);
+            prep.setString(18,raum);
             prep.setString(19,region);
             prep.executeUpdate();
         } catch (SQLException e) {
