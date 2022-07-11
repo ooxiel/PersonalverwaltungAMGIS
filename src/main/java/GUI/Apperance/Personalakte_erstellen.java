@@ -1,5 +1,7 @@
-package GUI;
+package GUI.Apperance;
 
+
+import GUI.ProofServices.ServiceProofFacade;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -86,6 +88,8 @@ public class Personalakte_erstellen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                ServiceProofFacade proofFacade = new ServiceProofFacade();
+
                 // ArrayList wird erstellt und beinhaltet alle Felder der Form
 
                 ArrayList<JTextField> parametersNotNull = new ArrayList<>();
@@ -135,6 +139,9 @@ public class Personalakte_erstellen extends JFrame {
                 }
 
                 // Ueberpruefung, ob eine Eingabe vorgenommen wurde
+
+
+
 
                 for (JTextField k : parametersNotNull) {
 

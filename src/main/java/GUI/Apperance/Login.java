@@ -1,4 +1,4 @@
-package GUI;
+package GUI.Apperance;
 
 import com.AMGIS.Facade.LoginFacade;
 
