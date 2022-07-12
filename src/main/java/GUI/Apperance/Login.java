@@ -22,9 +22,8 @@ public class Login {
 
             private JLabel usernameImage;
             private JLabel passwordImage;
-
-            private ImageIcon userImage;
-            private ImageIcon passImage;
+                private ImageIcon userImage;
+                private ImageIcon passImage;
 
 
     public static void main(String[] args) throws IOException {
@@ -39,29 +38,33 @@ public class Login {
         Login-Panel wird geoeffnet
      */
 
-        JFrame  frame       = new JFrame();
-        Frame   centerFrame  = new Frame();
-
-
+        JFrame frame = new JFrame();
 
             frame.add(main);
             frame.setVisible(true);
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            frame.setSize(500,250); // Groesse des Login-Panel wird auf 400, 200 gesetzt, kann aber auch unabhaengig von unteren Code-Fragmenten variiert werden
+
 
 
     /*
         Zentrierung Login-Panel in Abhängigkeit der Monitorauflösung
-
      */
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-            int widthLayout = (int) frame.getSize().getWidth();
-            int heightLayout = (int) frame.getSize().getHeight();
+            frame.setSize(500,250);                             // Groesse des Login-Panel wird auf 400, 200 gesetzt, kann aber auch unabhaengig von unteren Code-Fragmenten variiert werden
+            frame.setResizable(false);                                      // Groesse des Login-Panel ist fix
 
-            frame.setLocation(centerFrame.center(widthLayout,heightLayout));
-            frame.setResizable(false); // Groesse des Login-Panel ist fix
+                int widthScreen = (int) screenSize.getWidth();              // Monitoraufloesung in horizontale Richtung wird in Variable gespeichert
+                int heightScreen = (int) screenSize.getHeight();            // Monitoraufloesung in vertikale Richtung wird in Variable gespeichert
+
+                int widthLayout = (int) frame.getSize().getWidth();         // horizontale Groesse Login-Panel wird in Variable gespeichert
+                int heigtLayout = (int) frame.getSize().getHeight();        // vertikale Groesse Login-Panel wird in Variable gespeichert
+
+            int widthLayoutPosition = (widthScreen - widthLayout)/2;        // Ermittlung der horizontalen Position des Login-Panel
+            int heigtLayoutPosition = (heightScreen - heigtLayout)/2;       // Ermittlung der vertikalen Position des Login-Panel
+
+            frame.setLocation(widthLayoutPosition,heigtLayoutPosition);     // Login-Panel wird in Abhaengigkeit von Monitorauflösung zentriert angezeigt
 
     /*
         Login-Frame wird geschlossen

@@ -49,8 +49,8 @@ public class HR_erstellen extends JFrame {
 
                 // Felder des personalInfo-Panels
 
-                parametersNotNull.add(txtName);
-                parametersNotNull.add(txtVorname);
+                    parametersNotNull.add(txtName);
+                    parametersNotNull.add(txtVorname);
 
 
                 for (JTextField k : parametersNotNull) {
@@ -83,9 +83,6 @@ public class HR_erstellen extends JFrame {
                 System.out.println(hrMitarbeiter.getNachName());
                 System.out.println(hrMitarbeiter.getVorName());
                 System.out.println(hrMitarbeiter.getZweitName());
-
-
-
 
 
             }

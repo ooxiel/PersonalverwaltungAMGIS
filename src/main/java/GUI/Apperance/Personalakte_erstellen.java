@@ -1,7 +1,9 @@
 package GUI.Apperance;
 
 
-import GUI.ProofServices.txtFieldProof;
+import GUI.ProofServices.Delete;
+import GUI.ProofServices.DynamicInputProof;
+import GUI.ProofServices.StaticInputProof;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -15,45 +17,41 @@ public class Personalakte_erstellen extends JFrame {
     private JPanel main;
     private JButton abbrechenButton;
     private JButton personalakteErstellenButton;
-    private JButton eingabenLoeschenButton;
+    private JButton alleEingabenLoeschenButton;
 
-    // Panel
+    // Panels
 
     private JPanel personalInfoPanel;
-    private JComboBox geschlecht;
-    private JLabel anredeField;
 
-    private JTextField zweitNameField;
-        private JTextField vornameField;
-        private JTextField geburstagField;
-        private JTextField telefonField;
-        private JTextField emailField;
-        private JTextField nameField;
 
-    private JPanel adressPanel;
-        private JTextField strasseField;
-        private JTextField hausnummerField;
-        private JTextField landField;
-        private JTextField bundeslandField;
-        private JTextField plzField;
+        private JLabel anredeField;
+            private JComboBox geschlecht;
+            private JTextField zweitNameField;
+            private JTextField vornameField;
+            private JTextField geburstagField;
+            private JTextField telefonField;
+            private JTextField emailField;
+            private JTextField nameField;
 
-    private JPanel jobInfoPanel;
-        private JTextField jobnameField;
-        private JTextField beschaeftigungField;
-        private JTextField positionField;
-        private JTextField abteilungField;
-        private JTextField abteilungsLeiterField;
-        private JTextField raumField;
-        private JTextField regionField;
+        private JPanel adressPanel;
+            private JTextField strasseField;
+            private JTextField hausnummerField;
+            private JTextField hausnummerZusatzField;
+            private JTextField landField;
+            private JTextField bundeslandField;
+            private JTextField plzField;
 
-        private JLabel requiredInputLabel;
-        private JLabel hintAnrede;
-        private JButton button1;
-        private JLabel falseInputName;
-        private JLabel falseInputVorname;
-        private JLabel falseInputGeburstag;
-        private JList list1;
-        private JLabel labeltest;
+        private JPanel jobInfoPanel;
+            private JTextField jobnameField;
+            private JTextField beschaeftigungField;
+            private JTextField positionField;
+            private JTextField abteilungField;
+            private JTextField abteilungsLeiterField;
+            private JTextField raumField;
+            private JTextField regionField;
+
+    private JButton button1;
+    private JLabel labelGeschlecht;
 
 
     public static void main(String[] args) {
@@ -66,14 +64,16 @@ public class Personalakte_erstellen extends JFrame {
         Initialisierung Main-Frame
       */
 
-        JFrame frame        = new JFrame();
-        Frame centerFrame   = new Frame();
+        JFrame          frame           = new JFrame();
+        FrameLocation   centerFrame     = new FrameLocation();
 
         frame.add(main);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
         frame.setSize(1000,1300);
             int widthLayout     = (int) frame.getSize().getWidth();
             int heightLayout    = (int) frame.getSize().getHeight();
+
         frame.setLocation(centerFrame.center(widthLayout,heightLayout));
         frame.setVisible(true);
 
@@ -83,7 +83,20 @@ public class Personalakte_erstellen extends JFrame {
         -> z.B. Postleitzahl darf keine Buchstaben enthalten
      */
 
-        txtFieldProof proof = new txtFieldProof();
+        // Zuordnung der in der Form stehen Felder in die Kategorien
+            // - optionale Input    -> optionalInput
+            // - nur Buchstaben     -> lettersonly
+            // - nur Zahlen         -> numbersonly
+            // - spezial Zeichen    -> specialChars
+
+            DynamicInputProof   dynamicInput    = new DynamicInputProof();                // Klasse, in welcher sich die einfachen Überprüfungen (Null, Zahl und Buchstaben) wiederfinden
+            StaticInputProof    staticInput     = new StaticInputProof();             // Klasse, in welcher spezielle Ueberpruefungen vorgenommen werden, wie von DateFields, E-Mail
+
+
+        ArrayList<JTextField> optionalInput         = new ArrayList<>();
+
+            optionalInput.add(zweitNameField);
+            optionalInput.add(hausnummerZusatzField);
 
         ArrayList<JTextField> lettersOnly       = new ArrayList<>();
 
@@ -103,19 +116,31 @@ public class Personalakte_erstellen extends JFrame {
 
             numbersOnly.add(plzField);
             numbersOnly.add(beschaeftigungField);
+            numbersOnly.add(raumField);
+            numbersOnly.add(hausnummerField);
 
-        ArrayList<JTextField> specialSigns      = new ArrayList<>();
+        ArrayList<JTextField> specialChars      = new ArrayList<>();
 
-            specialSigns.add(emailField);
-            specialSigns.add(telefonField);
-            specialSigns.add(geburstagField);
-            specialSigns.add(raumField);
-            specialSigns.add(hausnummerField);
+            specialChars.add(emailField);
+            specialChars.add(geburstagField);
+            specialChars.add(telefonField);
 
-            proof.onlyLetterField(lettersOnly);
 
-            // hier müssen noch die Funktionen für numbersOnly und specialSigns implementiert werden
-            // des weiteren sollte nach einer angemessenen Möglichkeit der User-Kommunikation geschaut werden
+        // Methodenaufruf fuer: Es befinden sich nur Buchstaebn in diesem Feld
+
+            dynamicInput.onlyLetterField(lettersOnly);
+            dynamicInput.onlyLetterField(optionalInput);
+
+        // Methodenaufruf fuer: Es befinden sich nur Zahlen in diesem Feld
+
+            dynamicInput.onlyNumberField(numbersOnly);
+
+        // Methodenaufruf fuer: Es sind bestimtme
+
+            dynamicInput.dateField(geburstagField);
+            dynamicInput.telefonField(telefonField);
+
+
 
 
     /*
@@ -130,6 +155,24 @@ public class Personalakte_erstellen extends JFrame {
         });
 
     /*
+        Alle Eingaben in der FOrm werden ausnahmslos geloescht
+    */
+
+        alleEingabenLoeschenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Delete delete = new Delete();
+
+                delete.setListNull(optionalInput);
+                delete.setListNull(lettersOnly);
+                delete.setListNull(numbersOnly);
+                delete.setListNull(specialChars);
+
+                delete.setComboBoxNull(geschlecht);
+            }
+        });
+
+    /*
         Ueberpruefung der Angaben sowie Erstellung eines neuen Mitarbeiter-Objektes
      */
 
@@ -138,14 +181,21 @@ public class Personalakte_erstellen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                    proof.inputNotNull(lettersOnly);
-                    proof.inputNotNull(numbersOnly);
-                    proof.inputNotNull(specialSigns);
+                staticInput.inputNotNull(lettersOnly);
+                staticInput.inputNotNull(numbersOnly);
+                staticInput.inputNotNull(specialChars);
+
+                staticInput.comboBoxFieldEmpty(geschlecht, labelGeschlecht);
+                staticInput.telefonValide(telefonField);
+                staticInput.mailValide(emailField);
 
             }
         });
 
-
+// ------------------------------------------------------------------------------------------
+/*
+    möglicher Anhang von Dateien (Ansatz)
+ */
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -157,61 +207,5 @@ public class Personalakte_erstellen extends JFrame {
                 fileChooser.showOpenDialog(new JFrame());
             }
         });
-
-/**
- * -----------------------------------------------------------------------------------------------------------------------------------------------------------------
- */
-
-    /*
-        Idee für die Umsetzung einer Input-Control, um bestimmte Character Eingaben nicht zuzulassen und somit fehler zu minimieren
-     */
-
-        geburstagField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-
-                char input = e.getKeyChar();
-
-            // Realisierung Datumformat
-
-                if(geburstagField.getText().length() == 2 || geburstagField.getText().length() == 5){
-                    e.setKeyChar('.');  // 3. und 6. Input wird auf einen "." gesetzt
-                }
-
-            // Es können in diesem Textfeld nur Änderungen bis 10 Zeichen vorgenommen werden, ausgenommen davon sind Back-Space, Delete und Enter
-                // Falls die 10 Zeichen überschritten werden, wird das Textfeld gesperrt
-                // Wenn nicht, Textfeld offen
-
-                if(geburstagField.getText().length() >= 10 && ((input != KeyEvent.VK_BACK_SPACE) || (input == KeyEvent.VK_DELETE) || (input == KeyEvent.VK_ENTER))){
-
-                    geburstagField.setEditable(false);
-                    falseInputGeburstag.setText("Datum hat maximale Länge erreicht!");
-                    falseInputName.setVisible(true);
-
-                }else{
-                    geburstagField.setEditable(true);
-                    falseInputGeburstag.setVisible(false);
-                }
-
-            // Überprüfung
-
-                if (!Character.isDigit(input) || (input == KeyEvent.VK_BACK_SPACE) || (input == KeyEvent.VK_DELETE) || (input == KeyEvent.VK_ENTER)) {
-                    e.consume();
-
-                    falseInputGeburstag.setText("Keine Eingabe von Buchstaben oder Sonderzeichen!");
-                    falseInputGeburstag.setVisible(true);
-
-                }else{
-                    nameField.setEditable(true);
-                    falseInputName.setVisible(false);
-
-                }
-            }
-        });
-
     }
 }
-
-
-

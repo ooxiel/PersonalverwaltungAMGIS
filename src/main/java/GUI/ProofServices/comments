@@ -1,0 +1,11 @@
+
+In diesem Package könnte über ein Interface / eine abstrakte Klasse nachgedacht werden:
+
+- notNull
+- Arraylist <JTextfield>
+- JTextfield
+- Communication Handling
+    Eingabe zu lang
+    Keine Eingabe
+    Eingabe Falsch
+

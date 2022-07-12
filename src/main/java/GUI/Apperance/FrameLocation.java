@@ -2,7 +2,7 @@ package GUI.Apperance;
 
 import java.awt.*;
 
-public class Frame {
+public class FrameLocation {
 
     /**
      * Zentrierung der Forms

@@ -11,7 +11,6 @@ public class MainHR {
     private JTabbedPane tabbedPane1;
     private JPanel dash;
     private JTable mainView;
-    private JButton HRAdminErstellenButton;
     private JPanel dashboardPanel;
     private JPanel personalakteErstellen;
 
@@ -43,15 +42,6 @@ public class MainHR {
             @Override
             public void actionPerformed(ActionEvent e) {
                 tabbedPane1.setSelectedComponent(personalakteErstellen);
-            }
-        });
-
-        HRAdminErstellenButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                new HR_erstellen();
-
             }
         });
     }

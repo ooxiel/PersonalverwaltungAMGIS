@@ -24,6 +24,7 @@ public class LoginFacade {
 
             }else if (!loginToProof.passwordProof(password)){
                     return false;
+
             }
 
         return true;

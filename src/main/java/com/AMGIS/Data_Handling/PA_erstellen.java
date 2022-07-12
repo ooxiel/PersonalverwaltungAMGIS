@@ -1,9 +1,11 @@
 package com.AMGIS.Data_Handling;
 
 import java.sql.*;
+import com.AMGIS.Data_Handling.AccountErzeugen;
+
 
 public class PA_erstellen {
-    Connection con=null;
+    public Connection con=null;
     public PA_erstellen(){
         try {
             Class.forName("org.hsqldb.jdbcDriver");
@@ -15,59 +17,65 @@ public class PA_erstellen {
         }catch(SQLException e){
             e.printStackTrace();
         }
-}
+    }
 
     //Konstruktor
 
     public void einfuegenPA(String anrede, String vorname,String zweitname, String nachname,String geburtsdatum, String telefon, String email,String strasse,String strNR,
                             String land,String bundesland,String plz,String jobname,String besGrad,String abteilung,String abtLeiter,String raum,String region){
+        int newID=generateID();
 
-        PA_erstellen m = new PA_erstellen();
+        String sqlPA= "INSERT INTO Personalakte VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        PreparedStatement prepPA = null;
 
-        String sql= "INSERT INTO Personalakte VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        PreparedStatement prep = null;
+        String sqlAcc= "INSERT INTO Accounts VALUES(?,?,?)";
+        PreparedStatement prepAcc = null;
+
         try {
-            prep = con.prepareStatement(sql);
+            prepPA = con.prepareStatement(sqlPA);
+            prepAcc = con.prepareStatement(sqlAcc);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         try {
-            prep.setInt(1,generateID());
-            prep.setString(2,anrede);
-            prep.setString(3,vorname);
-            prep.setString(4,zweitname);
-            prep.setString(5,nachname);
-            prep.setString(6,geburtsdatum);
-            prep.setString(7,telefon);
-            prep.setString(8,email);
-            prep.setString(9,strasse);
-            prep.setString(10,strNR);
-            prep.setString(11,land);
-            prep.setString(12,bundesland);
-            prep.setString(13,plz);
-            prep.setString(14,jobname);
-            prep.setString(15,besGrad);
-            prep.setString(16,abteilung);
-            prep.setString(17,abtLeiter);
-            prep.setString(18,raum);
-            prep.setString(19,region);
-            prep.executeUpdate();
+            prepPA.setInt(1,newID);
+            prepPA.setString(2,anrede);
+            prepPA.setString(3,vorname);
+            prepPA.setString(4,zweitname);
+            prepPA.setString(5,nachname);
+            prepPA.setString(6,geburtsdatum);
+            prepPA.setString(7,telefon);
+            prepPA.setString(8,email);
+            prepPA.setString(9,strasse);
+            prepPA.setString(10,strNR);
+            prepPA.setString(11,land);
+            prepPA.setString(12,bundesland);
+            prepPA.setString(13,plz);
+            prepPA.setString(14,jobname);
+            prepPA.setString(15,besGrad);
+            prepPA.setString(16,abteilung);
+            prepPA.setString(17,abtLeiter);
+            prepPA.setString(18,raum);
+            prepPA.setString(19,region);
+            prepPA.executeUpdate();
+
+            //Account erzeugen
+            AccountErzeugen aE=new AccountErzeugen();
+            prepAcc.setInt(1,newID);
+            prepAcc.setString(2,aE.kontoname_erzeugen(newID,vorname,nachname));
+            prepAcc.setString(3,aE.passwort_erzeugen(newID,vorname,nachname));
+            prepAcc.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
             try {
-                prep.close();
+                prepPA.close();
+                prepAcc.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-        try {
-            m.con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
     }
 
     public int generateID(){
