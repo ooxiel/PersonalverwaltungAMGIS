@@ -6,8 +6,9 @@ import GUI.ProofServices.txtFieldProof;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayList;
-
+import com.AMGIS.Data_Handling.*;
 public class Personalakte_erstellen extends JFrame {
 
     // Main
@@ -23,7 +24,7 @@ public class Personalakte_erstellen extends JFrame {
     private JComboBox geschlecht;
     private JLabel anredeField;
 
-    private JTextField zweitNameField;
+        private JTextField zweitNameField;
         private JTextField vornameField;
         private JTextField geburstagField;
         private JTextField telefonField;
@@ -71,7 +72,7 @@ public class Personalakte_erstellen extends JFrame {
 
         frame.add(main);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        frame.setSize(1000,1300);
+        frame.setSize(800,900);
             int widthLayout     = (int) frame.getSize().getWidth();
             int heightLayout    = (int) frame.getSize().getHeight();
         frame.setLocation(centerFrame.center(widthLayout,heightLayout));
@@ -133,17 +134,62 @@ public class Personalakte_erstellen extends JFrame {
         Ueberpruefung der Angaben sowie Erstellung eines neuen Mitarbeiter-Objektes
      */
 
+
+
+
+
+
+
+
         personalakteErstellenButton.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
                     proof.inputNotNull(lettersOnly);
                     proof.inputNotNull(numbersOnly);
                     proof.inputNotNull(specialSigns);
 
+//ID,Anrede,Vorname,Zweitname,Nachname,Geburtstag,Telefon,Email,Straße,Straßennr,Land,Bundesland,PLZ,Jobname,Beschäftigungsgrad,Abteilung,Abteilungsleiter,Raum,Region
+                    String  anredeValue=geschlecht.getSelectedItem().toString();
+                    String  vornameValue= vornameField.getText();
+                    String  zweitnameValue= zweitNameField.getText();
+                    String  nachnameValue= nameField.getText();
+                    String  geburtstagValue= geburstagField.getText();
+                    String  telefonValue= telefonField.getText();
+                    String  emailValue= emailField.getText();
+                    String  strasseValue= strasseField.getText();
+                    String  strNrValue= hausnummerField.getText();
+                    String  landValue= landField.getText();
+                    String  bundeslandValue= bundeslandField.getText();
+                    String  plzValue= plzField.getText();
+                    String  jobnameValue= jobnameField.getText();
+                    String  besGradValue= beschaeftigungField.getText();
+                    String  abteilungValue= abteilungField.getText();
+                    String  abtLeiterValue= abteilungsLeiterField.getText();
+                    String  raumValue= raumField.getText();
+                    String  regionValue= regionField.getText();
+
+                    PA_erstellen datenspeicherung =new PA_erstellen();
+                    datenspeicherung.einfuegenPA(anredeValue,vornameValue,zweitnameValue,nachnameValue,geburtstagValue,telefonValue,emailValue,strasseValue,strNrValue,landValue,
+                            bundeslandValue,plzValue,jobnameValue,besGradValue,abteilungValue,abtLeiterValue,raumValue,regionValue);
+                    try {
+                        datenspeicherung.con.close();
+                    } catch (SQLException sqle) {
+                        sqle.printStackTrace();
+                    }
+
+
             }
         });
+
+
+
+
+
+
+
+
+
 
 
         button1.addActionListener(new ActionListener() {

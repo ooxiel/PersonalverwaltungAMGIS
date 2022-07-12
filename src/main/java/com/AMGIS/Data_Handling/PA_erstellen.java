@@ -3,7 +3,7 @@ package com.AMGIS.Data_Handling;
 import java.sql.*;
 
 public class PA_erstellen {
-    Connection con=null;
+    public Connection con=null;
     public PA_erstellen(){
         try {
             Class.forName("org.hsqldb.jdbcDriver");
@@ -21,8 +21,6 @@ public class PA_erstellen {
 
     public void einfuegenPA(String anrede, String vorname,String zweitname, String nachname,String geburtsdatum, String telefon, String email,String strasse,String strNR,
                             String land,String bundesland,String plz,String jobname,String besGrad,String abteilung,String abtLeiter,String raum,String region){
-
-        PA_erstellen m = new PA_erstellen();
 
         String sql= "INSERT INTO Personalakte VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement prep = null;
@@ -61,13 +59,6 @@ public class PA_erstellen {
                 e.printStackTrace();
             }
         }
-        try {
-            m.con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
     }
 
     public int generateID(){
