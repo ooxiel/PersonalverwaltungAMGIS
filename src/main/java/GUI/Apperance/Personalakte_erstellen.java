@@ -4,10 +4,12 @@ package GUI.Apperance;
 import GUI.ProofServices.Delete;
 import GUI.ProofServices.DynamicInputProof;
 import GUI.ProofServices.StaticInputProof;
+import com.AMGIS.Data_Handling.PA_erstellen;
 
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Personalakte_erstellen extends JFrame {
@@ -97,6 +99,7 @@ public class Personalakte_erstellen extends JFrame {
 
             optionalInput.add(zweitNameField);
             optionalInput.add(hausnummerZusatzField);
+            optionalInput.add(abteilungsLeiterField);
 
         ArrayList<JTextField> lettersOnly       = new ArrayList<>();
 
@@ -107,16 +110,12 @@ public class Personalakte_erstellen extends JFrame {
             lettersOnly.add(bundeslandField);
             lettersOnly.add(jobnameField);
             lettersOnly.add(positionField);
-            lettersOnly.add(abteilungField);
-            lettersOnly.add(abteilungsLeiterField);
             lettersOnly.add(regionField);
-
 
         ArrayList<JTextField> numbersOnly       = new ArrayList<>();
 
             numbersOnly.add(plzField);
             numbersOnly.add(beschaeftigungField);
-            numbersOnly.add(raumField);
             numbersOnly.add(hausnummerField);
 
         ArrayList<JTextField> specialChars      = new ArrayList<>();
@@ -124,7 +123,7 @@ public class Personalakte_erstellen extends JFrame {
             specialChars.add(emailField);
             specialChars.add(geburstagField);
             specialChars.add(telefonField);
-
+            specialChars.add(abteilungField);
 
         // Methodenaufruf fuer: Es befinden sich nur Buchstaebn in diesem Feld
 
@@ -138,13 +137,15 @@ public class Personalakte_erstellen extends JFrame {
         // Methodenaufruf fuer: Die Felder erfuellen ein bestimmtes Format
 
             dynamicInput.dateField(geburstagField);
+
+
             dynamicInput.telefonField(telefonField);
 
         // Methodenaufruf fuer: Die Felder duerfen nur eine bestimmte Anzahl an Charactern aufweisen
 
             dynamicInput.setAmountofCharacterAllowed(hausnummerZusatzField, 1);
             dynamicInput.setAmountofCharacterAllowed(plzField,5);
-            dynamicInput.setAmountofCharacterAllowed(beschaeftigungField,2);
+            dynamicInput.setAmountofCharacterAllowed(beschaeftigungField,3);
 
     /*
         Form wird kann über Abbrechen-Button geschlossen werden
@@ -186,12 +187,25 @@ public class Personalakte_erstellen extends JFrame {
 
                 // hier scheint es noch ein Problem zu geben
 
-                if( staticInput.inputNotNull(lettersOnly) &&
+                if(0==0 /*staticInput.inputNotNull(lettersOnly) &&
                     staticInput.inputNotNull(numbersOnly) &&
                     staticInput.inputNotNull(specialChars) &&
                     !staticInput.comboBoxFieldisEmpty(geschlecht, labelGeschlecht) &&
                     staticInput.telefonValide(telefonField) &&
-                    staticInput.mailValide(emailField)){
+                    staticInput.mailValide(emailField)*/){
+
+                    PA_erstellen pae = new PA_erstellen();
+                    pae.einfuegenPA(geschlecht.getSelectedItem().toString(),vornameField.getText(),zweitNameField.getText(),nameField.getText(),
+                            geburstagField.getText(), telefonField.getText(),emailField.getText(),strasseField.getText(),hausnummerField.getText(),
+                            hausnummerZusatzField.getText(), landField.getText(),bundeslandField.getText(),plzField.getText(),jobnameField.getText(),
+                            beschaeftigungField.getText(),abteilungField.getText(),abteilungsLeiterField.getText(),raumField.getText(),regionField.getText());
+
+                    try {
+                        pae.con.close();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+
 
                     JOptionPane.showMessageDialog(main,"Eingabe Erfolgreich!");
                     frame.dispose();

@@ -16,7 +16,7 @@ public class AccountErzeugen {
             int counter = 1;
             int laenge  = 8;
 
-            char [] chars = "abcdefghijklmnopqrstuvwxyz1234567890!?#+*".toCharArray();
+            char [] chars = "abcdefghijklmnopqrstuvwxyz1234567890!?#+*&-_=".toCharArray();
             StringBuilder stringbuilder = new StringBuilder();
             Random random = new Random();
 

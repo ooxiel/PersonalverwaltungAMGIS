@@ -21,11 +21,11 @@ public class PA_erstellen {
 
     //Konstruktor
 
-    public void einfuegenPA(String anrede, String vorname,String zweitname, String nachname,String geburtsdatum, String telefon, String email,String strasse,String strNR,
-                            String land,String bundesland,String plz,String jobname,String besGrad,String abteilung,String abtLeiter,String raum,String region){
+    public void einfuegenPA(String anrede, String vorname,String zweitname, String nachname,String geburtsdatum, String telefon, String email,String strasse,String hausNR,
+                            String hausB,String land,String bundesland,String plz,String jobname,String besGrad,String abteilung,String abtLeiter,String raum,String region){
         int newID=generateID();
 
-        String sqlPA= "INSERT INTO Personalakte VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sqlPA= "INSERT INTO Personalakte VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement prepPA = null;
 
         String sqlAcc= "INSERT INTO Accounts VALUES(?,?,?)";
@@ -47,16 +47,17 @@ public class PA_erstellen {
             prepPA.setString(7,telefon);
             prepPA.setString(8,email);
             prepPA.setString(9,strasse);
-            prepPA.setString(10,strNR);
-            prepPA.setString(11,land);
-            prepPA.setString(12,bundesland);
-            prepPA.setString(13,plz);
-            prepPA.setString(14,jobname);
-            prepPA.setString(15,besGrad);
-            prepPA.setString(16,abteilung);
-            prepPA.setString(17,abtLeiter);
-            prepPA.setString(18,raum);
-            prepPA.setString(19,region);
+            prepPA.setString(10,hausNR);
+            prepPA.setString(11,hausB);
+            prepPA.setString(12,land);
+            prepPA.setString(13,bundesland);
+            prepPA.setString(14,plz);
+            prepPA.setString(15,jobname);
+            prepPA.setString(16,besGrad);
+            prepPA.setString(17,abteilung);
+            prepPA.setString(18,abtLeiter);
+            prepPA.setString(19,raum);
+            prepPA.setString(20,region);
             prepPA.executeUpdate();
 
             //Account erzeugen
@@ -111,17 +112,18 @@ public class PA_erstellen {
                 String telefon=res.getString(7);
                 String email=res.getString(8);
                 String strasse=res.getString(9);
-                String strNR=res.getString(10);
-                String land=res.getString(11);
-                String bundesland=res.getString(12);
-                String plz=res.getString(13);
-                String jobname=res.getString(14);
-                String beschgrad=res.getString(15);
-                String abteilung=res.getString(16);
-                String abtLeiter=res.getString(17);
-                String raum=res.getString(18);
-                String region=res.getString(19);
-                System.out.println(id+" "+anrede+" "+vorname+" "+zweitname+" "+nachname+" "+geburtstag+" "+telefon+" "+email+" "+strasse+" "+strNR+" "+land+" "+
+                String hausNR=res.getString(10);
+                String hausB=res.getString(11);
+                String land=res.getString(12);
+                String bundesland=res.getString(13);
+                String plz=res.getString(14);
+                String jobname=res.getString(15);
+                String beschgrad=res.getString(16);
+                String abteilung=res.getString(17);
+                String abtLeiter=res.getString(18);
+                String raum=res.getString(19);
+                String region=res.getString(20);
+                System.out.println(id+" "+anrede+" "+vorname+" "+zweitname+" "+nachname+" "+geburtstag+" "+telefon+" "+email+" "+strasse+" "+hausNR+" "+hausB+" "+land+" "+
                         bundesland+" "+plz+" "+jobname+" "+beschgrad+" "+abteilung+" "+abtLeiter+" "+raum+" "+region);
             }
             res.close();

@@ -11,6 +11,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.awt.Robot;
 
 public class DynamicInputProof {
 
@@ -39,25 +40,34 @@ public class DynamicInputProof {
 
     public void dateField(JTextField field){
 
+
         field.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 super.keyTyped(e);
-
                 char input = e.getKeyChar();
-
-
+                boolean dot = false;
                 // Realisierung Datumformat
-
                 if (!Character.isDigit(input) || (input == KeyEvent.VK_BACK_SPACE) || (input == KeyEvent.VK_DELETE) || (input == KeyEvent.VK_ENTER)) {
                     e.consume();
+                }
+                if((input == KeyEvent.VK_BACK_SPACE) || (input == KeyEvent.VK_DELETE)){
+                }else if(field.getText().length() == 2 || field.getText().length() == 5) {
+                    field.setText(field.getText() + ".");
 
                 }
 
-                if(field.getText().length() == 2 || field.getText().length() == 5){
-                    e.setKeyChar('.');  // 3. und 6. Input wird auf einen "." gesetzt
-
+                if((input == KeyEvent.VK_BACK_SPACE) || (input == KeyEvent.VK_DELETE)){
+                }else if(field.getText().length() == 1 || field.getText().length() == 4){
+                    try {
+                        Robot robot = new Robot();
+                        robot.keyPress(KeyEvent.VK_ENTER);
+                    } catch (AWTException ex) {
+                        ex.printStackTrace();
+                    }
                 }
+
+
 
                 // Es können in diesem Textfeld nur Änderungen bis 10 Zeichen vorgenommen werden, ausgenommen davon sind Back-Space, Delete und Enter
                 // Falls die 10 Zeichen überschritten werden, wird das Textfeld gesperrt
@@ -71,7 +81,10 @@ public class DynamicInputProof {
                     field.setEditable(true);
                 }
             }
+
         });
+
+
     }
 
     public void telefonField(JTextField field) {
@@ -89,15 +102,6 @@ public class DynamicInputProof {
                 if (Character.isLetter(input) || (input == KeyEvent.VK_BACK_SPACE) || (input == KeyEvent.VK_DELETE) || (input == KeyEvent.VK_ENTER)) {
                     e.consume();
                 }
-
-                if(field.getText().length() == 0){
-                    e.setKeyChar('+');
-                }
-
-                if(field.getText().length() == 3 || field.getText().length() == 7){
-                    e.setKeyChar(' ');  // 3. und 6. Input wird auf einen "." gesetzt
-                }
-
 
                 if (field.getText().length() > 15 && ((input != KeyEvent.VK_BACK_SPACE) || (input == KeyEvent.VK_DELETE) || (input == KeyEvent.VK_ENTER))) {
 

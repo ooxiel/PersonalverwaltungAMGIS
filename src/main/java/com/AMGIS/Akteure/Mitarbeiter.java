@@ -25,6 +25,7 @@ public class Mitarbeiter extends HR_Mitarbeiter implements Serializable {
 
         private String strasse;
         private String hausnummer;
+        private String hausbuchstabe;
         private String postCode;
         private String land;
 
@@ -45,12 +46,13 @@ public class Mitarbeiter extends HR_Mitarbeiter implements Serializable {
         Konstruktor
      */
 
-    public Mitarbeiter(String userType, String vorName, String zweitName, String nachName, String geschlecht, String strasse, String hausnummer, String postCode, String land, String jobBezeichnung, String pid, String bueroNummer, String abteilung, String bereich, String position, String vorgesetzter, String abteilungsLeiter) {
+    public Mitarbeiter(String userType, String vorName, String zweitName, String nachName, String geschlecht, String strasse, String hausnummer,String hausbuchstabe, String postCode, String land, String jobBezeichnung, String pid, String bueroNummer, String abteilung, String bereich, String position, String vorgesetzter, String abteilungsLeiter) {
         super(userType, vorName, zweitName, nachName);
 
         this.geschlecht         = geschlecht;
         this.strasse            = strasse;
         this.hausnummer         = hausnummer;
+        this.hausbuchstabe      = hausbuchstabe;
         this.postCode           = postCode;
         this.land               = land;
         this.jobBezeichnung     = jobBezeichnung;
@@ -121,6 +123,14 @@ public class Mitarbeiter extends HR_Mitarbeiter implements Serializable {
 
     public void setHausnummer(String hausnummer) {
         this.hausnummer = hausnummer;
+    }
+
+    public String getHausbuchstabe() {
+        return hausbuchstabe;
+    }
+
+    public void setHausbuchstabe(String hausbuchstabe) {
+        this.hausbuchstabe = hausbuchstabe;
     }
 
     public String getPostCode() {
