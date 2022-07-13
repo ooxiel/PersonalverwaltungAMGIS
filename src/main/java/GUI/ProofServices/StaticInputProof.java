@@ -1,52 +1,89 @@
 package GUI.ProofServices;
 
+import javax.sound.sampled.Line;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StaticInputProof {
 
-    public void comboBoxFieldEmpty(JComboBox comboBox, JLabel label){
+    public boolean comboBoxFieldisEmpty(JComboBox comboBox, JLabel label){
 
         if(comboBox.getSelectedIndex() == 0){
-            label.setVisible(true);
-            label.setText("Keine Anrede festgelegt!");
-        }else{
-            label.setVisible(true);
-        }
-    }
 
-    public void mailValide(JTextField field){
+            comboBox.setBorder(new LineBorder(Color.red));
+            comboBox.setToolTipText("Falsche Eingabe");
+
+            comboBox.addFocusListener(new FocusListener() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    comboBox.setSelectedIndex(0);
+
+                    if(MouseEvent.MOUSE_CLICKED == 500){
+                        comboBox.setBorder(LineBorder.createGrayLineBorder());
+                    }
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    comboBox.removeFocusListener(this);
+                }
+            });
+            return true;
+        }
+
+        return false;
+    }
+    public boolean dateValide(JTextField field){
+
 
         String input = field.getText();
 
-        String  regex       = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+[.A-Z]{2,6}$";
+        String  regex       = "([0-9]+(\\.[0-9]+)+)";
         Pattern pattern     = Pattern.compile(regex,Pattern.CASE_INSENSITIVE);
         Matcher matcher     = pattern.matcher(input);
 
         if(!matcher.find()){
-            field.setText("Keine gueltige E-Mail-Adresse");
+            field.setToolTipText("Datum ungültig");
+            field.setBorder(new LineBorder(Color.red));
+
+            addAndRemoveFocusListener(field);
+
+            return false;
         }
 
-        field.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                field.setText(null);
-            }
 
-            @Override
-            public void focusLost(FocusEvent e) {
-                field.removeFocusListener(this);
-            }
-        });
+        return true;
     }
 
-    public void telefonValide(JTextField field){
+    public boolean mailValide(JTextField field){
+
+        String input = field.getText();
+
+        String  regex       = "[A-Z0-9._%+-]+@[A-Z0-9.-]+[.A-Z]{2,6}";
+        Pattern pattern     = Pattern.compile(regex,Pattern.CASE_INSENSITIVE);
+        Matcher matcher     = pattern.matcher(input);
+
+        if(!matcher.find()){
+            field.setToolTipText("Keine gueltige E-Mail-Adresse");
+            field.setBorder(new LineBorder(Color.red));
+
+            addAndRemoveFocusListener(field);
+
+            return false;
+        }
+        return true;
+    }
+
+    public boolean telefonValide(JTextField field){
 
         String input = field.getText();
 
@@ -55,13 +92,54 @@ public class StaticInputProof {
         Matcher matcher = pattern.matcher(input);
 
         if(!matcher.find()){
-            field.setText("Keine gueltige Telefonnummer");
+            field.setToolTipText("Keine gueltige Telefonnummer");
+            field.setBorder(new LineBorder(Color.red));
+
+            addAndRemoveFocusListener(field);
+
+            return false;
         }
+
+        return true;
+    }
+
+    public boolean inputNotNull(ArrayList<JTextField> list){
+
+        ArrayList<Integer> notNullConfirm = new ArrayList<>();
+        int counter = 0;
+
+            for (JTextField k : list) {
+
+                if(k.getText().isEmpty()){
+                    fieldEmpty(k);
+
+                    notNullConfirm.add(counter,0);
+                    counter++;
+                }
+            }
+
+            if(notNullConfirm.isEmpty()){
+                return false;
+            }
+        return true;
+    }
+
+    private void fieldEmpty(JTextField k){
+
+        // True: Fehlermeldung wird geworfen
+        k.setToolTipText("Bitte nehmen Sie eine Eingabe vor!");        // Fehlermeldung = "Notwendige Angabe fehlt"
+        k.setBorder(new LineBorder(Color.red));
+
+        addAndRemoveFocusListener(k);
+    }
+
+    private void addAndRemoveFocusListener(JTextField field){
 
         field.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
                 field.setText(null);
+                resetBorderColor(field);
             }
 
             @Override
@@ -69,37 +147,15 @@ public class StaticInputProof {
                 field.removeFocusListener(this);
             }
         });
-
     }
 
-    public void inputNotNull(ArrayList<JTextField> list){
+    private void resetBorderColor(JTextField field){
 
-        for (JTextField k : list) {
+        if(KeyEvent.VK_DELETE == 127 || KeyEvent.KEY_TYPED == 400){
 
-            if(k.getText().isEmpty()){
-                fieldEmpty(k);
-            }
+            field.setBorder(LineBorder.createGrayLineBorder());
+            field.setToolTipText(null);
         }
+
     }
-
-    private void fieldEmpty(JTextField k){
-
-        // True: Fehlermeldung wird geworfen
-        k.setText("Bitte nehmen Sie eine Eingabe vor!");        // Fehlermeldung = "Notwendige Angabe fehlt"
-
-        k.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                k.setText(null);                        // Fehlermeldung wird gelöscht, sobald das Feld angeklickt wird
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                k.removeFocusListener(this);          // Sobald eine neue Eingabe erfolgt ist, kann diese "normal" bearbeteitet werden, ohne, dass das komplette Field gelöscht wird
-
-            }
-        });
-    }
-
-
 }

@@ -1,6 +1,11 @@
 package GUI.ProofServices;
 
+import org.apache.poi.ss.util.DateFormatConverter;
+
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
@@ -8,6 +13,28 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class DynamicInputProof {
+
+    public void setAmountofCharacterAllowed (JTextField field, int amount){
+
+        field.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+
+                char input = e.getKeyChar();
+
+                // Realisierung Datumformat
+
+                if (field.getText().length() < amount || (input == KeyEvent.VK_BACK_SPACE) || (input == KeyEvent.VK_DELETE) || (input == KeyEvent.VK_ENTER)){
+                    field.setEditable(true);
+                    field.setBorder(LineBorder.createGrayLineBorder());
+                }else{
+                    field.setEditable(false);
+                    field.setBorder(new LineBorder(Color.red));
+                }
+            }
+        });
+    }
 
 
     public void dateField(JTextField field){
@@ -18,6 +45,7 @@ public class DynamicInputProof {
                 super.keyTyped(e);
 
                 char input = e.getKeyChar();
+
 
                 // Realisierung Datumformat
 
