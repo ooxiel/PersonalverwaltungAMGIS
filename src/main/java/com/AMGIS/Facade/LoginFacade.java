@@ -1,7 +1,6 @@
 package com.AMGIS.Facade;
 
 import com.AMGIS.Akteure.Mitarbeiter;
-import com.AMGIS.Login.LoginGenerate;
 import GUI.ProofServices.LoginProof;
 
 public class LoginFacade {

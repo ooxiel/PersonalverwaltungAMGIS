@@ -135,13 +135,16 @@ public class Personalakte_erstellen extends JFrame {
 
             dynamicInput.onlyNumberField(numbersOnly);
 
-        // Methodenaufruf fuer: Es sind bestimtme
+        // Methodenaufruf fuer: Die Felder erfuellen ein bestimmtes Format
 
             dynamicInput.dateField(geburstagField);
             dynamicInput.telefonField(telefonField);
 
+        // Methodenaufruf fuer: Die Felder duerfen nur eine bestimmte Anzahl an Charactern aufweisen
 
-
+            dynamicInput.setAmountofCharacterAllowed(hausnummerZusatzField, 1);
+            dynamicInput.setAmountofCharacterAllowed(plzField,5);
+            dynamicInput.setAmountofCharacterAllowed(beschaeftigungField,2);
 
     /*
         Form wird kann über Abbrechen-Button geschlossen werden
@@ -155,7 +158,7 @@ public class Personalakte_erstellen extends JFrame {
         });
 
     /*
-        Alle Eingaben in der FOrm werden ausnahmslos geloescht
+        Alle Eingaben in der Form werden ausnahmslos geloescht
     */
 
         alleEingabenLoeschenButton.addActionListener(new ActionListener() {
@@ -181,14 +184,21 @@ public class Personalakte_erstellen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                staticInput.inputNotNull(lettersOnly);
-                staticInput.inputNotNull(numbersOnly);
-                staticInput.inputNotNull(specialChars);
+                // hier scheint es noch ein Problem zu geben
 
-                staticInput.comboBoxFieldEmpty(geschlecht, labelGeschlecht);
-                staticInput.telefonValide(telefonField);
-                staticInput.mailValide(emailField);
+                if( staticInput.inputNotNull(lettersOnly) &&
+                    staticInput.inputNotNull(numbersOnly) &&
+                    staticInput.inputNotNull(specialChars) &&
+                    !staticInput.comboBoxFieldisEmpty(geschlecht, labelGeschlecht) &&
+                    staticInput.telefonValide(telefonField) &&
+                    staticInput.mailValide(emailField)){
 
+                    JOptionPane.showMessageDialog(main,"Eingabe Erfolgreich!");
+                    frame.dispose();
+
+                }else{
+                    JOptionPane.showMessageDialog(main,"Es fehlen notwendige Eingaben!");
+                }
             }
         });
 
