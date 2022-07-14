@@ -1,15 +1,17 @@
 package GUI.ProofServices;
 
 import org.apache.poi.ss.util.DateFormatConverter;
+import org.jfree.chart.imagemap.ToolTipTagFragmentGenerator;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import javax.swing.text.DateFormatter;
+import javax.swing.text.MaskFormatter;
 import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.awt.Robot;
 
@@ -29,14 +31,18 @@ public class DynamicInputProof {
                 if (field.getText().length() < amount || (input == KeyEvent.VK_BACK_SPACE) || (input == KeyEvent.VK_DELETE) || (input == KeyEvent.VK_ENTER)){
                     field.setEditable(true);
                     field.setBorder(LineBorder.createGrayLineBorder());
+                    field.setToolTipText(null);
                 }else{
-                    field.setEditable(false);
+                    e.consume();
+                    //field.setEditable(false);
                     field.setBorder(new LineBorder(Color.red));
+                    field.setToolTipText("Maximale Eintragskapazität erreicht!");
+                    ToolTipManager.sharedInstance().setInitialDelay(0);
+
                 }
             }
         });
     }
-
 
     public void dateField(JTextField field){
 
@@ -86,19 +92,13 @@ public class DynamicInputProof {
 
     public void telefonField(JTextField field) {
 
+
+
         field.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 super.keyTyped(e);
-
                 char input = e.getKeyChar();
-
-
-                // Realisierung Datumformat
-
-                if (Character.isLetter(input) || (input == KeyEvent.VK_BACK_SPACE) || (input == KeyEvent.VK_DELETE) || (input == KeyEvent.VK_ENTER)) {
-                    e.consume();
-                }
 
                 if (field.getText().length() > 15 && ((input != KeyEvent.VK_BACK_SPACE) || (input == KeyEvent.VK_DELETE) || (input == KeyEvent.VK_ENTER))) {
 

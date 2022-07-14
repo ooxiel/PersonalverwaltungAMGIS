@@ -19,7 +19,6 @@ public class MainHR {
     private JPanel dash;
     private JTable mainView;
     private JButton neuePersonalakteAnlegenButton;
-    private JFormattedTextField formattedTextField1;
     private JPanel dashboardPanel;
     private JPanel personalakteErstellen;
 

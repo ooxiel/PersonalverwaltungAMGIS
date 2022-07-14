@@ -60,7 +60,6 @@ public class StaticInputProof {
             return false;
         }
 
-
         return true;
     }
 
@@ -101,6 +100,16 @@ public class StaticInputProof {
         }
 
         return true;
+    }
+
+    public void setMaxInteger (JTextField field, int max){
+
+        int  input = Integer.parseInt(field.getText());
+
+        if(input > max) {
+
+            field.setText(Integer.toString(max));
+        }
     }
 
     public boolean inputNotNull(ArrayList<JTextField> list){

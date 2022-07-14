@@ -1,6 +1,8 @@
 package GUI.ProofServices;
 
 
+import java.util.Arrays;
+
 public class LoginProof {
 
     private String username;
@@ -31,6 +33,8 @@ public class LoginProof {
     }
 
     public boolean passwordProof(char[] password){
+
+        String.valueOf(password);
         // Ueberpruefung von Password mit Datenbank
 
             /*

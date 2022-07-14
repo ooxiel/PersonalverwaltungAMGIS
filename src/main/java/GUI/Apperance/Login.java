@@ -1,6 +1,5 @@
 package GUI.Apperance;
 
-import com.AMGIS.Facade.LoginFacade;
 import com.AMGIS.Login.LoginCheck;
 
 import javax.swing.*;
