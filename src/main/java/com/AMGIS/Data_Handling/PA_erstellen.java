@@ -1,8 +1,6 @@
 package com.AMGIS.Data_Handling;
 
 import java.sql.*;
-import com.AMGIS.Data_Handling.AccountErzeugen;
-
 
 public class PA_erstellen {
     public Connection con=null;
