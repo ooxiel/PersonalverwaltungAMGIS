@@ -40,13 +40,11 @@ public class DynamicInputProof {
 
     public void dateField(JTextField field){
 
-
         field.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 super.keyTyped(e);
                 char input = e.getKeyChar();
-                boolean dot = false;
                 // Realisierung Datumformat
                 if (!Character.isDigit(input) || (input == KeyEvent.VK_BACK_SPACE) || (input == KeyEvent.VK_DELETE) || (input == KeyEvent.VK_ENTER)) {
                     e.consume();
@@ -54,7 +52,6 @@ public class DynamicInputProof {
                 if((input == KeyEvent.VK_BACK_SPACE) || (input == KeyEvent.VK_DELETE)){
                 }else if(field.getText().length() == 2 || field.getText().length() == 5) {
                     field.setText(field.getText() + ".");
-
                 }
 
                 if((input == KeyEvent.VK_BACK_SPACE) || (input == KeyEvent.VK_DELETE)){
