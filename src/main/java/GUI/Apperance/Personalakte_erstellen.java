@@ -54,7 +54,6 @@ public class Personalakte_erstellen extends JFrame {
             private JTextField regionField;
 
     private JButton button1;
-    private JLabel labelGeschlecht;
 
 
     public static void main(String[] args) {
@@ -150,44 +149,51 @@ public class Personalakte_erstellen extends JFrame {
         Alle Eingaben in der Form werden ausnahmslos geloescht
     */
         personalakteErstellenButton.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                staticInput.setMaxInteger(beschaeftigungField,100);
+                staticInput.setMaxInteger(beschaeftigungField, 100);
 
+                System.out.println(staticInput.inputNotNull(lettersOnly));
+                System.out.println(staticInput.inputNotNull(numbersOnly));
+                System.out.println(staticInput.inputNotNull(specialChars));
+                System.out.println(staticInput.comboBoxFieldisEmpty(geschlecht));
 
-                    if(staticInput.inputNotNull(lettersOnly) &&
-                            staticInput.inputNotNull(numbersOnly) &&
-                            staticInput.inputNotNull(specialChars) &&
-                            !staticInput.comboBoxFieldisEmpty(geschlecht, labelGeschlecht) &&
-                            staticInput.telefonValide(telefonField) &&
-                            staticInput.mailValide(emailField)
+                if (staticInput.inputNotNull(lettersOnly) ||
+                        staticInput.inputNotNull(numbersOnly) ||
+                        staticInput.inputNotNull(specialChars) ||
+                        staticInput.comboBoxFieldisEmpty(geschlecht)){
 
-                            ){
-
-                        PA_erstellen pae = new PA_erstellen();
-                        pae.einfuegenPA(geschlecht.getSelectedItem().toString(),vornameField.getText(),zweitNameField.getText(),nameField.getText(),
-                                geburstagField.getText(), telefonField.getText(),emailField.getText(),strasseField.getText(),hausnummerField.getText(),
-                                hausnummerZusatzField.getText(), landField.getText(),bundeslandField.getText(),plzField.getText(),jobnameField.getText(),
-                                beschaeftigungField.getText(),abteilungField.getText(),abteilungsLeiterField.getText(),raumField.getText(),regionField.getText());
-
-                        try {
-                            pae.con.close();
-                        } catch (SQLException ex) {
-                            ex.printStackTrace();
-                        }
-
-
-                        JOptionPane.showMessageDialog(main,"Eingabe Erfolgreich!");
-                        frame.dispose();
+                            JOptionPane.showMessageDialog(main, "Es fehlen notwendige Eingaben!");
 
                     }else{
-                        JOptionPane.showMessageDialog(main,"Es fehlen notwendige Eingaben!");
+
+                            boolean testGeburstag   = staticInput.dateValid(geburstagField);
+                            boolean testTelefon     = staticInput.telefonValide(telefonField);
+                            boolean testMail        = staticInput.mailValide(emailField);
+
+                                if(testGeburstag && testTelefon && testMail){
+                                    PA_erstellen pae = new PA_erstellen();
+                                    pae.einfuegenPA(geschlecht.getSelectedItem().toString(), vornameField.getText(), zweitNameField.getText(), nameField.getText(),
+                                            geburstagField.getText(), telefonField.getText(), emailField.getText(), strasseField.getText(), hausnummerField.getText(),
+                                            hausnummerZusatzField.getText(), landField.getText(), bundeslandField.getText(), plzField.getText(), jobnameField.getText(),
+                                            beschaeftigungField.getText(), abteilungField.getText(), abteilungsLeiterField.getText(), raumField.getText(), regionField.getText());
+
+                                    try {
+                                        pae.con.close();
+                                    } catch (SQLException ex) {
+                                        ex.printStackTrace();
+                                    }
+
+                                    JOptionPane.showMessageDialog(main, "Eingabe Erfolgreich!");
+                                    frame.dispose();
+                                }else{
+                                    JOptionPane.showMessageDialog(main,"Ungueltige Angaben!");
+                                }
                     }
 
-            }
-        });
+                }
+            });
 
         alleEingabenLoeschenButton.addActionListener(new ActionListener() {
             @Override

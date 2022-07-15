@@ -1,6 +1,5 @@
 package GUI.ProofServices;
 
-import javax.sound.sampled.Line;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -8,19 +7,22 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.text.DateFormat;
-import java.util.ArrayList;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 public class StaticInputProof {
 
-    public boolean comboBoxFieldisEmpty(JComboBox comboBox, JLabel label){
+    public boolean comboBoxFieldisEmpty(JComboBox comboBox){
 
         if(comboBox.getSelectedIndex() == 0){
 
+            comboBox.setToolTipText("Bitte nehmen Sie eine Eingabe vor!");
             comboBox.setBorder(new LineBorder(Color.red));
-            comboBox.setToolTipText("Falsche Eingabe");
+            ToolTipManager.sharedInstance().setInitialDelay(0);
 
             comboBox.addFocusListener(new FocusListener() {
                 @Override
@@ -42,25 +44,71 @@ public class StaticInputProof {
 
         return false;
     }
-    public boolean dateValide(JTextField field){
 
+    public boolean dateValid (JTextField field) {
 
         String input = field.getText();
 
-        String  regex       = "([0-9]+(\\.[0-9]+)+)";
-        Pattern pattern     = Pattern.compile(regex,Pattern.CASE_INSENSITIVE);
-        Matcher matcher     = pattern.matcher(input);
+            char[] inputs = input.toCharArray();
+            char[] outputs = new char[8];
+            int counter = 0;
 
-        if(!matcher.find()){
-            field.setToolTipText("Datum ungültig");
-            field.setBorder(new LineBorder(Color.red));
+                for (char k : inputs) {
 
-            addAndRemoveFocusListener(field);
+                    if (k != '.') {
+                        outputs[counter] = k;
+                        counter++;
+                    }
+                }
 
-            return false;
-        }
+            String outputDay = String.copyValueOf(outputs,0,2);
+            String outputMonth = String.copyValueOf(outputs,2,2);
+            String outputYear = String.copyValueOf(outputs,4,4);
 
-        return true;
+            int day;
+            int month;
+            int year;
+
+            try {
+
+                day     = Integer.parseInt(outputDay);
+                month   = Integer.parseInt(outputMonth);
+                year    = Integer.parseInt(outputYear);
+
+            } catch (NumberFormatException e) {
+
+                addAndRemoveFocusListener(field);
+                setBorderColorAndToolTip(field,"Datum ungültig");
+
+                return false;
+            }
+
+        GregorianCalendar gregorianCalendar = new GregorianCalendar();
+            gregorianCalendar.setLenient(false);
+
+            if(LocalDate.now().getYear() < year){
+
+                addAndRemoveFocusListener(field);
+                setBorderColorAndToolTip(field,"Datum ungültig");
+
+                return false;
+
+            }else{
+                gregorianCalendar.set(year,month-1,day);
+
+                try{
+                    gregorianCalendar.getTime();
+
+                }catch(IllegalArgumentException e){
+
+                    addAndRemoveFocusListener(field);
+                    setBorderColorAndToolTip(field,"Datum ungültig");
+
+                    return false;
+                }
+
+            return true;
+            }
     }
 
     public boolean mailValide(JTextField field){
@@ -72,10 +120,9 @@ public class StaticInputProof {
         Matcher matcher     = pattern.matcher(input);
 
         if(!matcher.find()){
-            field.setToolTipText("Keine gueltige E-Mail-Adresse");
-            field.setBorder(new LineBorder(Color.red));
 
             addAndRemoveFocusListener(field);
+            setBorderColorAndToolTip(field,"Keine gueltige E-Mail-Adresse!");
 
             return false;
         }
@@ -91,9 +138,8 @@ public class StaticInputProof {
         Matcher matcher = pattern.matcher(input);
 
         if(!matcher.find()){
-            field.setToolTipText("Keine gueltige Telefonnummer");
-            field.setBorder(new LineBorder(Color.red));
 
+            setBorderColorAndToolTip(field,"Keine gueltige Telefonnummer!");
             addAndRemoveFocusListener(field);
 
             return false;
@@ -104,10 +150,14 @@ public class StaticInputProof {
 
     public void setMaxInteger (JTextField field, int max){
 
-        int  input = Integer.parseInt(field.getText());
+        int input;
+        try{
+            input = Integer.parseInt(field.getText());
+        }catch (NumberFormatException e){
+            input = 0;
+        }
 
-        if(input > max) {
-
+        if (input > max) {
             field.setText(Integer.toString(max));
         }
     }
@@ -135,10 +185,7 @@ public class StaticInputProof {
 
     private void fieldEmpty(JTextField k){
 
-        // True: Fehlermeldung wird geworfen
-        k.setToolTipText("Bitte nehmen Sie eine Eingabe vor!");        // Fehlermeldung = "Notwendige Angabe fehlt"
-        k.setBorder(new LineBorder(Color.red));
-
+        setBorderColorAndToolTip(k,"Bitte nehmen Sie eine Eingabe vor!");
         addAndRemoveFocusListener(k);
     }
 
@@ -148,7 +195,7 @@ public class StaticInputProof {
             @Override
             public void focusGained(FocusEvent e) {
                 field.setText(null);
-                resetBorderColor(field);
+                resetBorderColorAndToolTip(field);
             }
 
             @Override
@@ -158,7 +205,7 @@ public class StaticInputProof {
         });
     }
 
-    private void resetBorderColor(JTextField field){
+    private void resetBorderColorAndToolTip(JTextField field){
 
         if(KeyEvent.VK_DELETE == 127 || KeyEvent.KEY_TYPED == 400){
 
@@ -166,5 +213,11 @@ public class StaticInputProof {
             field.setToolTipText(null);
         }
 
+    }
+    private void setBorderColorAndToolTip (JTextField field, String text){
+
+        field.setToolTipText(text);
+        field.setBorder(new LineBorder(Color.red));
+        ToolTipManager.sharedInstance().setInitialDelay(0);
     }
 }
