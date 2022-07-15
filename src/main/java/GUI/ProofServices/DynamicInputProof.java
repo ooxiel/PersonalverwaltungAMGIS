@@ -29,16 +29,17 @@ public class DynamicInputProof {
                 // Realisierung Datumformat
 
                 if (field.getText().length() < amount || (input == KeyEvent.VK_BACK_SPACE) || (input == KeyEvent.VK_DELETE) || (input == KeyEvent.VK_ENTER)){
+
                     field.setEditable(true);
                     field.setBorder(LineBorder.createGrayLineBorder());
                     field.setToolTipText(null);
+
                 }else{
+
                     e.consume();
-                    //field.setEditable(false);
-                    field.setBorder(new LineBorder(Color.red));
+                    field.setEditable(false);
                     field.setToolTipText("Maximale Eingabeskapazität erreicht!");
                     ToolTipManager.sharedInstance().setInitialDelay(0);
-
                 }
             }
         });
@@ -57,6 +58,8 @@ public class DynamicInputProof {
                     e.consume();
                     field.setToolTipText("Keine Eingabe von Buchstaben oder Sonderzeichen moeglich! Bitte nur Zahlen eingeben.");
                     ToolTipManager.sharedInstance().setInitialDelay(0);
+                }else{
+                    field.setToolTipText(null);
                 }
 
                 if((input == KeyEvent.VK_BACK_SPACE) || (input == KeyEvent.VK_DELETE)){
@@ -66,6 +69,7 @@ public class DynamicInputProof {
                 }
 
                 if((input == KeyEvent.VK_BACK_SPACE) || (input == KeyEvent.VK_DELETE)){
+                    field.setEditable(true);
                 }else if(field.getText().length() == 1 || field.getText().length() == 4){
                     try {
                         Robot robot = new Robot();
@@ -84,8 +88,7 @@ public class DynamicInputProof {
                 if(field.getText().length() >= 10 && ((input != KeyEvent.VK_BACK_SPACE) || (input == KeyEvent.VK_DELETE) || (input == KeyEvent.VK_ENTER))){
 
                     field.setEditable(false);
-                    field.setBorder(new LineBorder(Color.red));
-                    field.setToolTipText("Maximale Eingabeskapazität erreicht!");
+                    field.setToolTipText("Maximale Eingabeskapazität erreicht! Aenderungen ueber Backspace.");
                     ToolTipManager.sharedInstance().setInitialDelay(0);
 
                 }else{
@@ -109,7 +112,7 @@ public class DynamicInputProof {
                 if (field.getText().length() > 15 && ((input != KeyEvent.VK_BACK_SPACE) || (input == KeyEvent.VK_DELETE) || (input == KeyEvent.VK_ENTER))) {
 
                     field.setEditable(false);
-                    field.setToolTipText("Maximale Eingabeskapazität erreicht!");
+                    field.setToolTipText("Maximale Eingabeskapazität erreicht! Aenderungen ueber Backspace.");
                     ToolTipManager.sharedInstance().setInitialDelay(0);
 
                 } else {
@@ -131,7 +134,12 @@ public class DynamicInputProof {
 
                     if(!Character.isLetter(input) || (input == KeyEvent.VK_BACK_SPACE) || (input == KeyEvent.VK_DELETE || (input == KeyEvent.VK_ENTER))){
                         e.consume();
+                        k.setToolTipText("Keine Eingabe von Zahlen oder Sonderzeichen moeglich! Bitte nur Buchstaben eingeben.");
+                        ToolTipManager.sharedInstance().setInitialDelay(0);
+                    }else{
+                        k.setToolTipText(null);
                     }
+
                 }
             });
         }
@@ -149,8 +157,11 @@ public class DynamicInputProof {
                     char input = e.getKeyChar();
 
                     if(!Character.isDigit(input) || (input == KeyEvent.VK_BACK_SPACE) || (input == KeyEvent.VK_DELETE) || (input == KeyEvent.VK_ENTER)) {
-
                         e.consume();
+                        k.setToolTipText("Keine Eingabe von Buchstaben oder Sonderzeichen moeglich! Bitte nur Zahlen eingeben.");
+                        ToolTipManager.sharedInstance().setInitialDelay(0);
+                    }else{
+                        k.setToolTipText(null);
                     }
                 }
             });

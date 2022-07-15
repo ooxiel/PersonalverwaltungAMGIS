@@ -196,6 +196,7 @@ public class StaticInputProof {
             public void focusGained(FocusEvent e) {
                 field.setText(null);
                 resetBorderColorAndToolTip(field);
+                field.setEditable(true);
             }
 
             @Override
