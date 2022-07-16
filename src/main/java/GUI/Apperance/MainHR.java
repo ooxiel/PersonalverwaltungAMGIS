@@ -47,17 +47,12 @@ public class MainHR {
 
     public MainHR(){
         JFrame          frame       = new JFrame();
-        FrameLocation   location    = new FrameLocation();
 
         frame.add(main);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
         frame.setSize(1350,1080);
-            int widthLayout     = (int) frame.getSize().getWidth();
-            int heightLayout    = (int) frame.getSize().getHeight();
-
-        frame.setLocation(location.center(widthLayout,heightLayout));
+        frame.setLocationRelativeTo(null);
 
         abmeldenButton.addActionListener(new ActionListener() {
             @Override

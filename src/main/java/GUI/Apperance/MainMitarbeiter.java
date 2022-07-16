@@ -38,16 +38,11 @@ public class MainMitarbeiter {
 
     public MainMitarbeiter() {
         JFrame frame           = new JFrame();
-        FrameLocation   frameLocation   = new FrameLocation();
 
         frame.add(main);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
         frame.setSize(600,900);
-        int widthLayout     = (int) frame.getSize().getWidth();
-        int heightLayout    = (int) frame.getSize().getHeight();
-
-        frame.setLocation(frameLocation.center(widthLayout,heightLayout));
+        frame.setLocationRelativeTo(null);
     }
 }

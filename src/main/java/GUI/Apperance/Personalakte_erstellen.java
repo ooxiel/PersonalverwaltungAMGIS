@@ -67,17 +67,12 @@ public class Personalakte_erstellen extends JFrame {
       */
 
         JFrame          frame       = new JFrame();
-        FrameLocation   location    = new FrameLocation();
 
         frame.add(main);
         frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-        frame.setSize(1000,1300);
-            int widthLayout     = (int) frame.getSize().getWidth();
-            int heightLayout    = (int) frame.getSize().getHeight();
-
-        frame.setLocation(location.center(widthLayout,heightLayout));
         frame.setVisible(true);
+        frame.setSize(1000,1300);
+        frame.setLocationRelativeTo(null);
 
     /*
         Ueberpruefung User-Eingaben während dem Input

@@ -25,7 +25,7 @@ public class HR_erstellen extends JFrame {
     public HR_erstellen(){
 
         JFrame          frame       = new JFrame();
-        FrameLocation   location    = new FrameLocation();
+
 
         frame.add(main);
         frame.setVisible(true);
@@ -34,12 +34,7 @@ public class HR_erstellen extends JFrame {
 
         frame.setResizable(false);
         frame.setSize(600,400);
-
-            int widthLayout     = (int) frame.getSize().getWidth();
-            int heightLayout    = (int) frame.getSize().getHeight();
-
-        frame.setLocation(location.center(widthLayout,heightLayout));
-        frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
 
 
         abbrechenButton.addActionListener(new ActionListener() {

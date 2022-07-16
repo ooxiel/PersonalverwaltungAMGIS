@@ -1,6 +1,6 @@
 package GUI.Apperance;
 
-import com.AMGIS.Login.AnmeldungAusfuehren;
+
 import com.AMGIS.Login.LoginCheck;
 
 import javax.imageio.ImageIO;
@@ -28,7 +28,8 @@ public class Login{
 
             private JLabel usernameImage;
             private JLabel passwordImage;
-            private ImageIcon userImage;
+    private JLabel loginLabel;
+    private ImageIcon userImage;
             private ImageIcon passImage;
 
     public static void main(String[] args) throws IOException {
@@ -43,15 +44,16 @@ public class Login{
             frame.add(main);
             frame.setVisible(true);
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            frame.setSize(500,300);
+            frame.setResizable(true);
+            frame.setLocationRelativeTo(null);
+
 
     /*
         Zentrierung Login-Panel in Abhängigkeit der Monitorauflösung
      */
 
-        FrameLocation   location    = new FrameLocation();
-            frame.setSize(500,250);
-            frame.setLocation(location.center(frame.getWidth(), frame.getHeight()));
-            frame.setResizable(false);
+
 
     /*
         Login-Frame wird geschlossen
@@ -70,11 +72,11 @@ public class Login{
 
         // Icons werden im JLabel
 
-        Image       imgUser      = ImageIO.read(new File("src\\main\\resources\\icons\\user.png"));
+        Image       imgUser      = ImageIO.read(new File("src/main/resources/icons/user.png"));
             ImageIcon   userIcon     = new ImageIcon(imgUser);
             usernameImage.setIcon(userIcon);
 
-        Image       imgPass      = ImageIO.read(new File("src\\main\\resources\\icons\\password.png"));
+        Image       imgPass      = ImageIO.read(new File("src/main/resources/icons/password.png"));
             ImageIcon   passwordIcon = new ImageIcon(imgPass);
             passwordImage.setIcon(passwordIcon);
 
@@ -95,11 +97,10 @@ public class Login{
             public void keyTyped(KeyEvent e) {
                 super.keyTyped(e);
                 char input = e.getKeyChar();
-                System.out.println(input);
-                if((input == KeyEvent.VK_ENTER)){
-                    new AnmeldungAusfuehren().anmeldungAusfuehren(frame, main, usernameField, passwordField);
-                }
 
+                if((input == KeyEvent.VK_ENTER)){
+                    anmeldungAusfuehren(frame);
+                }
             }
         });
 
@@ -108,9 +109,9 @@ public class Login{
             public void keyTyped(KeyEvent e) {
                 super.keyTyped(e);
                 char input = e.getKeyChar();
-                System.out.println(input);
+
                 if((input == KeyEvent.VK_ENTER)){
-                    new AnmeldungAusfuehren().anmeldungAusfuehren(frame, main, usernameField, passwordField);
+                    anmeldungAusfuehren(frame);
                 }
 
             }
@@ -121,9 +122,9 @@ public class Login{
             public void keyTyped(KeyEvent e) {
                 super.keyTyped(e);
                 char input = e.getKeyChar();
-                System.out.println(input);
+
                 if((input == KeyEvent.VK_ENTER)){
-                    new AnmeldungAusfuehren().anmeldungAusfuehren(frame, main, usernameField, passwordField);
+                    anmeldungAusfuehren(frame);
                 }
 
             }
@@ -134,7 +135,7 @@ public class Login{
             public void keyTyped(KeyEvent e) {
                 super.keyTyped(e);
                 char input = e.getKeyChar();
-                System.out.println(input);
+
                 if((input == KeyEvent.VK_ENTER)){
                     frame.dispose();
                 }
@@ -145,8 +146,27 @@ public class Login{
         besteatigenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AnmeldungAusfuehren().anmeldungAusfuehren(frame, main, usernameField, passwordField);
+                anmeldungAusfuehren(frame);
             }
         });
+    }
+    public void anmeldungAusfuehren(JFrame frame){
+        if(usernameField.getText().isEmpty() && passwordField.getPassword().length==0){
+            JOptionPane.showMessageDialog(main,"Username oder Passwort nicht aufgefuellt!");
+        }else{
+            LoginCheck lc = new LoginCheck();
+            if(lc.validateKontoname(usernameField.getText()) && lc.validatePasswort(usernameField.getText(), String.valueOf(passwordField.getPassword()))){
+                frame.dispose();
+                new MainHR();
+            }else{
+                JOptionPane.showMessageDialog(main,"Username oder Passwort ist falsch!");
+                passwordField.setText("");
+                try {
+                    lc.c.close();System.out.println("closing in else");
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
     }
 }
