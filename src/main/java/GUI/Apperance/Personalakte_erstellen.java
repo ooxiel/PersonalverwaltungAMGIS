@@ -51,7 +51,7 @@ public class Personalakte_erstellen extends JFrame {
             private JTextField abteilungField;
             private JTextField abteilungsLeiterField;
             private JTextField raumField;
-            private JTextField regionField;
+            private JTextField standortField;
 
     private JButton button1;
 
@@ -110,7 +110,7 @@ public class Personalakte_erstellen extends JFrame {
             lettersOnly.add(bundeslandField);
             lettersOnly.add(jobnameField);
             lettersOnly.add(positionField);
-            lettersOnly.add(regionField);
+            lettersOnly.add(standortField);
 
         ArrayList<JTextField> numbersOnly       = new ArrayList<>();
 
@@ -154,9 +154,9 @@ public class Personalakte_erstellen extends JFrame {
 
                 staticInput.setMaxInteger(beschaeftigungField, 100);
 
-                if (staticInput.inputNotNull(lettersOnly) ||
-                        staticInput.inputNotNull(numbersOnly) ||
-                        staticInput.inputNotNull(specialChars) ||
+                if (staticInput.inputNotNull(lettersOnly) &&
+                        staticInput.inputNotNull(numbersOnly) &&
+                        staticInput.inputNotNull(specialChars) &&
                         staticInput.comboBoxFieldisEmpty(geschlecht)){
 
                             JOptionPane.showMessageDialog(main, "Es fehlen notwendige Eingaben!");
@@ -172,7 +172,7 @@ public class Personalakte_erstellen extends JFrame {
                                     pae.einfuegenPA(geschlecht.getSelectedItem().toString(), vornameField.getText(), zweitNameField.getText(), nameField.getText(),
                                             geburstagField.getText(), telefonField.getText(), emailField.getText(), strasseField.getText(), hausnummerField.getText(),
                                             hausnummerZusatzField.getText(), landField.getText(), bundeslandField.getText(), plzField.getText(), jobnameField.getText(),
-                                            beschaeftigungField.getText(), abteilungField.getText(), abteilungsLeiterField.getText(), raumField.getText(), regionField.getText());
+                                            beschaeftigungField.getText(), abteilungField.getText(), abteilungsLeiterField.getText(), raumField.getText(), standortField.getText());
 
                                     try {
                                         pae.con.close();

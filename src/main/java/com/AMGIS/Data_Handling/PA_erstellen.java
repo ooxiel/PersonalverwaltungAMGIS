@@ -20,7 +20,7 @@ public class PA_erstellen {
     //Konstruktor
 
     public void einfuegenPA(String anrede, String vorname,String zweitname, String nachname,String geburtsdatum, String telefon, String email,String strasse,String hausNR,
-                            String hausB,String land,String bundesland,String plz,String jobname,String besGrad,String abteilung,String abtLeiter,String raum,String region){
+                            String hausB,String land,String bundesland,String plz,String jobname,String besGrad,String abteilung,String abtLeiter,String raum,String Standort){
         int newID=generateID();
 
         String sqlPA= "INSERT INTO Personalakte VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -55,7 +55,7 @@ public class PA_erstellen {
             prepPA.setString(17,abteilung);
             prepPA.setString(18,abtLeiter);
             prepPA.setString(19,raum);
-            prepPA.setString(20,region);
+            prepPA.setString(20,Standort);
             prepPA.executeUpdate();
 
             //Account erzeugen
@@ -120,9 +120,9 @@ public class PA_erstellen {
                 String abteilung=res.getString(17);
                 String abtLeiter=res.getString(18);
                 String raum=res.getString(19);
-                String region=res.getString(20);
+                String standort=res.getString(20);
                 System.out.println(id+" "+anrede+" "+vorname+" "+zweitname+" "+nachname+" "+geburtstag+" "+telefon+" "+email+" "+strasse+" "+hausNR+" "+hausB+" "+land+" "+
-                        bundesland+" "+plz+" "+jobname+" "+beschgrad+" "+abteilung+" "+abtLeiter+" "+raum+" "+region);
+                        bundesland+" "+plz+" "+jobname+" "+beschgrad+" "+abteilung+" "+abtLeiter+" "+raum+" "+standort);
             }
             res.close();
             stmt.close();
