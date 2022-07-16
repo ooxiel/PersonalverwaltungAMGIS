@@ -6,10 +6,12 @@ import GUI.ProofServices.DynamicInputProof;
 import GUI.ProofServices.StaticInputProof;
 import com.AMGIS.Data_Handling.PA_erstellen;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -54,6 +56,8 @@ public class Personalakte_erstellen extends JFrame {
             private JTextField standortField;
 
     private JButton button1;
+    private JLabel logoIconLeft;
+    private JLabel logoIconRight;
 
 
     public static void main(String[] args) {
@@ -71,8 +75,19 @@ public class Personalakte_erstellen extends JFrame {
         frame.add(main);
         frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         frame.setVisible(true);
-        frame.setSize(750,1300);
+        frame.setSize(1000,1300);
         frame.setLocationRelativeTo(null);
+
+        Image logo = null;
+        try{
+            logo = ImageIO.read(new File("src/main/resources/icons/LogoKlein.png"));
+        }catch (IOException ex){
+            ex.printStackTrace();
+        }
+        ImageIcon logoToIcon = new ImageIcon(logo);
+        
+        logoIconLeft.setIcon(logoToIcon);
+        logoIconRight.setIcon(logoToIcon);
 
     /*
         Ueberpruefung User-Eingaben während dem Input
