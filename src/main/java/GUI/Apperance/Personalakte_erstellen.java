@@ -154,11 +154,6 @@ public class Personalakte_erstellen extends JFrame {
 
                 staticInput.setMaxInteger(beschaeftigungField, 100);
 
-                System.out.println(staticInput.inputNotNull(lettersOnly));
-                System.out.println(staticInput.inputNotNull(numbersOnly));
-                System.out.println(staticInput.inputNotNull(specialChars));
-                System.out.println(staticInput.comboBoxFieldisEmpty(geschlecht));
-
                 if (staticInput.inputNotNull(lettersOnly) ||
                         staticInput.inputNotNull(numbersOnly) ||
                         staticInput.inputNotNull(specialChars) ||
