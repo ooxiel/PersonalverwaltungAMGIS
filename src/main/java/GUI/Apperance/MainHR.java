@@ -1,65 +1,86 @@
 package GUI.Apperance;
 
-import org.apache.poi.ss.usermodel.DataFormat;
-
 import javax.swing.*;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.NumberFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.NumberFormat;
-import java.util.Formatter;
+import java.io.IOException;
 
 public class MainHR {
     private JPanel main;
-    private JButton dashboardButton;
-    private JButton personalakteErstellenButton;
-    private JTabbedPane tabbedPane1;
-    private JPanel dash;
-    private JTable mainView;
+    private JTable personalaktenTable;
+    private JButton abmeldenButton;
+    private JButton neuenHRMitarbeiterErstellenButton;
+    private JButton neuePersonalakteErstellenButton;
+    private JPanel personalInfoPanel;
+    private JLabel anredeField;
+    private JComboBox geschlecht;
+    private JTextField nameField;
+    private JTextField zweitNameField;
+    private JTextField vornameField;
+    private JTextField emailField;
+    private JTextField geburstagField;
+    private JTextField telefonField;
+    private JPanel adressPanel;
+    private JTextField strasseField;
+    private JTextField landField;
+    private JTextField hausnummerField;
+    private JTextField hausnummerZusatzField;
+    private JTextField plzField;
+    private JTextField bundeslandField;
+    private JPanel jobInfoPanel;
+    private JTextField jobnameField;
+    private JTextField positionField;
+    private JTextField abteilungField;
+    private JTextField abteilungsLeiterField;
+    private JTextField raumField;
+    private JTextField standortField;
+    private JTextField beschaeftigungField;
     private JButton neuePersonalakteAnlegenButton;
     private JPanel dashboardPanel;
     private JPanel personalakteErstellen;
+
+
 
     public static void main(String[] args) {
         new MainHR();
     }
 
     public MainHR(){
-        JFrame          frame           = new JFrame();
-        FrameLocation   frameLocation   = new FrameLocation();
+        JFrame          frame       = new JFrame();
+        FrameLocation   location    = new FrameLocation();
 
         frame.add(main);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        frame.setSize(1000,1000);
+        frame.setSize(1350,1080);
             int widthLayout     = (int) frame.getSize().getWidth();
             int heightLayout    = (int) frame.getSize().getHeight();
 
-        frame.setLocation(frameLocation.center(widthLayout,heightLayout));
+        frame.setLocation(location.center(widthLayout,heightLayout));
 
-
-
-        dashboardButton.addActionListener(new ActionListener() {
+        abmeldenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tabbedPane1.setSelectedComponent(dashboardPanel);
+                frame.dispose();
+
+                try{
+                    new Login();
+                }catch (IOException exception){
+                    exception.printStackTrace();
+                }
             }
         });
-
-
-        personalakteErstellenButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tabbedPane1.setSelectedIndex(1);
-            }
-        });
-        neuePersonalakteAnlegenButton.addActionListener(new ActionListener() {
+        neuePersonalakteErstellenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Personalakte_erstellen();
+            }
+        });
+        neuenHRMitarbeiterErstellenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new HR_erstellen();
             }
         });
     }
