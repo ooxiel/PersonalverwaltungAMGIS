@@ -1,9 +1,15 @@
 package GUI.Apperance;
 
+import com.AMGIS.Akteure.Mitarbeiter;
+
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.List;
 
 public class MainHR {
     private JPanel main;
@@ -54,6 +60,29 @@ public class MainHR {
         frame.setSize(1350,1080);
         frame.setLocationRelativeTo(null);
 
+
+        TableModel dataModel = new AbstractTableModel() {
+            @Override
+            public int getRowCount() {
+                return 3;
+            }
+
+            @Override
+            public int getColumnCount() {
+                return 3;
+            }
+
+            @Override
+            public Object getValueAt(int rowIndex, int columnIndex) {
+                return new Integer(rowIndex*columnIndex);
+            }
+        };
+
+        JTable dataTable = new JTable(dataModel);
+        JScrollPane scrollPane = new JScrollPane(dataTable);
+
+
+
         abmeldenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -80,3 +109,4 @@ public class MainHR {
         });
     }
 }
+

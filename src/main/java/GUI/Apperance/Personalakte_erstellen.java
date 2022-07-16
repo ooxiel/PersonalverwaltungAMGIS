@@ -71,7 +71,7 @@ public class Personalakte_erstellen extends JFrame {
         frame.add(main);
         frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         frame.setVisible(true);
-        frame.setSize(1000,1300);
+        frame.setSize(750,1300);
         frame.setLocationRelativeTo(null);
 
     /*
