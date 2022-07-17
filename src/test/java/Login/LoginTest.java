@@ -1,5 +1,5 @@
 package Login;
-import GUI.ProofServices.LoginProof;
+import GUI.Ueberpruefung.Login.LoginProof;
 import org.junit.jupiter.api.Test;
 
 public class LoginTest {
