@@ -7,10 +7,10 @@ import java.util.List;
 
 public class MitarbeiterTableModel extends AbstractTableModel {
 
-    private final String[] COLUMNS = {"PERSONAL-ID", "NAME", "VORNAME"};
+    private final String[] COLUMNS = {"PERSONAL-ID", "NAME", "VORNAME","HR Mitarbeiter"};
     private List<Mitarbeiter> mitarbeiter;
 
-    private MitarbeiterTableModel(List<Mitarbeiter> mitarbeiter) {
+    public MitarbeiterTableModel(List<Mitarbeiter> mitarbeiter) {
         this.mitarbeiter = mitarbeiter;
     }
 

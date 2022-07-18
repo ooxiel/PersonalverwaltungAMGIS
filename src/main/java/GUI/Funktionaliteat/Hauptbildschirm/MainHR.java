@@ -3,6 +3,10 @@ package GUI.Funktionaliteat.Hauptbildschirm;
 import GUI.Funktionaliteat.Zusaetze.HR_erstellen;
 import GUI.Funktionaliteat.Zusaetze.Login;
 import GUI.Funktionaliteat.Personalakte.Personalakte_erstellen;
+import GUI.LogindatenTableModel;
+import GUI.MitarbeiterTableModel;
+import com.AMGIS.Akteure.Logindaten;
+import com.AMGIS.Akteure.Mitarbeiter;
 import com.AMGIS.Data_Handling.MainHR_Table;
 
 import javax.swing.*;
@@ -14,8 +18,10 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MainHR{
+public class MainHR extends JFrame{
     private JPanel main;
     private JTable personalaktenTable;
     private JButton abmeldenButton;
@@ -61,84 +67,34 @@ public class MainHR{
         show(frame);
         disposeButton(frame);
 
-        MainHR_Table t = new MainHR_Table();
-
-        JTable dataTable = new JTable();
-        JScrollPane scrollPane = new JScrollPane(personalaktenTable);
-        personalaktenTable.setVisible(true);
-
-        scrollPane.createHorizontalScrollBar();
-
 
 
 
 
         Connection con=null;
         try {Class.forName("org.hsqldb.jdbcDriver");}catch(ClassNotFoundException e) {return;}
-        try {con = DriverManager.getConnection("jdbc:hsqldb:file:"+new File("src\\main\\resources\\Datenbank\\AMGISDatenbank")+"; shutdown=true", "amgis", "amgis"); //url,user,pw
+        try {con = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis"); //url,user,pw
         }catch(SQLException e){e.printStackTrace();}
 
         try{
-            String sql= "SELECT  ID, Kontoname,Passwort FROM Accounts";
+            String sql= "SELECT  ID, Kontoname, Passwort, HRMitarbeiter FROM Accounts";
             Statement stmt = con.createStatement();
             ResultSet rs=stmt.executeQuery(sql);
+
+            List<Logindaten> logindaten = new ArrayList<>();
+
             while (rs.next()){
-                String id = String.valueOf(rs.getInt(1));
+                int id = rs.getInt(1);
                 String kontoname = String.valueOf(rs.getString(2));
-                String passwort = String.valueOf(3);
-                String tbData[] = {id,kontoname,passwort};
-                DefaultTableModel tblModel = (DefaultTableModel) personalaktenTable.getModel();
-                tblModel.addRow(tbData);
+                String passwort = String.valueOf(rs.getString(3));
+                boolean hrmitarbeiter = rs.getBoolean(4);
+                Logindaten ld = new Logindaten(id,kontoname,passwort,hrmitarbeiter);
+                logindaten.add(ld);
             }
-
-            //personalaktenTable.setModel(net.proteanit.sql.DbUtils.resultSetToTableModel(rs));
-        }catch(Exception e){
-            return;
-        }
-        try {con.close();} catch (SQLException ex) {ex.printStackTrace();}
-
-
-
-
-
-        /*t.defaultTable(dataTable);
-        try {t.con.close();} catch (SQLException ex) {ex.printStackTrace();}*/
-
-        /*try {
-
-
-            //TableModel definieren
-            String[] tableColumnsName = {"ID","Vorname","Zweitname","Nachname","Geburtstag","2","3","3","3","3","3","3","3","3","3","3","3","3","19","20"};
-            DefaultTableModel aModel = (DefaultTableModel) personalaktenTable.getModel();
-            aModel.setColumnIdentifiers(tableColumnsName);
-            //query
-
-            //
-            java.sql.ResultSetMetaData rsmd = rs.getMetaData();
-            int colNo = rsmd.getColumnCount();
-            while(rs.next()){
-                Object[] objects = new Object[colNo];
-                for(int i=0;i<colNo;i++){
-                    objects[i]=rs.getObject(i+1);
-                    System.out.println("working");
-                }
-                aModel.addRow(objects);
-            }
-            personalaktenTable.setModel(aModel);
-            personalaktenTable.updateUI();
-
-            stmt.close();
-            rs.close();
-            try {con.close();} catch (SQLException ex) {ex.printStackTrace();}
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }*/
-
-
-
-
-
-
+            LogindatenTableModel ldtm = new LogindatenTableModel(logindaten);
+            personalaktenTable.setModel(ldtm);
+            //frame.add(new JScrollPane(personalaktenTable));
+        }catch (Exception e){return;}
 
 
         neuePersonalakteErstellenButton.addActionListener(new ActionListener() {
@@ -147,19 +103,13 @@ public class MainHR{
                 new Personalakte_erstellen();
             }
         });
-        neuenHRMitarbeiterErstellenButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new HR_erstellen();
-            }
-        });
     }
 
     private void show(JFrame frame) {
         frame.add(main);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(1350,700);
+        frame.setSize(1000,700);
         frame.setLocationRelativeTo(null);
     }
 
