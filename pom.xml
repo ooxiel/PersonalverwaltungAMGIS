@@ -35,6 +35,7 @@
             <artifactId>log4j-api</artifactId>
             <version>2.17.2</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
@@ -52,6 +53,7 @@
             <artifactId>log4j-api</artifactId>
             <version>2.17.2</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
@@ -88,7 +90,6 @@
             <artifactId>hsqldb</artifactId>
             <version>2.6.1</version>
         </dependency>
-
 
     </dependencies>
 

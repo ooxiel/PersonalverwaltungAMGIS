@@ -15,7 +15,7 @@ public class MainHR_Table {
             return;
         }
         try {
-            con = DriverManager.getConnection("jdbc:hsqldb:file:"+new File("src\\main\\resources\\Datenbank\\AMGISDatenbank")+"; shutdown=true", "amgis", "amgis"); //url,user,pw
+            con = DriverManager.getConnection("jdbc:hsqldb:file:"+new File("src/main/resources/Datenbank/AMGISDatenbank")+"; shutdown=true", "amgis", "amgis"); //url,user,pw
 
         }catch(SQLException e){
             e.printStackTrace();

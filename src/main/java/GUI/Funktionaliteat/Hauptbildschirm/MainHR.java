@@ -67,6 +67,9 @@ public class MainHR{
         JScrollPane scrollPane = new JScrollPane(personalaktenTable);
         personalaktenTable.setVisible(true);
 
+        scrollPane.createHorizontalScrollBar();
+
+
 
 
 
@@ -156,9 +159,8 @@ public class MainHR{
         frame.add(main);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(1350,1080);
+        frame.setSize(1350,700);
         frame.setLocationRelativeTo(null);
-
     }
 
     private void disposeButton(JFrame frame) {
