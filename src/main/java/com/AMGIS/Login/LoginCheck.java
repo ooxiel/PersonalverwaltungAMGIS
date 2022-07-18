@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.desktop.SystemSleepEvent;
+import java.io.File;
 import java.sql.*;
 
 public class LoginCheck {
@@ -15,10 +16,28 @@ public class LoginCheck {
             return;
         }
         try {
-            c = DriverManager.getConnection("jdbc:hsqldb:file:C:\\Users\\Public\\Documents\\Datenbank\\AMGISDatenbank; shutdown=true", "amgis", "amgis"); //url,user,pw
+            c = DriverManager.getConnection("jdbc:hsqldb:file:src\\main\\resources\\Datenbank\\AMGISDatenbank", "amgis", "amgis"); //url,user,pw
+
+            //c = DriverManager.getConnection("jdbc:hsqldb:file:C:\\Users\\Public\\Documents\\Datenbank\\AMGISDatenbank; shutdown=true", "amgis", "amgis"); //url,user,pw
         }catch(SQLException e){
             e.printStackTrace();
         }
+    }
+    public boolean isHR_User(String kontoname){
+        int id=Integer.parseInt(searchIDwithKN(kontoname));
+        try {
+            Statement stmt=c.createStatement();
+            String sql= "SELECT hrmitarbeiter FROM Accounts WHERE id="+id;
+            ResultSet res= stmt.executeQuery(sql);
+            if (res.next() && res.getBoolean(1)==true){
+                return true;
+            }
+            res.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public boolean validateKontoname(String eingabeKN){

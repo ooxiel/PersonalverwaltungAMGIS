@@ -2,6 +2,7 @@ package GUI.Funktionaliteat.Zusaetze;
 
 
 import GUI.Funktionaliteat.Hauptbildschirm.MainHR;
+import GUI.Funktionaliteat.Hauptbildschirm.MainMitarbeiter;
 import com.AMGIS.Login.LoginCheck;
 
 import javax.imageio.ImageIO;
@@ -164,14 +165,19 @@ public class Login{
             JOptionPane.showMessageDialog(main,"Username oder Passwort nicht aufgefuellt!");
         }else{
             LoginCheck lc = new LoginCheck();
-            if(lc.validateKontoname(usernameField.getText()) && lc.validatePasswort(usernameField.getText(), String.valueOf(passwordField.getPassword()))){
+            //System.out.println("amgis: "+lc.isHR_User("amgis"));
+            //System.out.println("admin: "+lc.isHR_User("admin"));
+            if(lc.validateKontoname(usernameField.getText()) && lc.validatePasswort(usernameField.getText(), String.valueOf(passwordField.getPassword())) && lc.isHR_User(usernameField.getText())){
                 frame.dispose();
                 new MainHR();
+            }else if(lc.validateKontoname(usernameField.getText()) && lc.validatePasswort(usernameField.getText(), String.valueOf(passwordField.getPassword())) && !(lc.isHR_User(usernameField.getText()))){
+                frame.dispose();
+                new MainMitarbeiter();
             }else{
                 JOptionPane.showMessageDialog(main,"Username oder Passwort ist falsch!");
                 passwordField.setText("");
                 try {
-                    lc.c.close();System.out.println("closing in else");
+                    lc.c.close();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
