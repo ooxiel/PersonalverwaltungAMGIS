@@ -1,25 +1,13 @@
 package GUI.Funktionaliteat.Hauptbildschirm;
 
-import GUI.Funktionaliteat.Zusaetze.HR_erstellen;
 import GUI.Funktionaliteat.Zusaetze.Login;
 import GUI.Funktionaliteat.Personalakte.Personalakte_erstellen;
-import GUI.LogindatenTableModel;
-import GUI.MitarbeiterTableModel;
-import com.AMGIS.Akteure.Logindaten;
-import com.AMGIS.Akteure.Mitarbeiter;
 import com.AMGIS.Data_Handling.MainHR_Table;
 
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainHR extends JFrame{
     private JPanel main;
@@ -52,6 +40,7 @@ public class MainHR extends JFrame{
     private JTextField standortField;
     private JTextField beschaeftigungField;
     private JButton sucheStartenButton;
+    private javax.swing.JScrollPane JScrollPane;
     private JButton neuePersonalakteAnlegenButton;
     private JPanel dashboardPanel;
     private JPanel personalakteErstellen;
@@ -67,42 +56,20 @@ public class MainHR extends JFrame{
         show(frame);
         disposeButton(frame);
 
-
-
-
-
-        Connection con=null;
-        try {Class.forName("org.hsqldb.jdbcDriver");}catch(ClassNotFoundException e) {return;}
-        try {con = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis"); //url,user,pw
-        }catch(SQLException e){e.printStackTrace();}
-
-        try{
-            String sql= "SELECT  ID, Kontoname, Passwort, HRMitarbeiter FROM Accounts";
-            Statement stmt = con.createStatement();
-            ResultSet rs=stmt.executeQuery(sql);
-
-            List<Logindaten> logindaten = new ArrayList<>();
-
-            while (rs.next()){
-                int id = rs.getInt(1);
-                String kontoname = String.valueOf(rs.getString(2));
-                String passwort = String.valueOf(rs.getString(3));
-                boolean hrmitarbeiter = rs.getBoolean(4);
-                Logindaten ld = new Logindaten(id,kontoname,passwort,hrmitarbeiter);
-                logindaten.add(ld);
-            }
-            LogindatenTableModel ldtm = new LogindatenTableModel(logindaten);
-            personalaktenTable.setModel(ldtm);
-            //frame.add(new JScrollPane(personalaktenTable));
-        }catch (Exception e){return;}
-
-
         neuePersonalakteErstellenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Personalakte_erstellen();
             }
         });
+
+        sucheStartenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filter();
+            }
+        });
+
     }
 
     private void show(JFrame frame) {
@@ -113,7 +80,76 @@ public class MainHR extends JFrame{
         frame.setLocationRelativeTo(null);
     }
 
-    private void disposeButton(JFrame frame) {
+    public void filter() {
+        MainHR_Table mHRt = new MainHR_Table();
+        //alles leer
+        if(geschlecht.getSelectedItem().toString().isEmpty() == true && vornameField.getText().isEmpty() == true && zweitNameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.defaultTablePersonalakte(personalaktenTable);
+
+        }else if (geschlecht.getSelectedItem().toString().isEmpty() == false && vornameField.getText().isEmpty() == true && zweitNameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"anrede",geschlecht.getSelectedItem().toString());
+
+        }else if (geschlecht.getSelectedItem().toString().isEmpty() == true && vornameField.getText().isEmpty() == false && zweitNameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"","");
+
+        }else if (geschlecht.getSelectedItem().toString().isEmpty() == true && vornameField.getText().isEmpty() == true && zweitNameField.getText().isEmpty() == false && nameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"","");
+
+        }else if (geschlecht.getSelectedItem().toString().isEmpty() == true && vornameField.getText().isEmpty() == true && zweitNameField.getText().isEmpty() == true && nameField.getText().isEmpty() == false && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"","");
+
+        }else if (geschlecht.getSelectedItem().toString().isEmpty() == true && vornameField.getText().isEmpty() == true && zweitNameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && nameField.getText().isEmpty() == false && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"","");
+
+        }else if (geschlecht.getSelectedItem().toString().isEmpty() == true && vornameField.getText().isEmpty() == true && zweitNameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == false && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"","");
+
+        }else if (geschlecht.getSelectedItem().toString().isEmpty() == true && vornameField.getText().isEmpty() == true && zweitNameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == false && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"","");
+
+        }else if (geschlecht.getSelectedItem().toString().isEmpty() == true && vornameField.getText().isEmpty() == true && zweitNameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == false && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"","");
+
+        }else if (geschlecht.getSelectedItem().toString().isEmpty() == true && vornameField.getText().isEmpty() == true && zweitNameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == false && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"","");
+
+        }else if (geschlecht.getSelectedItem().toString().isEmpty() == true && vornameField.getText().isEmpty() == true && zweitNameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == false && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"","");
+
+        }else if (geschlecht.getSelectedItem().toString().isEmpty() == true && vornameField.getText().isEmpty() == true && zweitNameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == false && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"","");
+
+        }else if (geschlecht.getSelectedItem().toString().isEmpty() == true && vornameField.getText().isEmpty() == true && zweitNameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == false && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"","");
+
+        }else if (geschlecht.getSelectedItem().toString().isEmpty() == true && vornameField.getText().isEmpty() == true && zweitNameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == false && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"","");
+
+        }else if (geschlecht.getSelectedItem().toString().isEmpty() == true && vornameField.getText().isEmpty() == true && zweitNameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == false && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"","");
+
+        }else if (geschlecht.getSelectedItem().toString().isEmpty() == true && vornameField.getText().isEmpty() == true && zweitNameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == false && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"","");
+
+        }else if (geschlecht.getSelectedItem().toString().isEmpty() == true && vornameField.getText().isEmpty() == true && zweitNameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == false && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"","");
+
+        }else if (geschlecht.getSelectedItem().toString().isEmpty() == true && vornameField.getText().isEmpty() == true && zweitNameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == false && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"","");
+
+        }else if (geschlecht.getSelectedItem().toString().isEmpty() == true && vornameField.getText().isEmpty() == true && zweitNameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == false && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"","");
+
+        }else if (geschlecht.getSelectedItem().toString().isEmpty() == true && vornameField.getText().isEmpty() == true && zweitNameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == false && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"","");
+
+        }else if (geschlecht.getSelectedItem().toString().isEmpty() == true && vornameField.getText().isEmpty() == true && zweitNameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == false) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"","");
+        }
+    }
+
+
+            private void disposeButton(JFrame frame) {
         abmeldenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
