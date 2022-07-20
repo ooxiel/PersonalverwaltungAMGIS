@@ -62,6 +62,7 @@ public class Personalakte_bearbeiten {
 
     public Personalakte_bearbeiten() {
 
+
         JFrame frame = new JFrame();
 
         DynamicInputProof dynamicInput = new DynamicInputProof();
@@ -130,6 +131,59 @@ public class Personalakte_bearbeiten {
                 frame.dispose();
             }
         });
+    }
+
+    public void putInfos(String anrede, String vorname, String zweitname, String nachname, String geburtsdatum, String telefon, String email, String strasse, String strassenNR, String strassenBuchstabe, String land, String bundesland, String plz, String jobname, String besGrad, String abteilung, String abtLeiter, String raum, String standort, String erstelltDatum, String letzteAenderung){
+
+        ArrayList<String> input = new ArrayList<>();
+            input.add(vorname);
+            input.add(zweitname);
+            input.add(nachname);
+            input.add(geburtsdatum);
+            input.add(telefon);
+            input.add(email);
+            input.add(strasse);
+            input.add(strassenNR);
+            input.add(strassenBuchstabe);
+            input.add(land);
+            input.add(bundesland);
+            input.add(plz);
+            input.add(jobname);
+            input.add(besGrad);
+            input.add(abteilung);
+            input.add(abtLeiter);
+            input.add(raum);
+            input.add(standort);
+            input.add(erstelltDatum);
+            input.add(letzteAenderung);
+
+        ArrayList<JTextField> value = new ArrayList<>();
+            value.add(vornameField);
+            value.add(zweitNameField);
+            value.add(nameField);
+            value.add(geburstagField);
+            value.add(telefonField);
+            value.add(emailField);
+            value.add(strasseField);
+            value.add(hausnummerField);
+            value.add(hausnummerZusatzField);
+            value.add(landField);
+            value.add(bundeslandField);
+            value.add(plzField);
+            value.add(jobnameField);
+            value.add(beschaeftigungField);
+            value.add(abteilungField);
+            value.add(abteilungsLeiterField);
+            value.add(raumField);
+            value.add(standortField);
+
+        int counter = 0;
+
+        for (JTextField k : value) {
+            k.setText(input.get(counter));
+        }
+
+        geschlecht.setSelectedItem(anrede);
     }
 
     private void deleteAll(ArrayList<JTextField> optionalInput, ArrayList<JTextField> lettersOnly, ArrayList<JTextField> numbersOnly, ArrayList<JTextField> specialChars) {
