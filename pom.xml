@@ -49,12 +49,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>2.17.2</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
             <version>5.2.2</version>
@@ -68,15 +62,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.netbeans</groupId>
-            <artifactId>jemmy</artifactId>
-            <version>2.2.7.5</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-netbeans-libs-jvyamlb</artifactId>
-            <version>RELEASE126</version>
+            <groupId>com.intellij</groupId>
+            <artifactId>forms_rt</artifactId>
+            <version>7.0.3</version>
         </dependency>
 
         <dependency>

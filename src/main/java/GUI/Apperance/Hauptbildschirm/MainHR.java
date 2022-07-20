@@ -5,11 +5,13 @@ import GUI.Apperance.Personalakte.Personalakte_erstellen;
 import com.AMGIS.Data_Handling.MainHR_Table;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class MainHR extends JFrame{
+public class MainHR extends JFrame {
     private JPanel main;
     private JTable personalaktenTable;
     private JButton abmeldenButton;
@@ -46,12 +48,11 @@ public class MainHR extends JFrame{
     private JPanel personalakteErstellen;
 
 
-
     public static void main(String[] args) {
         new MainHR();
     }
 
-    public MainHR(){
+    public MainHR() {
         JFrame frame = new JFrame();
         show(frame);
         disposeButton(frame);
@@ -76,72 +77,72 @@ public class MainHR extends JFrame{
         frame.add(main);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(1000,700);
+        frame.setSize(1000, 700);
         frame.setLocationRelativeTo(null);
     }
 
     public void filter() {
         MainHR_Table mHRt = new MainHR_Table();
         //alles leer
-        if(geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() && geburstagField.getText().isEmpty() && telefonField.getText().isEmpty() && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+        if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() && geburstagField.getText().isEmpty() && telefonField.getText().isEmpty() && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
             mHRt.defaultTablePersonalakte(personalaktenTable);
             //anrede
-        }else if (geschlecht.getSelectedItem().toString().isEmpty() == false && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() && geburstagField.getText().isEmpty() && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
-            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"anrede",geschlecht.getSelectedItem().toString());
+        } else if (geschlecht.getSelectedItem().toString().isEmpty() == false && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() && geburstagField.getText().isEmpty() && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable, "anrede", geschlecht.getSelectedItem().toString());
             //vorname
-        }else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() == false && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() && geburstagField.getText().isEmpty() && telefonField.getText().isEmpty() && emailField.getText().isEmpty() && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
-            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"vorname",vornameField.getText());
+        } else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() == false && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() && geburstagField.getText().isEmpty() && telefonField.getText().isEmpty() && emailField.getText().isEmpty() && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable, "vorname", vornameField.getText());
             //zweitname
-        }else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() == false && nameField.getText().isEmpty() && geburstagField.getText().isEmpty() && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
-            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"zweitname",zweitNameField.getText());
+        } else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() == false && nameField.getText().isEmpty() && geburstagField.getText().isEmpty() && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable, "zweitname", zweitNameField.getText());
             //nachname
-        }else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == false && geburstagField.getText().isEmpty() && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+        } else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == false && geburstagField.getText().isEmpty() && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
             mHRt.simpleFilteredTablePersonalakte(personalaktenTable, "nachname", nameField.getText());
             //geburtstag
-        }else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() && geburstagField.getText().isEmpty() == false && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
-            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"geburtstag",geburstagField.getText());
+        } else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() && geburstagField.getText().isEmpty() == false && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable, "geburtstag", geburstagField.getText());
             //telefon
-        }else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == false && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() && landField.getText().isEmpty() && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
-            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"telefon",telefonField.getText());
+        } else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == false && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() && landField.getText().isEmpty() && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable, "telefon", telefonField.getText());
             //email
-        }else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == false && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
-            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"email",emailField.getText());
+        } else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == false && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable, "email", emailField.getText());
             //strasse
-        }else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == false && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
-            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"strasse",strasseField.getText());
+        } else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == false && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable, "strasse", strasseField.getText());
             //strassennr
-        }else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == false && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
-            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"strassennr",hausnummerField.getText());
+        } else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == false && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable, "strassennr", hausnummerField.getText());
             //str buchstabe
-        }else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == false && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
-            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"strassenbuchstabe",hausnummerZusatzField.getText());
+        } else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == false && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable, "strassenbuchstabe", hausnummerZusatzField.getText());
             //land
-        }else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == false && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
-            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"land",landField.getText());
+        } else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == false && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable, "land", landField.getText());
             //bundesland
-        }else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == false && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
-            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"bundesland",bundeslandField.getText());
+        } else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == false && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable, "bundesland", bundeslandField.getText());
             //plz
-        }else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == false && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
-            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"plz",plzField.getText());
+        } else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == false && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable, "plz", plzField.getText());
             //jobname
-        }else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == false && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
-            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"jobname",jobnameField.getText());
+        } else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == false && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable, "jobname", jobnameField.getText());
             //besgrad
-        }else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == false && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
-            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"beschäftigungsgrad",beschaeftigungField.getText());
+        } else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == false && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable, "beschäftigungsgrad", beschaeftigungField.getText());
             //abteilung
-        }else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == false && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
-            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"abteilung",abteilungField.getText());
+        } else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == false && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable, "abteilung", abteilungField.getText());
             //leitung
-        }else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == false && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
-            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"abteilungsleiter",abteilungsLeiterField.getText());
+        } else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == false && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable, "abteilungsleiter", abteilungsLeiterField.getText());
             //raum
-        }else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == false && standortField.getText().isEmpty() == true) {
-            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"raum",raumField.getText());
+        } else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == false && standortField.getText().isEmpty() == true) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable, "raum", raumField.getText());
             //standort
-        }else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == false) {
-            mHRt.simpleFilteredTablePersonalakte(personalaktenTable,"standort",standortField.getText());
+        } else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() == true && geburstagField.getText().isEmpty() == true && telefonField.getText().isEmpty() == true && emailField.getText().isEmpty() == true && strasseField.getText().isEmpty() == true && hausnummerField.getText().isEmpty() == true && hausnummerZusatzField.getText().isEmpty() == true && landField.getText().isEmpty() == true && bundeslandField.getText().isEmpty() == true && plzField.getText().isEmpty() == true && jobnameField.getText().isEmpty() == true && beschaeftigungField.getText().isEmpty() == true && abteilungField.getText().isEmpty() == true && abteilungsLeiterField.getText().isEmpty() == true && raumField.getText().isEmpty() == true && standortField.getText().isEmpty() == false) {
+            mHRt.simpleFilteredTablePersonalakte(personalaktenTable, "standort", standortField.getText());
         }
 
         /*
@@ -353,7 +354,7 @@ public class MainHR extends JFrame{
         //nachname+standort
         else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty()== false && geburstagField.getText().isEmpty() && telefonField.getText().isEmpty() && emailField.getText().isEmpty() && strasseField.getText().isEmpty() && hausnummerField.getText().isEmpty() && hausnummerZusatzField.getText().isEmpty() && landField.getText().isEmpty() && bundeslandField.getText().isEmpty() && plzField.getText().isEmpty() && jobnameField.getText().isEmpty() && beschaeftigungField.getText().isEmpty() && abteilungField.getText().isEmpty() && abteilungsLeiterField.getText().isEmpty() && raumField.getText().isEmpty() && standortField.getText().isEmpty()== false) {
             mHRt.doubleFilteredTablePersonalakte(personalaktenTable,"nachname",nameField.getText(),"standort",standortField.getText());}
-        
+
         //geburtstag+*
         //geburtstag+telefon
         else if (geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty() && geburstagField.getText().isEmpty()==false && telefonField.getText().isEmpty()==false && emailField.getText().isEmpty() && strasseField.getText().isEmpty() && hausnummerField.getText().isEmpty() && hausnummerZusatzField.getText().isEmpty() && landField.getText().isEmpty() && bundeslandField.getText().isEmpty() && plzField.getText().isEmpty() && jobnameField.getText().isEmpty() && beschaeftigungField.getText().isEmpty() && abteilungField.getText().isEmpty() && abteilungsLeiterField.getText().isEmpty() && raumField.getText().isEmpty() && standortField.getText().isEmpty()) {
@@ -701,19 +702,209 @@ public class MainHR extends JFrame{
     }
 
 
-            private void disposeButton(JFrame frame) {
+    private void disposeButton(JFrame frame) {
         abmeldenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
 
-                try{
+                try {
                     new Login();
-                }catch (IOException exception){
+                } catch (IOException exception) {
                     exception.printStackTrace();
                 }
             }
         });
+    }
+
+    {
+// GUI initializer generated by IntelliJ IDEA GUI Designer
+// >>> IMPORTANT!! <<<
+// DO NOT EDIT OR ADD ANY CODE HERE!
+        $$$setupUI$$$();
+    }
+
+    /**
+     * Method generated by IntelliJ IDEA GUI Designer
+     * >>> IMPORTANT!! <<<
+     * DO NOT edit this method OR call it in your code!
+     *
+     * @noinspection ALL
+     */
+    private void $$$setupUI$$$() {
+        main = new JPanel();
+        main.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(5, 1, new Insets(0, 0, 0, 0), -1, -1));
+        main.setMaximumSize(new Dimension(600, 600));
+        final JPanel panel1 = new JPanel();
+        panel1.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(6, 1, new Insets(0, 0, 0, 0), -1, -1));
+        main.add(panel1, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        personalInfoPanel = new JPanel();
+        personalInfoPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(3, 1, new Insets(0, 0, 0, 0), -1, -1));
+        personalInfoPanel.setToolTipText("");
+        panel1.add(personalInfoPanel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        personalInfoPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(), "", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        final JPanel panel2 = new JPanel();
+        panel2.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
+        personalInfoPanel.add(panel2, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        anredeField = new JLabel();
+        anredeField.setText("Anrede*:");
+        panel2.add(anredeField, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        geschlecht = new JComboBox();
+        final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
+        defaultComboBoxModel1.addElement("");
+        defaultComboBoxModel1.addElement("Herr");
+        defaultComboBoxModel1.addElement("Frau");
+        defaultComboBoxModel1.addElement("Divers");
+        geschlecht.setModel(defaultComboBoxModel1);
+        panel2.add(geschlecht, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final com.intellij.uiDesigner.core.Spacer spacer1 = new com.intellij.uiDesigner.core.Spacer();
+        panel2.add(spacer1, new com.intellij.uiDesigner.core.GridConstraints(0, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final JPanel panel3 = new JPanel();
+        panel3.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(3, 2, new Insets(0, 0, 0, 0), -1, -1));
+        personalInfoPanel.add(panel3, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 7, false));
+        final JLabel label1 = new JLabel();
+        label1.setText("Name*:");
+        panel3.add(label1, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        nameField = new JTextField();
+        nameField.setToolTipText("");
+        panel3.add(nameField, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 1, false));
+        final JLabel label2 = new JLabel();
+        label2.setText("Zweitname:");
+        panel3.add(label2, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        zweitNameField = new JTextField();
+        zweitNameField.setText("");
+        panel3.add(zweitNameField, new com.intellij.uiDesigner.core.GridConstraints(2, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 1, false));
+        vornameField = new JTextField();
+        panel3.add(vornameField, new com.intellij.uiDesigner.core.GridConstraints(1, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 1, false));
+        final JLabel label3 = new JLabel();
+        label3.setText("Vorname*: ");
+        panel3.add(label3, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JPanel panel4 = new JPanel();
+        panel4.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(3, 2, new Insets(0, 0, 0, 0), -1, -1));
+        personalInfoPanel.add(panel4, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 7, false));
+        final JLabel label4 = new JLabel();
+        label4.setText("E-Mail*:");
+        panel4.add(label4, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        emailField = new JTextField();
+        panel4.add(emailField, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 1, false));
+        final JLabel label5 = new JLabel();
+        label5.setText("Geburstag*:");
+        panel4.add(label5, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        geburstagField = new JTextField();
+        panel4.add(geburstagField, new com.intellij.uiDesigner.core.GridConstraints(1, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 1, false));
+        final JLabel label6 = new JLabel();
+        label6.setText("Telefon*:");
+        panel4.add(label6, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        telefonField = new JTextField();
+        panel4.add(telefonField, new com.intellij.uiDesigner.core.GridConstraints(2, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 1, false));
+        jobInfoPanel = new JPanel();
+        jobInfoPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(4, 6, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.add(jobInfoPanel, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        jobInfoPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(), "", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        final JLabel label7 = new JLabel();
+        label7.setText("Jobname*: ");
+        jobInfoPanel.add(label7, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        jobnameField = new JTextField();
+        jobInfoPanel.add(jobnameField, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 3, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JLabel label8 = new JLabel();
+        label8.setText("Position*:");
+        jobInfoPanel.add(label8, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        positionField = new JTextField();
+        jobInfoPanel.add(positionField, new com.intellij.uiDesigner.core.GridConstraints(1, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        abteilungField = new JTextField();
+        abteilungField.setText("");
+        jobInfoPanel.add(abteilungField, new com.intellij.uiDesigner.core.GridConstraints(1, 3, 1, 3, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        abteilungsLeiterField = new JTextField();
+        jobInfoPanel.add(abteilungsLeiterField, new com.intellij.uiDesigner.core.GridConstraints(2, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        raumField = new JTextField();
+        jobInfoPanel.add(raumField, new com.intellij.uiDesigner.core.GridConstraints(2, 3, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        standortField = new JTextField();
+        jobInfoPanel.add(standortField, new com.intellij.uiDesigner.core.GridConstraints(2, 5, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        beschaeftigungField = new JTextField();
+        beschaeftigungField.setText("");
+        jobInfoPanel.add(beschaeftigungField, new com.intellij.uiDesigner.core.GridConstraints(0, 5, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JLabel label9 = new JLabel();
+        label9.setText("Beschäftigungsgrad in %*:");
+        jobInfoPanel.add(label9, new com.intellij.uiDesigner.core.GridConstraints(0, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label10 = new JLabel();
+        label10.setText("Abteilungsleiter:");
+        jobInfoPanel.add(label10, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label11 = new JLabel();
+        label11.setText("Abteilung*:");
+        jobInfoPanel.add(label11, new com.intellij.uiDesigner.core.GridConstraints(1, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label12 = new JLabel();
+        label12.setText("Raum:");
+        jobInfoPanel.add(label12, new com.intellij.uiDesigner.core.GridConstraints(2, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label13 = new JLabel();
+        label13.setText("Standort*: ");
+        jobInfoPanel.add(label13, new com.intellij.uiDesigner.core.GridConstraints(2, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        adressPanel = new JPanel();
+        adressPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(4, 6, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.add(adressPanel, new com.intellij.uiDesigner.core.GridConstraints(4, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        adressPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(), "", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        final JLabel label14 = new JLabel();
+        label14.setText("Straße*:");
+        adressPanel.add(label14, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 2, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        strasseField = new JTextField();
+        adressPanel.add(strasseField, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 2, 5, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JLabel label15 = new JLabel();
+        label15.setText("Land*:");
+        adressPanel.add(label15, new com.intellij.uiDesigner.core.GridConstraints(3, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        landField = new JTextField();
+        adressPanel.add(landField, new com.intellij.uiDesigner.core.GridConstraints(3, 1, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JLabel label16 = new JLabel();
+        label16.setText("Hausnummer*: ");
+        adressPanel.add(label16, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(112, 16), null, 0, false));
+        hausnummerField = new JTextField();
+        hausnummerField.setText("");
+        adressPanel.add(hausnummerField, new com.intellij.uiDesigner.core.GridConstraints(2, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JLabel label17 = new JLabel();
+        label17.setText("Hausnummerbuchstabe:");
+        adressPanel.add(label17, new com.intellij.uiDesigner.core.GridConstraints(2, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        hausnummerZusatzField = new JTextField();
+        adressPanel.add(hausnummerZusatzField, new com.intellij.uiDesigner.core.GridConstraints(2, 3, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JLabel label18 = new JLabel();
+        label18.setText("PLZ*:");
+        adressPanel.add(label18, new com.intellij.uiDesigner.core.GridConstraints(2, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(112, 16), null, 0, false));
+        plzField = new JTextField();
+        adressPanel.add(plzField, new com.intellij.uiDesigner.core.GridConstraints(2, 5, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        bundeslandField = new JTextField();
+        adressPanel.add(bundeslandField, new com.intellij.uiDesigner.core.GridConstraints(3, 4, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JLabel label19 = new JLabel();
+        label19.setText("Bundesland*:");
+        adressPanel.add(label19, new com.intellij.uiDesigner.core.GridConstraints(3, 3, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JPanel panel5 = new JPanel();
+        panel5.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.add(panel5, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        final com.intellij.uiDesigner.core.Spacer spacer2 = new com.intellij.uiDesigner.core.Spacer();
+        panel5.add(spacer2, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        final JPanel panel6 = new JPanel();
+        panel6.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.add(panel6, new com.intellij.uiDesigner.core.GridConstraints(3, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        final com.intellij.uiDesigner.core.Spacer spacer3 = new com.intellij.uiDesigner.core.Spacer();
+        panel6.add(spacer3, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        sucheStartenButton = new JButton();
+        sucheStartenButton.setText("Suche starten");
+        panel1.add(sucheStartenButton, new com.intellij.uiDesigner.core.GridConstraints(5, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        abmeldenButton = new JButton();
+        abmeldenButton.setText("Abmelden");
+        main.add(abmeldenButton, new com.intellij.uiDesigner.core.GridConstraints(3, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(198, 30), null, 0, false));
+        neuePersonalakteErstellenButton = new JButton();
+        neuePersonalakteErstellenButton.setText("neue Personalakte erstellen");
+        main.add(neuePersonalakteErstellenButton, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        JScrollPane = new JScrollPane();
+        JScrollPane.setEnabled(true);
+        main.add(JScrollPane, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        personalaktenTable = new JTable();
+        personalaktenTable.setName("personalaktenTable");
+        JScrollPane.setViewportView(personalaktenTable);
+    }
+
+    /**
+     * @noinspection ALL
+     */
+    public JComponent $$$getRootComponent$$$() {
+        return main;
     }
 }
 
