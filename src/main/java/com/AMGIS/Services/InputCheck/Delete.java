@@ -1,4 +1,4 @@
-package GUI.Ueberpruefung.Loeschern;
+package com.AMGIS.Services.InputCheck;
 
 import javax.swing.*;
 import java.util.ArrayList;

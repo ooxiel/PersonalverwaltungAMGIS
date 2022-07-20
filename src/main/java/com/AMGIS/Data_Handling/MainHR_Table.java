@@ -1,14 +1,11 @@
 package com.AMGIS.Data_Handling;
 
-import GUI.LogindatenTableModel;
-import GUI.PersonalaktenTableModel;
+import com.AMGIS.TableModels.LogindatenTableModel;
+import com.AMGIS.TableModels.PersonalaktenTableModel;
 import com.AMGIS.Akteure.Logindaten;
 import com.AMGIS.Akteure.Personalakten;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

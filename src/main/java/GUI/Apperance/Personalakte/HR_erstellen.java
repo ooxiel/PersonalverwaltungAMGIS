@@ -1,4 +1,4 @@
-package GUI.Funktionaliteat.Zusaetze;
+package GUI.Apperance.Personalakte;
 
 import com.AMGIS.Akteure.HR_Mitarbeiter;
 

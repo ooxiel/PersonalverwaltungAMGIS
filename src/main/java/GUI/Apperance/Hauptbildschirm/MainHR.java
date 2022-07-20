@@ -1,7 +1,7 @@
-package GUI.Funktionaliteat.Hauptbildschirm;
+package GUI.Apperance.Hauptbildschirm;
 
-import GUI.Funktionaliteat.Zusaetze.Login;
-import GUI.Funktionaliteat.Personalakte.Personalakte_erstellen;
+import GUI.Apperance.Login.Login;
+import GUI.Apperance.Personalakte.Personalakte_erstellen;
 import com.AMGIS.Data_Handling.MainHR_Table;
 
 import javax.swing.*;

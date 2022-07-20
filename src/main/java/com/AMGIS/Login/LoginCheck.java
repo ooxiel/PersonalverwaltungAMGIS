@@ -17,8 +17,6 @@ public class LoginCheck {
         }
         try {
             c = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis"); //url,user,pw
-
-            //c = DriverManager.getConnection("jdbc:hsqldb:file:C:\\Users\\Public\\Documents\\Datenbank\\AMGISDatenbank; shutdown=true", "amgis", "amgis"); //url,user,pw
         }catch(SQLException e){
             e.printStackTrace();
         }

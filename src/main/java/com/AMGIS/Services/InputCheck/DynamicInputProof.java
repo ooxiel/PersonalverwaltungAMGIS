@@ -1,4 +1,4 @@
-package GUI.Ueberpruefung.Eingaben;
+package com.AMGIS.Services.InputCheck;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

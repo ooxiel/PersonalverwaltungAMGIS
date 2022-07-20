@@ -1,11 +1,9 @@
 package GUI.Apperance.Hauptbildschirm;
 
-import GUI.LogindatenTableModel;
+import com.AMGIS.TableModels.LogindatenTableModel;
 import com.AMGIS.Akteure.Logindaten;
 
 import javax.swing.*;
-import javax.swing.table.JTableHeader;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 

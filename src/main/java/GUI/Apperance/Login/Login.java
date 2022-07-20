@@ -1,15 +1,14 @@
-package GUI.Funktionaliteat.Zusaetze;
+package GUI.Apperance.Login;
 
 
-import GUI.Funktionaliteat.Hauptbildschirm.MainHR;
-import GUI.Funktionaliteat.Hauptbildschirm.MainMitarbeiter;
+import GUI.Apperance.Hauptbildschirm.MainHR;
+import GUI.Apperance.Hauptbildschirm.MainMitarbeiter;
 import com.AMGIS.Login.LoginCheck;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

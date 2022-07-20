@@ -1,4 +1,4 @@
-package GUI;
+package com.AMGIS.TableModels;
 
 import com.AMGIS.Akteure.Logindaten;
 import com.AMGIS.Akteure.Mitarbeiter;

@@ -1,4 +1,4 @@
-package GUI.Funktionaliteat.Hauptbildschirm;
+package GUI.Apperance.Hauptbildschirm;
 
 import javax.swing.*;
 
