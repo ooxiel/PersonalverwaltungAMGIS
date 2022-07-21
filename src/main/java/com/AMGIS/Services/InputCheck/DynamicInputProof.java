@@ -86,7 +86,7 @@ public class DynamicInputProof {
     public void onlyLetterField(ArrayList<JTextField> list){
 
         for (JTextField k : list) {
-            k.addKeyListener(new KeyAdapter() {
+             k.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyTyped(KeyEvent e) {
                     super.keyTyped(e);
