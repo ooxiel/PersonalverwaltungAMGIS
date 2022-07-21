@@ -15,12 +15,11 @@ public class MainHR_Table {
     public Connection con=null;
 
     public MainHR_Table(){
-        try {Class.forName("org.hsqldb.jdbcDriver");}catch(ClassNotFoundException e) {return;}
-        try {con = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis");}catch(SQLException e){e.printStackTrace();}
-    }
+        }
 
     private AbstractTableModel resultSQL_PA(String sql){
         try{
+            con=getCon();
             Statement stmt = con.createStatement();
             ResultSet rs=stmt.executeQuery(sql);
 
@@ -55,6 +54,7 @@ public class MainHR_Table {
             PersonalaktenTableModel patm = new PersonalaktenTableModel(personalakten);
             rs.close();
             stmt.close();
+            try{con.close();}catch(SQLException ex) {ex.printStackTrace();}
             return patm;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -62,12 +62,12 @@ public class MainHR_Table {
     }
 
     public JTable simpleFilteredTablePersonalakte(JTable table,String w1, String w2){//ganzen Inhalt der Accounts auslesen und in einer Table darstellen
-        String sql= "SELECT  * FROM Personalakte WHERE "+w1+" LIKE '%"+w2+"%'";
+        String sql= "SELECT  * FROM Personalakte WHERE "+w1+" ='"+w2+"'";//euqals
         table.setModel(resultSQL_PA(sql));
         return table;
     }
     public JTable simpleFilteredTablePersonalakteContains(JTable table,String w1, String w2){//ganzen Inhalt der Accounts auslesen und in einer Table darstellen
-        String sql= "SELECT  * FROM Personalakte WHERE "+w1+" LIKE '%"+w2+"%'";
+        String sql= "SELECT  * FROM Personalakte WHERE "+w1+" LIKE '%"+w2+"%'";//contains
         table.setModel(resultSQL_PA(sql));
         return table;
     }
@@ -77,23 +77,14 @@ public class MainHR_Table {
         table.setModel(resultSQL_PA(sql));
         return table;
     }
-
-
     public JTable doubleFilteredTablePersonalakteContains(JTable table,String w1, String w2,String v1,String v2 ){//ganzen Inhalt der Accounts auslesen und in einer Table darstellen
         String sql= "SELECT  * FROM Personalakte WHERE "+w1+" LIKE'%"+w2+"%' AND "+v1+" LIKE '%"+v2+"%'";
         table.setModel(resultSQL_PA(sql));
         return table;
     }
-
-
-
-
-
-
-
-
     public JTable defaultTableAccounts(JTable table){//ganzen Inhalt der Accounts auslesen und in einer Table darstellen
         try{
+            con=getCon();
             String sql= "SELECT  ID, Kontoname, Passwort, HRMitarbeiter FROM Accounts";
             Statement stmt = con.createStatement();
             ResultSet rs=stmt.executeQuery(sql);
@@ -123,5 +114,29 @@ public class MainHR_Table {
         table.setModel(resultSQL_PA(sql));
         return table;
     }
+    public JTable threeFilteredTablePersonalakte(JTable table, String one, String oneV, String two, String twoV, String three, String threeV) {
+        String sql= "SELECT  * FROM Personalakte WHERE "+one+"='"+oneV+"' AND "+two+"='"+twoV+"' AND "+three+"='"+threeV+"'";
+        table.setModel(resultSQL_PA(sql));
+        return table;
+    }
+    public JTable fourFilteredTablePersonalakte(JTable table, String one, String oneV, String two, String twoV, String three, String threeV, String four, String fourV) {
+        String sql= "SELECT  * FROM Personalakte WHERE "+one+"='"+oneV+"' AND "+two+"='"+twoV+"' AND "+three+"='"+threeV+"' AND "+four+"='"+fourV+"'";
+        table.setModel(resultSQL_PA(sql));
+        return table;
+    }
+    public JTable allFilteredTablePersonalakte(JTable table, String id, String idV, String anrede, String anredeV, String vorname, String vornameV, String zweitname, String zweitnameV, String nachname, String nachnameV) {
+        String sql= "SELECT  * FROM Personalakte WHERE "+id+"='"+idV+"' AND "+anrede+"='"+anredeV+"' AND "+vorname+"='"+vornameV+"' AND "+zweitname+"='"+zweitnameV+"' AND "+nachname+"='"+nachnameV+"'";
+        table.setModel(resultSQL_PA(sql));
+        return table;
+    }
 
+    public Connection getCon(){
+        try {Class.forName("org.hsqldb.jdbcDriver");}catch(ClassNotFoundException e) {return null;}
+        try {Connection con = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis");return con;}catch(SQLException e){e.printStackTrace();}
+        return null;
+    }
+    public void closeCon(Connection con){
+        try {con.close();}
+        catch (SQLException ex) {ex.printStackTrace();}
+    }
 }
