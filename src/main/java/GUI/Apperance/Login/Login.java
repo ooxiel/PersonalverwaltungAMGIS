@@ -3,6 +3,8 @@ package GUI.Apperance.Login;
 
 import GUI.Apperance.Hauptbildschirm.MainHR;
 import GUI.Apperance.Hauptbildschirm.MainMitarbeiter;
+import com.AMGIS.Akteure.HR_Mitarbeiter;
+import com.AMGIS.Akteure.Mitarbeiter;
 import com.AMGIS.Login.LoginCheck;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
@@ -174,11 +176,17 @@ public class Login {
             //System.out.println("amgis: "+lc.isHR_User("amgis"));
             //System.out.println("admin: "+lc.isHR_User("admin"));
             if (lc.validateKontoname(usernameField.getText()) && lc.validatePasswort(usernameField.getText(), String.valueOf(passwordField.getPassword())) && lc.isHR_User(usernameField.getText())) {
+                //Mitarbeiter Objekt erzeugen
+                HR_Mitarbeiter hrMitarbeiter = new HR_Mitarbeiter(Integer.parseInt(lc.searchIDwithKN(usernameField.getText())), usernameField.getText(), String.valueOf(passwordField.getPassword()), true);
+
                 frame.dispose();
-                new MainHR();
+                new MainHR(hrMitarbeiter);
             } else if (lc.validateKontoname(usernameField.getText()) && lc.validatePasswort(usernameField.getText(), String.valueOf(passwordField.getPassword())) && !(lc.isHR_User(usernameField.getText()))) {
+                //Mitarbeiter Objekt erzeugen
+                Mitarbeiter mitarbeiter = new Mitarbeiter(Integer.parseInt(lc.searchIDwithKN(usernameField.getText())), usernameField.getText(), String.valueOf(passwordField.getPassword()), false);
+
                 frame.dispose();
-                new MainMitarbeiter();
+                new MainMitarbeiter(mitarbeiter);
             } else {
                 JOptionPane.showMessageDialog(main, "Username oder Passwort ist falsch!");
                 passwordField.setText("");

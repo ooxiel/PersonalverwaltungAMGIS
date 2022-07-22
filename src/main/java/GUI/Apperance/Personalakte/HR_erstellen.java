@@ -85,13 +85,6 @@ public class HR_erstellen extends JFrame {
                     txtZweitname.setText(null);
                 }
 
-                HR_Mitarbeiter hrMitarbeiter = new HR_Mitarbeiter("Admin", txtName.getText(), txtZweitname.getText(), txtVorname.getText());
-
-                System.out.println(hrMitarbeiter.getNachName());
-                System.out.println(hrMitarbeiter.getVorName());
-                System.out.println(hrMitarbeiter.getZweitName());
-
-
             }
         });
     }

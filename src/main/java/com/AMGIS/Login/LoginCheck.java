@@ -71,7 +71,7 @@ public class LoginCheck {
         return "Kontoname nicht vorhanden";
     }
     //working  | ID des Kontonamen mit dem Kontonamen suchen
-    private String searchIDwithKN(String kontoname){
+    public String searchIDwithKN(String kontoname){
         try {
             Statement stmt=c.createStatement();
             String sqlID= "SELECT id FROM Accounts WHERE kontoname='"+kontoname+"'";

@@ -60,28 +60,12 @@ public class MainHR_Table {
             throw new RuntimeException(e);
         }
     }
-
-    public JTable simpleFilteredTablePersonalakte(JTable table,String w1, String w2){//ganzen Inhalt der Accounts auslesen und in einer Table darstellen
-        String sql= "SELECT  * FROM Personalakte WHERE "+w1+" ='"+w2+"'";//euqals
+    public JTable filterTable(JTable table,String id,String anrede, String vorname,String zweitname, String nachname){
+        String sql= "SELECT  * FROM Personalakte WHERE id LIKE '%"+id+"%' AND anrede LIKE '%"+anrede+"%' AND vorname LIKE '%"+vorname+"%' AND zweitname LIKE '%"+zweitname+"%' AND nachname LIKE '%"+nachname+"%'";
         table.setModel(resultSQL_PA(sql));
         return table;
     }
-    public JTable simpleFilteredTablePersonalakteContains(JTable table,String w1, String w2){//ganzen Inhalt der Accounts auslesen und in einer Table darstellen
-        String sql= "SELECT  * FROM Personalakte WHERE "+w1+" LIKE '%"+w2+"%'";//contains
-        table.setModel(resultSQL_PA(sql));
-        return table;
-    }
-
-    public JTable doubleFilteredTablePersonalakte(JTable table,String w1, String w2,String v1,String v2 ){//ganzen Inhalt der Accounts auslesen und in einer Table darstellen
-        String sql= "SELECT  * FROM Personalakte WHERE "+w1+"='"+w2+"' AND "+v1+"='"+v2+"'";
-        table.setModel(resultSQL_PA(sql));
-        return table;
-    }
-    public JTable doubleFilteredTablePersonalakteContains(JTable table,String w1, String w2,String v1,String v2 ){//ganzen Inhalt der Accounts auslesen und in einer Table darstellen
-        String sql= "SELECT  * FROM Personalakte WHERE "+w1+" LIKE'%"+w2+"%' AND "+v1+" LIKE '%"+v2+"%'";
-        table.setModel(resultSQL_PA(sql));
-        return table;
-    }
+    //search fuer daten in der Accounts Table
     public JTable defaultTableAccounts(JTable table){//ganzen Inhalt der Accounts auslesen und in einer Table darstellen
         try{
             con=getCon();
@@ -109,34 +93,17 @@ public class MainHR_Table {
     return table;
     }
 
-    public JTable defaultTablePersonalakte(JTable table){//ganzen Inhalt der Accounts auslesen und in einer Table darstellen
-        String sql= "SELECT  * FROM Personalakte";
-        table.setModel(resultSQL_PA(sql));
-        return table;
-    }
-    public JTable threeFilteredTablePersonalakte(JTable table, String one, String oneV, String two, String twoV, String three, String threeV) {
-        String sql= "SELECT  * FROM Personalakte WHERE "+one+"='"+oneV+"' AND "+two+"='"+twoV+"' AND "+three+"='"+threeV+"'";
-        table.setModel(resultSQL_PA(sql));
-        return table;
-    }
-    public JTable fourFilteredTablePersonalakte(JTable table, String one, String oneV, String two, String twoV, String three, String threeV, String four, String fourV) {
-        String sql= "SELECT  * FROM Personalakte WHERE "+one+"='"+oneV+"' AND "+two+"='"+twoV+"' AND "+three+"='"+threeV+"' AND "+four+"='"+fourV+"'";
-        table.setModel(resultSQL_PA(sql));
-        return table;
-    }
-    public JTable allFilteredTablePersonalakte(JTable table, String id, String idV, String anrede, String anredeV, String vorname, String vornameV, String zweitname, String zweitnameV, String nachname, String nachnameV) {
-        String sql= "SELECT  * FROM Personalakte WHERE "+id+"='"+idV+"' AND "+anrede+"='"+anredeV+"' AND "+vorname+"='"+vornameV+"' AND "+zweitname+"='"+zweitnameV+"' AND "+nachname+"='"+nachnameV+"'";
-        table.setModel(resultSQL_PA(sql));
-        return table;
-    }
 
+    // wenn wir alle Felder beruecksichtigen wuerden
+    public JTable filteredTable(JTable table, String anrede, String vorname,String zweitname, String nachname,String geburtsdatum, String telefon, String email,String strasse,String hausNR,
+                                String hausB,String land,String bundesland,String plz,String jobname,String besGrad,String abteilung,String abtLeiter,String raum,String standort){
+        String sql= "SELECT  * FROM Personalakte WHERE anrede LIKE '%"+anrede+"%' AND vorname LIKE '%"+vorname+"%' AND zweitname LIKE '%"+zweitname+"%' AND nachname LIKE '%"+nachname+"%' AND geburtstag LIKE '%"+geburtsdatum+"%' AND telefon LIKE '%"+telefon+"%' AND email LIKE '%"+email+"%' AND strasse LIKE '%"+strasse+"%' AND strassennr LIKE '%"+hausNR+"%' AND Straßenbuchstabe LIKE '%"+hausB +"%' AND land LIKE '%"+land+"%' AND bundesland LIKE '%"+bundesland+"%' AND plz LIKE '%"+plz+"%' AND jobname LIKE '%"+jobname+"%' AND Beschäftigungsgrad  LIKE '%"+besGrad +"%' AND Abteilung LIKE '%"+abteilung +"%' AND Abteilungsleiter  LIKE '%"+abtLeiter +"%' AND Raum  LIKE '%"+raum +"%' AND Standort  LIKE '%"+standort +"%'";//euqals
+        table.setModel(resultSQL_PA(sql));
+        return table;
+    }
     public Connection getCon(){
         try {Class.forName("org.hsqldb.jdbcDriver");}catch(ClassNotFoundException e) {return null;}
         try {Connection con = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis");return con;}catch(SQLException e){e.printStackTrace();}
         return null;
-    }
-    public void closeCon(Connection con){
-        try {con.close();}
-        catch (SQLException ex) {ex.printStackTrace();}
     }
 }

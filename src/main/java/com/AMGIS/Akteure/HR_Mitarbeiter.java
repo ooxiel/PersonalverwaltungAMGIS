@@ -1,50 +1,45 @@
 package com.AMGIS.Akteure;
 
 public class HR_Mitarbeiter {
+    public final int id;
+    public String kontoname;
+    private String passwort;
+    public boolean isHRmitarbeiter;
 
-    // Loginspezifische Angaben
 
-    public String userType;
-    public String vorName;
-    public String zweitName;
-    public String nachName;
-
-    public HR_Mitarbeiter(String userType, String vorName, String zweitName, String nachName) {
-        this.userType = userType;
-        this.vorName = vorName;
-        this.zweitName = zweitName;
-        this.nachName = nachName;
+    public HR_Mitarbeiter(int id, String kontoname, String passwort, boolean isHRmitarbeiter) {
+        this.id = id;
+        this.kontoname = kontoname;
+        this.passwort = passwort;
+        this.isHRmitarbeiter = isHRmitarbeiter;
     }
 
-    public String getUserType() {
-        return userType;
+    public int getId() {
+        return id;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType;
+    public String getKontoname() {
+        return kontoname;
     }
 
-    public String getVorName() {
-        return vorName;
+    public void setKontoname(String kontoname) {
+        this.kontoname = kontoname;
     }
 
-    public void setVorName(String vorName) {
-        this.vorName = vorName;
+    public String getPasswort() {
+        return passwort;
     }
 
-    public String getZweitName() {
-        return zweitName;
+    public void setPasswort(String passwort) {
+        this.passwort = passwort;
     }
 
-    public void setZweitName(String zweitName) {
-        this.zweitName = zweitName;
+    public boolean isHRmitarbeiter() {
+        return isHRmitarbeiter;
     }
 
-    public String getNachName() {
-        return nachName;
+    public void setHRmitarbeiter(boolean HRmitarbeiter) {
+        isHRmitarbeiter = HRmitarbeiter;
     }
 
-    public void setNachName(String nachName) {
-        this.nachName = nachName;
-    }
 }

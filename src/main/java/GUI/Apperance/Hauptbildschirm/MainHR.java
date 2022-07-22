@@ -3,6 +3,7 @@ package GUI.Apperance.Hauptbildschirm;
 import GUI.Apperance.Login.Login;
 import GUI.Apperance.Personalakte.Personalakte_bearbeiten;
 import GUI.Apperance.Personalakte.Personalakte_erstellen;
+import com.AMGIS.Akteure.HR_Mitarbeiter;
 import com.AMGIS.Akteure.Personalakten;
 import com.AMGIS.Data_Handling.MainHR_Table;
 import com.intellij.uiDesigner.core.GridConstraints;
@@ -62,10 +63,10 @@ public class MainHR extends JFrame {
 
 
     public static void main(String[] args) {
-        new MainHR();
+        //new MainHR();
     }
 
-    public MainHR() {
+    public MainHR(HR_Mitarbeiter hrMitarbeiter) {
         JFrame frame = new JFrame();
         show(frame);
         disposeButton(frame);
@@ -94,7 +95,7 @@ public class MainHR extends JFrame {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
 
-            frame.setSize(1000, 700);
+        frame.setSize(1000, 700);
 
 
         Border border = new BevelBorder(0, Color.white, Color.decode("#050a30"));
@@ -105,7 +106,6 @@ public class MainHR extends JFrame {
         zweitNameField.setBorder(border);
 
         editPersonalakte();
-
     }
 
     private void editPersonalakte() {
@@ -123,118 +123,21 @@ public class MainHR extends JFrame {
                     int row = selected.getSelectedRow();
 
 
-
-
                     Personalakte_bearbeiten test = new Personalakte_bearbeiten(Integer.parseInt(selected.getModel().getValueAt(row, 0).toString()), selected.getModel().getValueAt(row, 1).toString(), selected.getModel().getValueAt(row, 2).toString(), selected.getModel().getValueAt(row, 3).toString(), selected.getModel().getValueAt(row, 4).toString(), selected.getModel().getValueAt(row, 5).toString(), selected.getModel().getValueAt(row, 6).toString(), selected.getModel().getValueAt(row, 7).toString(), selected.getModel().getValueAt(row, 8).toString(), selected.getModel().getValueAt(row, 9).toString(), selected.getModel().getValueAt(row, 10).toString(), selected.getModel().getValueAt(row, 11).toString(), selected.getModel().getValueAt(row, 12).toString(), selected.getModel().getValueAt(row, 13).toString(), selected.getModel().getValueAt(row, 14).toString(), selected.getModel().getValueAt(row, 15).toString(), selected.getModel().getValueAt(row, 16).toString(), selected.getModel().getValueAt(row, 17).toString(), selected.getModel().getValueAt(row, 18).toString(), selected.getModel().getValueAt(row, 19).toString(), selected.getModel().getValueAt(row, 20).toString(), selected.getModel().getValueAt(row, 21).toString());
                 }
             }
         });
-
-
     }
 
     public void filter() {
         MainHR_Table mHRt = new MainHR_Table();
-        //alles leer
-        //angepasst auf neues Layout -> aber nur erste if
-        if (idField.getText().isEmpty() && geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty()) {
-            mHRt.defaultTablePersonalakte(personalaktenTable);
-        }
-        //FUENF
-        // id+anrede+vorname+zweitname+name
-        else if (!idField.getText().isEmpty() && !geschlecht.getSelectedItem().toString().isEmpty() && !vornameField.getText().isEmpty() && !zweitNameField.getText().isEmpty() && !nameField.getText().isEmpty()) {
-            mHRt.allFilteredTablePersonalakte(personalaktenTable, "id", idField.getText(), "anrede", geschlecht.getSelectedItem().toString(), "vorname", vornameField.getText(), "zweitname", zweitNameField.getText(), "nachname", nameField.getText());
-        }
-        // id
-        else if (!idField.getText().isEmpty() && geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty()) {
-            mHRt.simpleFilteredTablePersonalakte(personalaktenTable, "id", idField.getText());
-        }
-        // anrede
-        else if (idField.getText().isEmpty() && !geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty()) {
-            mHRt.simpleFilteredTablePersonalakte(personalaktenTable, "anrede", geschlecht.getSelectedItem().toString());
-        }
-        // vorname
-        else if (idField.getText().isEmpty() && geschlecht.getSelectedItem().toString().isEmpty() && !vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty()) {
-            mHRt.simpleFilteredTablePersonalakte(personalaktenTable, "vorname", vornameField.getText());
-        }
-        // zweitname
-        else if (idField.getText().isEmpty() && geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && !zweitNameField.getText().isEmpty() && nameField.getText().isEmpty()) {
-            mHRt.simpleFilteredTablePersonalakte(personalaktenTable, "zweitname", zweitNameField.getText());
-        }
-        // name
-        else if (idField.getText().isEmpty() && geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && !nameField.getText().isEmpty()) {
-            mHRt.simpleFilteredTablePersonalakte(personalaktenTable, "nachname", nameField.getText());
-        }
+        mHRt.filterTable(personalaktenTable, idField.getText(), geschlecht.getSelectedItem().toString(), vornameField.getText(), zweitNameField.getText(), nameField.getText());
+        /*
+        mHRt.filteredTable(personalaktenTable, geschlecht.getSelectedItem().toString(), vornameField.getText(), zweitNameField.getText(), nameField.getText(), geburstagField.getText(), telefonField.getText(), emailField.getText(), strasseField.getText(), hausnummerField.getText(),
+            hausnummerZusatzField.getText(), landField.getText(), bundeslandField.getText(), plzField.getText(), jobnameField.getText(),
+            beschaeftigungField.getText(), abteilungField.getText(), abteilungsLeiterField.getText(), raumField.getText(), standortField.getText());
 
-        // ZWEI
-        // id+anrede
-        else if (!idField.getText().isEmpty() && !geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty()) {
-            mHRt.doubleFilteredTablePersonalakte(personalaktenTable, "id", idField.getText(), "anrede", geschlecht.getSelectedItem().toString());
-        }
-        // id+vorname
-        else if (!idField.getText().isEmpty() && geschlecht.getSelectedItem().toString().isEmpty() && !vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty()) {
-            mHRt.doubleFilteredTablePersonalakte(personalaktenTable, "id", idField.getText(), "vorname", vornameField.getText());
-        }
-        // id+zweitname
-        else if (!idField.getText().isEmpty() && geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && !zweitNameField.getText().isEmpty() && nameField.getText().isEmpty()) {
-            mHRt.doubleFilteredTablePersonalakte(personalaktenTable, "id", idField.getText(), "zweitname", zweitNameField.getText());
-        }
-        // id+nachname
-        else if (!idField.getText().isEmpty() && geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && !nameField.getText().isEmpty()) {
-            mHRt.doubleFilteredTablePersonalakte(personalaktenTable, "id", idField.getText(), "nachname", nameField.getText());
-        }
-
-        // anrede+vorname
-        else if (idField.getText().isEmpty() && !geschlecht.getSelectedItem().toString().isEmpty() && !vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && nameField.getText().isEmpty()) {
-            mHRt.doubleFilteredTablePersonalakte(personalaktenTable, "anrede", geschlecht.getSelectedItem().toString(), "vorname", vornameField.getText());
-        }
-        // anrede+zweitname
-        else if (idField.getText().isEmpty() && !geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && !zweitNameField.getText().isEmpty() && nameField.getText().isEmpty()) {
-            mHRt.doubleFilteredTablePersonalakte(personalaktenTable, "anrede", geschlecht.getSelectedItem().toString(), "zweitname", zweitNameField.getText());
-        }
-        // anrede+nachname
-        else if (idField.getText().isEmpty() && !geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && !nameField.getText().isEmpty()) {
-            mHRt.doubleFilteredTablePersonalakte(personalaktenTable, "anrede", geschlecht.getSelectedItem().toString(), "nachname", nameField.getText());
-        }
-
-        // vorname+zweitname
-        else if (idField.getText().isEmpty() && geschlecht.getSelectedItem().toString().isEmpty() && !vornameField.getText().isEmpty() && !zweitNameField.getText().isEmpty() && nameField.getText().isEmpty()) {
-            mHRt.doubleFilteredTablePersonalakte(personalaktenTable, "vorname", vornameField.getText(), "zweitname", zweitNameField.getText());
-        }
-        // vorname+nachname
-        else if (idField.getText().isEmpty() && !geschlecht.getSelectedItem().toString().isEmpty() && !vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && !nameField.getText().isEmpty()) {
-            mHRt.doubleFilteredTablePersonalakte(personalaktenTable, "vorname", vornameField.getText(), "nachname", nameField.getText());
-        }
-        // zweitname+nachname
-        else if (idField.getText().isEmpty() && !geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && !zweitNameField.getText().isEmpty() && !nameField.getText().isEmpty()) {
-            mHRt.doubleFilteredTablePersonalakte(personalaktenTable, "zweitname", zweitNameField.getText(), "nachname", nameField.getText());
-        }
-
-        //DREI
-        //
-
-
-        //VIER
-        //id+anrede+vorname+zweitname
-        else if (!idField.getText().isEmpty() && !geschlecht.getSelectedItem().toString().isEmpty() && !vornameField.getText().isEmpty() && !zweitNameField.getText().isEmpty() && nameField.getText().isEmpty()) {
-            mHRt.fourFilteredTablePersonalakte(personalaktenTable, "id", idField.getText(), "anrede", geschlecht.getSelectedItem().toString(), "vorname", vornameField.getText(), "zweitname", zweitNameField.getText());
-        }
-        //id+anrede+vorname+nachname
-        else if (!idField.getText().isEmpty() && !geschlecht.getSelectedItem().toString().isEmpty() && !vornameField.getText().isEmpty() && zweitNameField.getText().isEmpty() && !nameField.getText().isEmpty()) {
-            mHRt.fourFilteredTablePersonalakte(personalaktenTable, "id", idField.getText(), "anrede", geschlecht.getSelectedItem().toString(), "vorname", vornameField.getText(), "nachname", nameField.getText());
-        }
-        //id+anrede+zweitname+nachname
-        else if (!idField.getText().isEmpty() && !geschlecht.getSelectedItem().toString().isEmpty() && vornameField.getText().isEmpty() && !zweitNameField.getText().isEmpty() && !nameField.getText().isEmpty()) {
-            mHRt.fourFilteredTablePersonalakte(personalaktenTable, "id", idField.getText(), "anrede", geschlecht.getSelectedItem().toString(), "zweitname", zweitNameField.getText(), "nachname", nameField.getText());
-        }
-        //id+vorname+zweitname+nachname
-        else if (!idField.getText().isEmpty() && geschlecht.getSelectedItem().toString().isEmpty() && !vornameField.getText().isEmpty() && !zweitNameField.getText().isEmpty() && !nameField.getText().isEmpty()) {
-            mHRt.fourFilteredTablePersonalakte(personalaktenTable, "id", idField.getText(), "vorname", vornameField.getText(), "zweitname", zweitNameField.getText(), "nachname", nameField.getText());
-        }
-        //anrede+vorname+zweitname+nachname
-        else if (idField.getText().isEmpty() && !geschlecht.getSelectedItem().toString().isEmpty() && !vornameField.getText().isEmpty() && !zweitNameField.getText().isEmpty() && !nameField.getText().isEmpty()) {
-            mHRt.fourFilteredTablePersonalakte(personalaktenTable, "anrede", geschlecht.getSelectedItem().toString(), "vorname", vornameField.getText(), "zweitname", zweitNameField.getText(), "nachname", nameField.getText());
-        }
+         */
     }
 
 
