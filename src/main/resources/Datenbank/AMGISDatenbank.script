@@ -28,7 +28,7 @@ SET FILES NIO TRUE
 SET FILES NIO SIZE 256
 SET FILES LOG TRUE
 SET FILES LOG SIZE 50
-SET FILES CHECK 2895
+SET FILES CHECK 4050
 SET DATABASE COLLATION "SQL_TEXT" PAD SPACE
 CREATE USER "amgis" PASSWORD DIGEST 'bb3a22cec7870af35d6cc6083439efa4'
 ALTER USER "amgis" SET LOCAL TRUE
@@ -47,7 +47,7 @@ SET SCHEMA SYSTEM_LOBS
 INSERT INTO BLOCKS VALUES(0,2147483647,0)
 SET SCHEMA PUBLIC
 INSERT INTO PERSONALAKTE VALUES(1,'Herr','Franz','Florian','Weyh','2002-04-06','1274545','franz.weyh@hotmail.com','grevesmstr','34',NULL,'Berlin','berlin','13059','wirtinfo','100','sigma1','Lennard','300','ber','18.07.2022','18.07.2022')
-INSERT INTO PERSONALAKTE VALUES(2,'Herr','lennard','maximus','becker','01.01.2002','012453535','lennard@hotmail.com','strassseeeee','4','b','ber','ber','23232','coo','69','GUI sklaven','franz','420','brandenburg','2022-07-19T17:29:57.679247800','2022-07-21T23:23:53.288909900')
+INSERT INTO PERSONALAKTE VALUES(2,'Herr','lennard','maximus','becker','12.12.1212','012453535','lennard@hotmail.com','strassseeeee','4','b','ber','teste','23232','coo','69','Gui','test','420','brandenburg','2022-07-19T17:29:57.679247800','2022-07-22T20:36:57.450150900')
 INSERT INTO ACCOUNTS VALUES(-1,'amgis','amgis',FALSE)
 INSERT INTO ACCOUNTS VALUES(0,'admin','admin',TRUE)
 INSERT INTO ACCOUNTS VALUES(2,'b_lennard20','hzjpox7',TRUE)

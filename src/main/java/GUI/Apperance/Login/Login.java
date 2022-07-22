@@ -180,7 +180,7 @@ public class Login {
                 HR_Mitarbeiter hrMitarbeiter = new HR_Mitarbeiter(Integer.parseInt(lc.searchIDwithKN(usernameField.getText())), usernameField.getText(), String.valueOf(passwordField.getPassword()), true);
 
                 frame.dispose();
-                new MainHR(hrMitarbeiter);
+                new MainHR(/*hrMitarbeiter*/);
             } else if (lc.validateKontoname(usernameField.getText()) && lc.validatePasswort(usernameField.getText(), String.valueOf(passwordField.getPassword())) && !(lc.isHR_User(usernameField.getText()))) {
                 //Mitarbeiter Objekt erzeugen
                 Mitarbeiter mitarbeiter = new Mitarbeiter(Integer.parseInt(lc.searchIDwithKN(usernameField.getText())), usernameField.getText(), String.valueOf(passwordField.getPassword()), false);

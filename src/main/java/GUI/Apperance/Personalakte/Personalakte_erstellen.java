@@ -51,7 +51,6 @@ public class Personalakte_erstellen extends JFrame {
     private JPanel jobInfoPanel;
     private JTextField jobnameField;
     private JTextField beschaeftigungField;
-    private JTextField positionField;
     private JTextField abteilungField;
     private JTextField abteilungsLeiterField;
     private JTextField raumField;
@@ -60,11 +59,6 @@ public class Personalakte_erstellen extends JFrame {
     private JButton button1;
     private JLabel logoIconLeft;
     private JLabel logoIconRight;
-
-
-    public static void main(String[] args) {
-        new Personalakte_erstellen();
-    }
 
     public Personalakte_erstellen() {
 
@@ -78,19 +72,19 @@ public class Personalakte_erstellen extends JFrame {
         ArrayList<JTextField> numbersOnly = new ArrayList<>();
         ArrayList<JTextField> specialChars = new ArrayList<>();
 
-        show(frame);
-        disposeButton(frame);
-        deleteAll(optionalInput, lettersOnly, numbersOnly, specialChars);
+        this.show(frame);
+        this.disposeButton(frame);
+        this.deleteAll(optionalInput, lettersOnly, numbersOnly, specialChars);
 
-        addOptionalInput(optionalInput);
-        addLettersOnly(lettersOnly);
-        addNumbersOnly(numbersOnly);
-        addSpecialChars(specialChars);
+        this.addOptionalInput(optionalInput);
+        this.addLettersOnly(lettersOnly);
+        this.addNumbersOnly(numbersOnly);
+        this.addSpecialChars(specialChars);
 
-        checkInputDynamicStandard(dynamicInput, optionalInput, lettersOnly, numbersOnly);
-        checkInputDynamicSpecial(dynamicInput, specialChars);
+        this.checkInputDynamicStandard(dynamicInput, optionalInput, lettersOnly, numbersOnly);
+        this.checkInputDynamicSpecial(dynamicInput);
 
-        userInputPruefungStatisch(frame, staticInput, lettersOnly, numbersOnly, specialChars);
+        this.userInputPruefungStatisch(frame, staticInput, lettersOnly, numbersOnly, specialChars);
     }
 
     /*
@@ -100,18 +94,11 @@ public class Personalakte_erstellen extends JFrame {
     private void show(JFrame frame) {
 
         frame.add(main);
+        frame.setTitle("Personalakte erstellen");
         frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
-
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-
-        if (gd.isFullScreenSupported()) {
-            gd.setFullScreenWindow(frame);
-        } else {
-            System.err.println("Fullscreen-Einstellung auf diesem Gerät nicht unterstützt");
-            frame.setSize(1000, 1300);
-        }
+        frame.setSize(1000, 1300);
 
         Image logo = null;
         try {
@@ -122,7 +109,6 @@ public class Personalakte_erstellen extends JFrame {
         ImageIcon logoToIcon = new ImageIcon(logo);
 
         logoIconLeft.setIcon(logoToIcon);
-        //logoIconRight.setIcon(logoToIcon);
     }
 
     private void disposeButton(JFrame frame) {
@@ -154,7 +140,6 @@ public class Personalakte_erstellen extends JFrame {
     }
 
     private void getAttachements() {
-
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -172,16 +157,15 @@ public class Personalakte_erstellen extends JFrame {
      *                  // dynamische Feld-Ueberpruefungen-Implementierung \\
      */
 
-    private ArrayList<JTextField> addOptionalInput(ArrayList<JTextField> optionalInput) {
+    private void addOptionalInput(ArrayList<JTextField> optionalInput) {
 
         optionalInput.add(zweitNameField);
         optionalInput.add(hausnummerZusatzField);
         optionalInput.add(abteilungsLeiterField);
 
-        return optionalInput;
     }
 
-    private ArrayList<JTextField> addLettersOnly(ArrayList<JTextField> lettersOnly) {
+    private void addLettersOnly(ArrayList<JTextField> lettersOnly) {
 
         lettersOnly.add(nameField);
         lettersOnly.add(vornameField);
@@ -189,29 +173,25 @@ public class Personalakte_erstellen extends JFrame {
         lettersOnly.add(landField);
         lettersOnly.add(bundeslandField);
         lettersOnly.add(jobnameField);
-        lettersOnly.add(positionField);
         lettersOnly.add(standortField);
 
-        return lettersOnly;
     }
 
-    private ArrayList<JTextField> addNumbersOnly(ArrayList<JTextField> numbersOnly) {
+    private void addNumbersOnly(ArrayList<JTextField> numbersOnly) {
 
         numbersOnly.add(plzField);
         numbersOnly.add(beschaeftigungField);
         numbersOnly.add(hausnummerField);
 
-        return numbersOnly;
     }
 
-    private ArrayList<JTextField> addSpecialChars(ArrayList<JTextField> specialChars) {
+    private void addSpecialChars(ArrayList<JTextField> specialChars) {
 
         specialChars.add(emailField);
         specialChars.add(geburstagField);
         specialChars.add(telefonField);
         specialChars.add(abteilungField);
 
-        return specialChars;
     }
 
     private void checkInputDynamicStandard(DynamicInputProof dynamicInput, ArrayList<JTextField> optionalInput, ArrayList<JTextField> lettersOnly, ArrayList<JTextField> numbersOnly) {
@@ -221,7 +201,7 @@ public class Personalakte_erstellen extends JFrame {
         dynamicInput.onlyNumberField(numbersOnly);
     }
 
-    private void checkInputDynamicSpecial(DynamicInputProof dynamicInput, ArrayList<JTextField> specialChars) {
+    private void checkInputDynamicSpecial(DynamicInputProof dynamicInput) {
 
         dynamicInput.setAmountofCharacterAllowed(telefonField, 15);
         dynamicInput.setAmountofCharacterAllowed(hausnummerZusatzField, 1);

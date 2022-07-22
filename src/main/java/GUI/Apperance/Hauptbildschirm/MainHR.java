@@ -63,10 +63,10 @@ public class MainHR extends JFrame {
 
 
     public static void main(String[] args) {
-        //new MainHR();
+        new MainHR();
     }
 
-    public MainHR(HR_Mitarbeiter hrMitarbeiter) {
+    public MainHR(/*HR_Mitarbeiter hrMitarbeiter*/) {
         JFrame frame = new JFrame();
         show(frame);
         disposeButton(frame);
@@ -119,11 +119,9 @@ public class MainHR extends JFrame {
 
                 if (e.getClickCount() == 2) {
                     JTable selected = (JTable) e.getSource();
-                    //int column = 0;
                     int row = selected.getSelectedRow();
 
-
-                    Personalakte_bearbeiten test = new Personalakte_bearbeiten(Integer.parseInt(selected.getModel().getValueAt(row, 0).toString()), selected.getModel().getValueAt(row, 1).toString(), selected.getModel().getValueAt(row, 2).toString(), selected.getModel().getValueAt(row, 3).toString(), selected.getModel().getValueAt(row, 4).toString(), selected.getModel().getValueAt(row, 5).toString(), selected.getModel().getValueAt(row, 6).toString(), selected.getModel().getValueAt(row, 7).toString(), selected.getModel().getValueAt(row, 8).toString(), selected.getModel().getValueAt(row, 9).toString(), selected.getModel().getValueAt(row, 10).toString(), selected.getModel().getValueAt(row, 11).toString(), selected.getModel().getValueAt(row, 12).toString(), selected.getModel().getValueAt(row, 13).toString(), selected.getModel().getValueAt(row, 14).toString(), selected.getModel().getValueAt(row, 15).toString(), selected.getModel().getValueAt(row, 16).toString(), selected.getModel().getValueAt(row, 17).toString(), selected.getModel().getValueAt(row, 18).toString(), selected.getModel().getValueAt(row, 19).toString(), selected.getModel().getValueAt(row, 20).toString(), selected.getModel().getValueAt(row, 21).toString());
+                    new Personalakte_bearbeiten(Integer.parseInt(selected.getModel().getValueAt(row, 0).toString()), selected.getModel().getValueAt(row, 1).toString(), selected.getModel().getValueAt(row, 2).toString(), selected.getModel().getValueAt(row, 3).toString(), selected.getModel().getValueAt(row, 4).toString(), selected.getModel().getValueAt(row, 5).toString(), selected.getModel().getValueAt(row, 6).toString(), selected.getModel().getValueAt(row, 7).toString(), selected.getModel().getValueAt(row, 8).toString(), selected.getModel().getValueAt(row, 9).toString(), selected.getModel().getValueAt(row, 10).toString(), selected.getModel().getValueAt(row, 11).toString(), selected.getModel().getValueAt(row, 12).toString(), selected.getModel().getValueAt(row, 13).toString(), selected.getModel().getValueAt(row, 14).toString(), selected.getModel().getValueAt(row, 15).toString(), selected.getModel().getValueAt(row, 16).toString(), selected.getModel().getValueAt(row, 17).toString(), selected.getModel().getValueAt(row, 18).toString(), selected.getModel().getValueAt(row, 19).toString(), selected.getModel().getValueAt(row, 20).toString(), selected.getModel().getValueAt(row, 21).toString());
                 }
             }
         });

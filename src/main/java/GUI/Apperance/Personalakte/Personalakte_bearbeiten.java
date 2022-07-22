@@ -43,7 +43,6 @@ public class Personalakte_bearbeiten {
     private JTextField bundeslandField;
     private JPanel jobInfoPanel;
     private JTextField jobnameField;
-    private JTextField positionField;
     private JTextField standortField;
     private JTextField abteilungField;
     private JTextField abteilungsLeiterField;
@@ -60,75 +59,72 @@ public class Personalakte_bearbeiten {
     private JLabel geandertDate;
     private JLabel pidField;
 
-    public static void main(String[] args) {
-    }
-
     public Personalakte_bearbeiten(int id, String anrede, String vorname, String zweitname, String nachname, String geburtsdatum, String telefon, String email, String strasse, String strassenNR, String strassenBuchstabe, String land, String bundesland,
                                    String plz, String jobname, String besGrad, String abteilung, String abtLeiter, String raum, String standort, String erstelltDatum, String letzteAenderung) {
 
-        pidField.setText(String.valueOf(id));
-        geschlecht.setSelectedItem(anrede);
-        vornameField.setText(vorname);
-        zweitNameField.setText(zweitname);
-        nameField.setText(nachname);
-        geburstagField.setText(geburtsdatum);
-        telefonField.setText(telefon);
-        emailField.setText(email);
-        strasseField.setText(strasse);
-        hausnummerField.setText(strassenNR);
-        hausnummerZusatzField.setText(strassenBuchstabe);
-        landField.setText(land);
-        bundeslandField.setText(bundesland);
-        plzField.setText(plz);
-        jobnameField.setText(jobname);
-        beschaeftigungField.setText(besGrad);
-        abteilungField.setText(abteilung);
-        abteilungsLeiterField.setText(abtLeiter);
-        raumField.setText(raum);
-        standortField.setText(standort);
-        erstelltDate.setText(erstelltDatum);
-        geandertDate.setText(letzteAenderung);
+        this.pidField.setText(String.valueOf(id));
+        this.geschlecht.setSelectedItem(anrede);
+        this.vornameField.setText(vorname);
+        this.zweitNameField.setText(zweitname);
+        this.nameField.setText(nachname);
+        this.geburstagField.setText(geburtsdatum);
+        this.telefonField.setText(telefon);
+        this.emailField.setText(email);
+        this.strasseField.setText(strasse);
+        this.hausnummerField.setText(strassenNR);
+        this.hausnummerZusatzField.setText(strassenBuchstabe);
+        this.landField.setText(land);
+        this.bundeslandField.setText(bundesland);
+        this.plzField.setText(plz);
+        this.jobnameField.setText(jobname);
+        this.beschaeftigungField.setText(besGrad);
+        this.abteilungField.setText(abteilung);
+        this.abteilungsLeiterField.setText(abtLeiter);
+        this.raumField.setText(raum);
+        this.standortField.setText(standort);
+        this.erstelltDate.setText(erstelltDatum);
+        this.geandertDate.setText(letzteAenderung);
 
-        JFrame frame = new JFrame();
+        JFrame frame_1 = new JFrame();
 
-        DynamicInputProof dynamicInput = new DynamicInputProof();
-        StaticInputProof staticInput = new StaticInputProof();
+        DynamicInputProof dynamicInput_1 = new DynamicInputProof();
+        StaticInputProof staticInput_1 = new StaticInputProof();
 
-        ArrayList<JTextField> optionalInput = new ArrayList<>();
-        ArrayList<JTextField> lettersOnly = new ArrayList<>();
-        ArrayList<JTextField> numbersOnly = new ArrayList<>();
-        ArrayList<JTextField> specialChars = new ArrayList<>();
+        ArrayList<JTextField> optionalInput_1 = new ArrayList<>();
+        ArrayList<JTextField> lettersOnly_1 = new ArrayList<>();
+        ArrayList<JTextField> numbersOnly_1 = new ArrayList<>();
+        ArrayList<JTextField> specialChars_1 = new ArrayList<>();
 
-        show(frame);
-        disposeButton(frame);
-        deleteAll(optionalInput, lettersOnly, numbersOnly, specialChars);
+        this.show(frame_1);
+        this.disposeButton(frame_1);
+        this.deleteAll(optionalInput_1, lettersOnly_1, numbersOnly_1, specialChars_1);
 
-        addOptionalInput(optionalInput);
-        addLettersOnly(lettersOnly);
-        addNumbersOnly(numbersOnly);
-        addSpecialChars(specialChars);
 
-        checkInputDynamicStandard(dynamicInput, optionalInput, lettersOnly, numbersOnly);
-        checkInputDynamicSpecial(dynamicInput, specialChars);
+        this.addOptionalInput(optionalInput_1);
+        this.addLettersOnly(lettersOnly_1);
+        this.addNumbersOnly(numbersOnly_1);
+        this.addSpecialChars(specialChars_1);
 
-        userInputPruefungStatisch(frame, staticInput, lettersOnly, numbersOnly, specialChars);
+        this.checkInputDynamicStandard(dynamicInput_1, optionalInput_1, lettersOnly_1, numbersOnly_1);
+        this.checkInputDynamicSpecial(dynamicInput_1);
+
+        this.userInputPruefungStatisch(frame_1, staticInput_1, lettersOnly_1, numbersOnly_1, specialChars_1);
     }
 
 //---/ GUI-Funktionen-Implementierung /---//
 
-    /**
-     * Frame erscheint
-     *
-     * @param frame
+    /*
+     *                  // statische, finale Feld-Ueberpruefungen-Implementierung \\
      */
 
     private void show(JFrame frame) {
 
         frame.add(main);
+        frame.setTitle("Personalakte bearbeiten");
         frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         frame.setVisible(true);
-        frame.setSize(1000, 1300);
         frame.setLocationRelativeTo(null);
+        frame.setSize(1000, 1300);
 
         Image logo = null;
         try {
@@ -140,14 +136,6 @@ public class Personalakte_bearbeiten {
 
         logoIconLeft.setIcon(logoToIcon);
     }
-
-    /**
-     * Frame wird geschlossen
-     * <p>
-     * 'Personalakte bearbeiten'-Form wird beim *Klick* auf den Abbrechen-Button geschlossen.
-     *
-     * @param frame
-     */
 
     private void disposeButton(JFrame frame) {
 
@@ -171,13 +159,13 @@ public class Personalakte_bearbeiten {
                 delete.setListNull(numbersOnly);
                 delete.setListNull(specialChars);
 
+                delete.setFieldNull(raumField);
                 delete.setComboBoxNull(geschlecht);
             }
         });
     }
 
     private void getAttachements() {
-
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -191,20 +179,15 @@ public class Personalakte_bearbeiten {
         });
     }
 
-    /*
-     *                  // dynamische Feld-Ueberpruefungen-Implementierung \\
-     */
-
-    private ArrayList<JTextField> addOptionalInput(ArrayList<JTextField> optionalInput) {
+    private void addOptionalInput(ArrayList<JTextField> optionalInput) {
 
         optionalInput.add(zweitNameField);
         optionalInput.add(hausnummerZusatzField);
         optionalInput.add(abteilungsLeiterField);
 
-        return optionalInput;
     }
 
-    private ArrayList<JTextField> addLettersOnly(ArrayList<JTextField> lettersOnly) {
+    private void addLettersOnly(ArrayList<JTextField> lettersOnly) {
 
         lettersOnly.add(nameField);
         lettersOnly.add(vornameField);
@@ -212,29 +195,25 @@ public class Personalakte_bearbeiten {
         lettersOnly.add(landField);
         lettersOnly.add(bundeslandField);
         lettersOnly.add(jobnameField);
-        lettersOnly.add(positionField);
         lettersOnly.add(standortField);
 
-        return lettersOnly;
     }
 
-    private ArrayList<JTextField> addNumbersOnly(ArrayList<JTextField> numbersOnly) {
+    private void addNumbersOnly(ArrayList<JTextField> numbersOnly) {
 
         numbersOnly.add(plzField);
         numbersOnly.add(beschaeftigungField);
         numbersOnly.add(hausnummerField);
 
-        return numbersOnly;
     }
 
-    private ArrayList<JTextField> addSpecialChars(ArrayList<JTextField> specialChars) {
+    private void addSpecialChars(ArrayList<JTextField> specialChars) {
 
         specialChars.add(emailField);
         specialChars.add(geburstagField);
         specialChars.add(telefonField);
         specialChars.add(abteilungField);
 
-        return specialChars;
     }
 
     private void checkInputDynamicStandard(DynamicInputProof dynamicInput, ArrayList<JTextField> optionalInput, ArrayList<JTextField> lettersOnly, ArrayList<JTextField> numbersOnly) {
@@ -244,7 +223,7 @@ public class Personalakte_bearbeiten {
         dynamicInput.onlyNumberField(numbersOnly);
     }
 
-    private void checkInputDynamicSpecial(DynamicInputProof dynamicInput, ArrayList<JTextField> specialChars) {
+    private void checkInputDynamicSpecial(DynamicInputProof dynamicInput) {
 
         dynamicInput.setAmountofCharacterAllowed(telefonField, 15);
         dynamicInput.setAmountofCharacterAllowed(hausnummerZusatzField, 1);
@@ -253,10 +232,6 @@ public class Personalakte_bearbeiten {
 
         dynamicInput.dateField(geburstagField);
     }
-
-    /*
-     *                  // statische, finale Feld-Ueberpruefungen-Implementierung \\
-     */
 
     private void userInputPruefungStatisch(JFrame frame, StaticInputProof staticInput, ArrayList<JTextField> lettersOnly, ArrayList<JTextField> numbersOnly, ArrayList<JTextField> specialChars) {
 
@@ -267,9 +242,9 @@ public class Personalakte_bearbeiten {
 
                 staticInput.setMaxInteger(beschaeftigungField, 100);
 
-                if (staticInput.inputNotNull(lettersOnly) &&
-                        staticInput.inputNotNull(numbersOnly) &&
-                        staticInput.inputNotNull(specialChars) &&
+                if (staticInput.inputNotNull(lettersOnly) ||
+                        staticInput.inputNotNull(numbersOnly) ||
+                        staticInput.inputNotNull(specialChars) ||
                         staticInput.comboBoxFieldisEmpty(geschlecht)) {
 
                     JOptionPane.showMessageDialog(main, "Es fehlen notwendige Eingaben!");
@@ -287,6 +262,7 @@ public class Personalakte_bearbeiten {
         boolean testGeburstag = staticInput.dateValid(geburstagField);
         boolean testTelefon = staticInput.telefonValide(telefonField);
         boolean testMail = staticInput.mailValide(emailField);
+
 
         if (testGeburstag && testTelefon && testMail) {
 
@@ -523,7 +499,4 @@ public class Personalakte_bearbeiten {
         return main;
     }
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
 }
