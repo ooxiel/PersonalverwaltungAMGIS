@@ -1,8 +1,8 @@
 package GUI.Apperance.Login;
 
 
-import GUI.Apperance.Hauptbildschirm.MainHR;
-import GUI.Apperance.Hauptbildschirm.MainMitarbeiter;
+import GUI.Apperance.Hauptbildschirm.HR.MainHR;
+import GUI.Apperance.Hauptbildschirm.Mitarbeiter.MainMitarbeiter;
 import com.AMGIS.Akteure.HR_Mitarbeiter;
 import com.AMGIS.Akteure.Mitarbeiter;
 import com.AMGIS.Login.LoginCheck;
@@ -186,7 +186,7 @@ public class Login {
                 Mitarbeiter mitarbeiter = new Mitarbeiter(Integer.parseInt(lc.searchIDwithKN(usernameField.getText())), usernameField.getText(), String.valueOf(passwordField.getPassword()), false);
 
                 frame.dispose();
-                new MainMitarbeiter(mitarbeiter);
+                new MainMitarbeiter();
             } else {
                 JOptionPane.showMessageDialog(main, "Username oder Passwort ist falsch!");
                 passwordField.setText("");

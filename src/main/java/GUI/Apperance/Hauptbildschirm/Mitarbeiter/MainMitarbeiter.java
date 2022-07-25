@@ -1,6 +1,5 @@
-package GUI.Apperance.Hauptbildschirm;
+package GUI.Apperance.Hauptbildschirm.Mitarbeiter;
 
-import com.AMGIS.Akteure.Mitarbeiter;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
@@ -40,12 +39,10 @@ public class MainMitarbeiter {
     private JLabel welcomeLabel;
 
     public static void main(String[] args) {
-        //new MainMitarbeiter();
-
-
+        new MainMitarbeiter();
     }
 
-    public MainMitarbeiter(Mitarbeiter mitarbeiter) {
+    public MainMitarbeiter() {
         JFrame frame = new JFrame();
 
         frame.add(main);
