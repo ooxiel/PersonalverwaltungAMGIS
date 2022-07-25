@@ -31,7 +31,6 @@ public class MainRoot {
     private JTable personalaktenTable;
     private JTable loginTable;
     private JButton neuePersonalakteErstellenButton;
-    private JButton abmeldenButton;
     private JButton sucheStartenButton;
     private JButton newHRUser;
     private JTextField idField;

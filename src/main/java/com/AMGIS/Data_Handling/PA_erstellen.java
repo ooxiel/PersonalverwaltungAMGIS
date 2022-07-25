@@ -14,7 +14,6 @@ public class PA_erstellen {
         }
         try {
             con = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis"); //url,user,pw
-
         }catch(SQLException e){
             e.printStackTrace();
         }
