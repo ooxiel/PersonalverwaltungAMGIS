@@ -20,68 +20,98 @@ public class PA_erstellen {
     }
 
     //Konstruktor
-
     public void einfuegenPA(String anrede, String vorname,String zweitname, String nachname,String geburtsdatum, String telefon, String email,String strasse,String hausNR,
                             String hausB,String land,String bundesland,String plz,String jobname,String besGrad,String abteilung,String abtLeiter,String raum,String standort,boolean hrMitarbeiter){
         int newID=generateID();
 
-        String sqlPA= "INSERT INTO Personalakte VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        PreparedStatement prepPA = null;
+        String sql_Mstamm = "INSERT INTO Mitarbeiterstamm VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        PreparedStatement prep_Mstamm=null;
 
-        String sqlAcc= "INSERT INTO Accounts VALUES(?,?,?,?)";
-        PreparedStatement prepAcc = null;
+        String sql_Adr = "INSERT INTO Mitarbeiterstamm VALUES(?,?,?,?,?,?,?)";
+        PreparedStatement prep_Adr=null;
+
+        String sql_MLogin = "INSERT INTO Mitarbeiterstamm VALUES(?,?,?)";
+        PreparedStatement prep_MLogin=null;
+
+        String sql_AStamm = "INSERT INTO Mitarbeiterstamm VALUES(?,?)";
+        PreparedStatement prep_AStamm=null;
+
+        String sql_JobInfo = "INSERT INTO Mitarbeiterstamm VALUES(?,?,?,?,?,?,?)";
+        PreparedStatement prep_JobInfo=null;
 
         try {
-            prepPA = con.prepareStatement(sqlPA);
-            prepAcc = con.prepareStatement(sqlAcc);
+            prep_Mstamm = con.prepareStatement(sql_Mstamm);
+            prep_Adr = con.prepareStatement(sql_Adr);
+            prep_MLogin=con.prepareStatement(sql_MLogin);
+            prep_AStamm=con.prepareStatement(sql_AStamm);
+            prep_JobInfo=con.prepareStatement(sql_JobInfo);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         try {
-            prepPA.setInt(1,newID);
-            prepPA.setString(2,anrede);
-            prepPA.setString(3,vorname);
-            prepPA.setString(4,zweitname);
-            prepPA.setString(5,nachname);
-            prepPA.setString(6,geburtsdatum);
-            prepPA.setString(7,telefon);
-            prepPA.setString(8,email);
-            prepPA.setString(9,strasse);
-            prepPA.setString(10,hausNR);
-            prepPA.setString(11,hausB);
-            prepPA.setString(12,land);
-            prepPA.setString(13,bundesland);
-            prepPA.setString(14,plz);
-            prepPA.setString(15,jobname);
-            prepPA.setString(16,besGrad);
-            prepPA.setString(17,abteilung);
-            prepPA.setString(18,abtLeiter);
-            prepPA.setString(19,raum);
-            prepPA.setString(20,standort);
-            prepPA.setString(21,String.valueOf(LocalDateTime.now()));
-            prepPA.setString(22,String.valueOf(LocalDateTime.now()));
-            prepPA.executeUpdate();
-
-            //Account erzeugen
+            //Mitarbeiterlogin
             AccountErzeugen aE=new AccountErzeugen();
-            prepAcc.setInt(1,newID);
-            prepAcc.setString(2,aE.kontoname_erzeugen(newID,vorname,nachname));
-            prepAcc.setString(3,aE.passwort_erzeugen(newID,vorname,nachname));
-            prepAcc.setBoolean(4,hrMitarbeiter);
-            prepAcc.executeUpdate();
+            prep_MLogin.setInt(1,newID);
+            prep_MLogin.setString(2,aE.kontoname_erzeugen(newID,vorname,nachname));
+            prep_MLogin.setString(3,aE.passwort_erzeugen(newID,vorname,nachname));
+            prep_MLogin.executeUpdate();
+
+            //AdressInfo
+            prep_Adr.setInt(1,newID);
+            prep_Adr.setString(2,strasse);
+            prep_Adr.setString(3,hausNR);
+            prep_Adr.setString(4,hausB);
+            prep_Adr.setString(5,land);
+            prep_Adr.setString(6,bundesland);
+            prep_Adr.setString(7,plz);
+            prep_Adr.executeUpdate();
+
+            //Jobinfo
+            prep_JobInfo.setInt(1,newID);
+            prep_JobInfo.setString(2,jobname);
+            prep_JobInfo.setString(3,besGrad);
+            prep_JobInfo.setString(4,abteilung);
+            prep_JobInfo.setString(5,abtLeiter);
+            prep_JobInfo.setString(6,raum);
+            prep_JobInfo.setString(7,standort);
+            prep_JobInfo.executeUpdate();
+
+            //Aktenstamm
+            prep_AStamm.setInt(1,newID);
+            prep_AStamm.setInt(2,newID);
+            prep_AStamm.executeUpdate();
+
+            //Mitarbeiterstamm
+            prep_Mstamm.setInt(1,newID);
+            prep_Mstamm.setString(2,anrede);
+            prep_Mstamm.setString(3,vorname);
+            prep_Mstamm.setString(4,zweitname);
+            prep_Mstamm.setString(5,nachname);
+            prep_Mstamm.setString(6,geburtsdatum);
+            prep_Mstamm.setString(7,telefon);
+            prep_Mstamm.setString(8,email);
+            prep_Mstamm.setString(9,String.valueOf(LocalDateTime.now()));
+            prep_Mstamm.setString(10,String.valueOf(LocalDateTime.now()));
+            prep_Mstamm.setInt(11,newID);
+            prep_Mstamm.setInt(12,newID);
+            prep_Mstamm.setInt(13,newID);
+            //14 | HR_ID bleibt null -> wird separat erstellt und dann erst hinzugefuegt!
+            prep_Mstamm.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
             try {
-                prepPA.close();
-                prepAcc.close();
+                prep_Mstamm.close();
+                prep_Adr.close();
+                prep_MLogin.close();
+                prep_AStamm.close();
+                prep_JobInfo.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
     }
-
     public int generateID(){
         int nextid=0;
         try{
