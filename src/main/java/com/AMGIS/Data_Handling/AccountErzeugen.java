@@ -12,6 +12,12 @@ public class AccountErzeugen {
             return nachname.substring(0,1).toLowerCase()+"_"+vorname.toLowerCase()+id+"0";
         }
 
+
+        //unique über Rowcount oder so
+        protected static String HR_kontoname_erzeugen(String vorname, String nachname, String zweitname){
+            return "HR_"+nachname.substring(0,1).toUpperCase()+"_"+vorname.toUpperCase()+zweitname.substring(0,1).toUpperCase();
+        }
+
         protected static String passwort_erzeugen(int id, String vorname, String nachname){
             int counter = 1;
             int laenge  = 8;

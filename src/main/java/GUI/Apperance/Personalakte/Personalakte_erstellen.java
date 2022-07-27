@@ -12,12 +12,19 @@ import com.intellij.uiDesigner.core.Spacer;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Personalakte_erstellen extends JFrame {
 
@@ -72,19 +79,20 @@ public class Personalakte_erstellen extends JFrame {
         ArrayList<JTextField> numbersOnly = new ArrayList<>();
         ArrayList<JTextField> specialChars = new ArrayList<>();
 
-        this.show(frame);
-        this.disposeButton(frame);
-        this.deleteAll(optionalInput, lettersOnly, numbersOnly, specialChars);
+        show(frame);
+        disposeButton(frame);
+        deleteAll(optionalInput, lettersOnly, numbersOnly, specialChars);
+        getAttachements();
 
-        this.addOptionalInput(optionalInput);
-        this.addLettersOnly(lettersOnly);
-        this.addNumbersOnly(numbersOnly);
-        this.addSpecialChars(specialChars);
+        addOptionalInput(optionalInput);
+        addLettersOnly(lettersOnly);
+        addNumbersOnly(numbersOnly);
+        addSpecialChars(specialChars);
 
-        this.checkInputDynamicStandard(dynamicInput, optionalInput, lettersOnly, numbersOnly);
-        this.checkInputDynamicSpecial(dynamicInput);
+        checkInputDynamicStandard(dynamicInput, optionalInput, lettersOnly, numbersOnly);
+        checkInputDynamicSpecial(dynamicInput);
 
-        this.userInputPruefungStatisch(frame, staticInput, lettersOnly, numbersOnly, specialChars);
+        userInputPruefungStatisch(frame, staticInput, lettersOnly, numbersOnly, specialChars);
     }
 
     /*
@@ -100,15 +108,24 @@ public class Personalakte_erstellen extends JFrame {
         frame.setLocationRelativeTo(null);
         frame.setSize(1000, 1300);
 
-        Image logo = null;
+        Image logo_left = null;
         try {
-            logo = ImageIO.read(new File("src/main/resources/icons/LogoKlein.png"));
+            logo_left = ImageIO.read(new File("src/main/resources/icons/LogoKlein80x80.png"));
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        ImageIcon logoToIcon = new ImageIcon(logo);
+        ImageIcon iconLogo_left = new ImageIcon(logo_left);
+        logoIconLeft.setIcon(iconLogo_left);
 
-        logoIconLeft.setIcon(logoToIcon);
+
+        Image logo_right = null;
+        try {
+            logo_right = ImageIO.read(new File("src/main/resources/icons/noLogoKlein80x80.png"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        ImageIcon iconLogo_right = new ImageIcon(logo_right);
+        logoIconRight.setIcon(iconLogo_right);
     }
 
     private void disposeButton(JFrame frame) {
@@ -140,15 +157,33 @@ public class Personalakte_erstellen extends JFrame {
     }
 
     private void getAttachements() {
+
+
+        // Ueberpruefung, ob File bereits vorhanden ist, dann macht BUMM (Exception)
+        // nicht anfassen, machen wir morgen dann
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                JFrame dirFrame = new JFrame();
                 String appdata = System.getenv("APPDATA");
-
                 File appDataDir = new File(appdata);
-
                 JFileChooser fileChooser = new JFileChooser(appdata);
-                fileChooser.showOpenDialog(new JFrame());
+
+                int select = fileChooser.showOpenDialog(dirFrame);
+
+                if (select == JFileChooser.APPROVE_OPTION) {
+                    File fileSelected = fileChooser.getSelectedFile();
+
+                    Path newDIR = Paths.get("src/main/resources/AktenFiles/1");
+
+                    try {
+                        Files.copy(Path.of(fileSelected.getAbsolutePath()), newDIR.resolve(fileSelected.getName()));
+                    } catch (IOException ex) {
+
+                        throw new RuntimeException(ex);
+                    }
+                }
             }
         });
     }
@@ -290,13 +325,13 @@ public class Personalakte_erstellen extends JFrame {
      */
     private void $$$setupUI$$$() {
         main = new JPanel();
-        main.setLayout(new GridLayoutManager(8, 6, new Insets(0, 0, 0, 0), -1, -1));
+        main.setLayout(new GridLayoutManager(9, 5, new Insets(0, 0, 0, 0), -1, -1));
         main.setBackground(new Color(-16446928));
         personalInfoPanel = new JPanel();
         personalInfoPanel.setLayout(new GridLayoutManager(7, 4, new Insets(0, 0, 0, 0), -1, -1));
         personalInfoPanel.setBackground(new Color(-1));
         personalInfoPanel.setToolTipText("");
-        main.add(personalInfoPanel, new GridConstraints(0, 2, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        main.add(personalInfoPanel, new GridConstraints(1, 1, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         personalInfoPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JLabel label1 = new JLabel();
         label1.setText("Name*:");
@@ -348,7 +383,7 @@ public class Personalakte_erstellen extends JFrame {
         adressPanel = new JPanel();
         adressPanel.setLayout(new GridLayoutManager(4, 6, new Insets(0, 0, 0, 0), -1, -1));
         adressPanel.setBackground(new Color(-1));
-        main.add(adressPanel, new GridConstraints(2, 2, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        main.add(adressPanel, new GridConstraints(3, 1, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         adressPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JLabel label8 = new JLabel();
         label8.setText("Hausnummerzusatz:");
@@ -387,7 +422,7 @@ public class Personalakte_erstellen extends JFrame {
         jobInfoPanel = new JPanel();
         jobInfoPanel.setLayout(new GridLayoutManager(3, 9, new Insets(0, 0, 0, 0), -1, -1));
         jobInfoPanel.setBackground(new Color(-1));
-        main.add(jobInfoPanel, new GridConstraints(4, 2, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        main.add(jobInfoPanel, new GridConstraints(5, 1, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         jobInfoPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JLabel label14 = new JLabel();
         label14.setText("Berufsbezeichnung*: ");
@@ -427,37 +462,34 @@ public class Personalakte_erstellen extends JFrame {
         button1 = new JButton();
         button1.setBackground(new Color(-1));
         button1.setText("Button");
-        main.add(button1, new GridConstraints(7, 2, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        main.add(button1, new GridConstraints(8, 1, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         abbrechenButton = new JButton();
         abbrechenButton.setBackground(new Color(-1));
         abbrechenButton.setText("Abbrechen");
-        main.add(abbrechenButton, new GridConstraints(6, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        main.add(abbrechenButton, new GridConstraints(7, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         alleEingabenLoeschenButton = new JButton();
         alleEingabenLoeschenButton.setBackground(new Color(-1));
         alleEingabenLoeschenButton.setText("Alle Eingaben loeschen");
-        main.add(alleEingabenLoeschenButton, new GridConstraints(6, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        main.add(alleEingabenLoeschenButton, new GridConstraints(7, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         personalakteErstellenButton = new JButton();
         personalakteErstellenButton.setBackground(new Color(-1));
         personalakteErstellenButton.setText("Personalakte erstellen");
-        main.add(personalakteErstellenButton, new GridConstraints(6, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        main.add(personalakteErstellenButton, new GridConstraints(7, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel4 = new JPanel();
         panel4.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel4.setBackground(new Color(-16446928));
-        main.add(panel4, new GridConstraints(0, 0, 8, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        logoIconLeft = new JLabel();
-        logoIconLeft.setText("");
-        panel4.add(logoIconLeft, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        main.add(panel4, new GridConstraints(1, 0, 8, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JPanel panel5 = new JPanel();
         panel5.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel5.setBackground(new Color(-16446928));
-        main.add(panel5, new GridConstraints(0, 5, 8, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        main.add(panel5, new GridConstraints(1, 4, 8, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         logoIconRight = new JLabel();
         logoIconRight.setText("");
         panel5.add(logoIconRight, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel6 = new JPanel();
         panel6.setLayout(new GridLayoutManager(2, 3, new Insets(0, 0, 0, 0), -1, -1));
         panel6.setBackground(new Color(-1));
-        main.add(panel6, new GridConstraints(5, 2, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        main.add(panel6, new GridConstraints(6, 1, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JLabel label20 = new JLabel();
         label20.setText("Letzte Änderung:");
         panel6.add(label20, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -472,6 +504,37 @@ public class Personalakte_erstellen extends JFrame {
         final JLabel label23 = new JLabel();
         label23.setText("");
         panel6.add(label23, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 2, false));
+        final JLabel label24 = new JLabel();
+        Font label24Font = this.$$$getFont$$$("Arial Black", Font.ITALIC, 28, label24.getFont());
+        if (label24Font != null) label24.setFont(label24Font);
+        label24.setForeground(new Color(-1));
+        label24.setText("Personalakte erstellen");
+        main.add(label24, new GridConstraints(0, 1, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        logoIconLeft = new JLabel();
+        logoIconLeft.setText("");
+        main.add(logoIconLeft, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+    }
+
+    /**
+     * @noinspection ALL
+     */
+    private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont) {
+        if (currentFont == null) return null;
+        String resultName;
+        if (fontName == null) {
+            resultName = currentFont.getName();
+        } else {
+            Font testFont = new Font(fontName, Font.PLAIN, 10);
+            if (testFont.canDisplay('a') && testFont.canDisplay('1')) {
+                resultName = fontName;
+            } else {
+                resultName = currentFont.getName();
+            }
+        }
+        Font font = new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
+        boolean isMac = System.getProperty("os.name", "").toLowerCase(Locale.ENGLISH).startsWith("mac");
+        Font fontWithFallback = isMac ? new Font(font.getFamily(), font.getStyle(), font.getSize()) : new StyleContext().getFont(font.getFamily(), font.getStyle(), font.getSize());
+        return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
     }
 
     /**

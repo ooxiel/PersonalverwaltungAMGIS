@@ -53,7 +53,11 @@ public class MainRoot {
         newHRUser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new HR_erstellen();
+                try {
+                    new HR_erstellen();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
@@ -72,6 +76,7 @@ public class MainRoot {
     }
 
     private void show(JFrame frame) {
+
         frame.add(main);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

@@ -103,8 +103,6 @@ public class Login {
         usernameField.setBorder(border);
         passwordField.setBorder(border);
 
-
-
     /*
         Username und Password-Eingabe wird zur Ueberpruefung weitergeleitet
      */
