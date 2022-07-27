@@ -26,10 +26,14 @@ public class PA_bearbeiten {
                             String hausB,String land,String bundesland,String plz,String jobname,String besGrad,String abteilung,String abtLeiter,String raum,String standort,String erstelltDatum){
 
         String letzteAenderung=String.valueOf(LocalDateTime.now());
-        String sqlPA= "UPDATE Personalakte SET anrede='"+anrede+"',vorname='"+vorname+"',zweitname='"+zweitname+"',nachname='"+nachname+"',geburtstag='"+geburtsdatum+"',telefon='"+telefon+"',email='"+email+"', strasse='"+strasse+"', strassennr='"+hausNR+"',Straßenbuchstabe ='"+hausB +"',land='"+land+"',bundesland='"+bundesland+"',plz='"+plz+"',jobname='"+jobname+"',Beschäftigungsgrad ='"+besGrad +"', Abteilung='"+abteilung +"',Abteilungsleiter ='"+abtLeiter +"',Raum ='"+raum +"',Standort ='"+standort +"',erstelltDatum ='"+erstelltDatum +"',letzteAenderung ='"+letzteAenderung+"' WHERE id="+id;
+        String sql_Mstamm= "UPDATE Mitarbeiterstamm SET anrede='"+anrede+"',vorname='"+vorname+"',zweitname='"+zweitname+"',nachname='"+nachname+"',geburtstag='"+geburtsdatum+"',telefon='"+telefon+"',email='"+email+"',Aenderung_Datum ='"+letzteAenderung+" WHERE person_id="+id;
+        String sql_strasse="UPDATE Adressinfo SET strasse='" +strasse+"', strassen_nummer='"+hausNR+"',Strassen_buchstabe ='"+hausB +"',land='"+land+"',bundesland='"+bundesland+"',plz='"+plz+"' WHERE adress_id="+id;
+        String sql_jobinfo="UPDATE JOBINFO SET jobname='"+jobname+"',Beschäftigungsgrad ='"+besGrad +"', Abteilung='"+abteilung +"',Abteilungsleiter ='"+abtLeiter+"',Raum ='"+raum +"',Standort ='"+standort+"' WHERE job_ID="+id;
         try {
             Statement stmt = con.createStatement();
-            stmt.executeQuery(sqlPA);
+            stmt.executeQuery(sql_Mstamm);
+            stmt.executeQuery(sql_strasse);
+            stmt.executeQuery(sql_jobinfo);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
