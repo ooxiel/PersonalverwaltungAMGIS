@@ -55,7 +55,7 @@ public class MainHR_Table {
     public JTable defaultTableAccounts(JTable table){//ganzen Inhalt der Accounts auslesen und in einer Table darstellen
         try{
             con=getCon();
-            String sql= "SELECT  * FROM Mitarbeiterlogin";
+            String sql= "SELECT  * FROM HRroot";
             Statement stmt = con.createStatement();
             ResultSet rs=stmt.executeQuery(sql);
 
