@@ -31,24 +31,10 @@ public class MainHR_Table {
                 String vorname              =String.valueOf(rs.getString(3));
                 String zweitname            =String.valueOf(rs.getString(4));
                 String nachname             =String.valueOf(rs.getString(5));
-                String geburtsdatum         =String.valueOf(rs.getString(6));
-                String telefon              =String.valueOf(rs.getString(7));
-                String email                =String.valueOf(rs.getString(8));
-                String strasse              =String.valueOf(rs.getString(9));
-                String strassenNR           =String.valueOf(rs.getString(10));
-                String strassenBuchstabe    =String.valueOf(rs.getString(11));
-                String land                 =String.valueOf(rs.getString(12));
-                String bundesland           =String.valueOf(rs.getString(13));
-                String plz                  =String.valueOf(rs.getString(14));
-                String jobname              =String.valueOf(rs.getString(15));
-                String besGrad              =String.valueOf(rs.getString(16));
-                String abteilung            =String.valueOf(rs.getString(17));
-                String abtLeiter            =String.valueOf(rs.getString(18));
-                String raum                 =String.valueOf(rs.getString(19));
-                String standort             =String.valueOf(rs.getString(20));
-                String erstelltDatum        =String.valueOf(rs.getString(21));
-                String letzteAenderung      =String.valueOf(rs.getString(22));
-                Personalakten pa = new Personalakten(id,anrede,vorname,zweitname,nachname,geburtsdatum,telefon,email,strasse,strassenNR,strassenBuchstabe,land,bundesland,plz,jobname,besGrad,abteilung,abtLeiter,raum,standort,erstelltDatum,letzteAenderung);
+                String jobname              =String.valueOf(rs.getString(6));
+                String abteilung            =String.valueOf(rs.getString(7));
+                String standort             =String.valueOf(rs.getString(8));
+                Personalakten pa = new Personalakten(id,anrede,vorname,zweitname,nachname,jobname,abteilung,standort);
                 personalakten.add(pa);
             }
             PersonalaktenTableModel patm = new PersonalaktenTableModel(personalakten);
@@ -61,7 +47,7 @@ public class MainHR_Table {
         }
     }
     public JTable filterTable(JTable table,String anrede, String vorname, String nachname,String jobname, String abteilung, String standort){
-        String sql= "SELECT  ms.person_id, ms.anrede, ms.vorname, ms.zweitname,ms.nachname, ms.geburtstag, ms.telefon,  ji.jobname,  ji.abteilung,ji.standort FROM mitarbeiterstamm ms, adressinfo ai, jobinfo ji  WHERE  ms.anrede LIKE '%"+anrede+"%' AND ms.vorname LIKE '%"+vorname+"%' AND ms.nachname LIKE '%"+nachname+"%' AND ji.jobname LIKE '%"+jobname+"%' AND ji.abteilung LIKE'%"+abteilung+"%' AND ji.standort LIKE '%"+standort+"%' AND ms.person_id=ai.Adress_ID AND person_id=ji.job_ID";
+        String sql= "SELECT  ms.person_id, ms.anrede, ms.vorname, ms.zweitname,ms.nachname,ji.jobname,  ji.abteilung,ji.standort FROM mitarbeiterstamm ms, adressinfo ai, jobinfo ji  WHERE  ms.anrede LIKE '%"+anrede+"%' AND ms.vorname LIKE '%"+vorname+"%' AND ms.nachname LIKE '%"+nachname+"%' AND ji.jobname LIKE '%"+jobname+"%' AND ji.abteilung LIKE'%"+abteilung+"%' AND ji.standort LIKE '%"+standort+"%' AND ms.person_id=ai.Adress_ID AND person_id=ji.job_ID";
         table.setModel(resultSQL_PA(sql));
         return table;
     }

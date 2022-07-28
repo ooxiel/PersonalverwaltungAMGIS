@@ -11,11 +11,11 @@ import java.util.List;
 
 public class PersonalaktenTableModel extends AbstractTableModel {
 
-    private final String[] columnNames = {"PERSONAL-ID","ANREDE","VORNAME","ZWEITNAME","NAME","GEBURTSTAG","TELEFON","E-MAIL","STRASSE","STRASSENNR","STRASSENBUCHSTABE","LAND","BUNDESLAND","POSTLEITZAHL","JOBNAME","BESCHÄFTIGUNGSGRAD","ABTEILUNG","ABTEILUNGSLEITER","RAUM","STANDORT","ERSTELLT AM","GEÄNDERT AM"};
+    private final String[] columnNames = {"PERSONAL-ID","ANREDE","VORNAME","ZWEITNAME","NAME","JOBNAME","ABTEILUNG","STANDORT"};
     private List<Personalakten> personalakten;
 
     private final Class[] columnClass = new Class[]{
-            Integer.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,
+            Integer.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class
     };
     public Class<?> getColumnClass(int columnIndex){
         return columnClass[columnIndex];

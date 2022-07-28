@@ -24,7 +24,7 @@ public class Personalakten {
     String erstelltDatum;
     String letzteAenderung;
 
-    public Personalakten(int id, String anrede, String vorname, String zweitname, String nachname, String geburtsdatum, String telefon, String email, String strasse, String strassenNR, String strassenBuchstabe, String land, String bundesland, String plz, String jobname, String besGrad, String abteilung, String abtLeiter, String raum, String standort, String erstelltDatum, String letzteAenderung) {
+    public Personalakten(int id, String anrede, String vorname, String zweitname, String nachname, String geburtsdatum, String telefon, String email) {
         this.id = id;
         this.anrede = anrede;
         this.vorname = vorname;
