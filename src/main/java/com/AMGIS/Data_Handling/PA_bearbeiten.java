@@ -27,12 +27,12 @@ public class PA_bearbeiten {
 
         String letzteAenderung=String.valueOf(LocalDateTime.now());
         String sql_Mstamm= "UPDATE Mitarbeiterstamm SET anrede='"+anrede+"',vorname='"+vorname+"',zweitname='"+zweitname+"',nachname='"+nachname+"',geburtstag='"+geburtsdatum+"',telefon='"+telefon+"',email='"+email+"',Aenderung_Datum ='"+letzteAenderung+" WHERE person_id="+id;
-        String sql_strasse="UPDATE Adressinfo SET strasse='" +strasse+"', strassen_nummer='"+hausNR+"',Strassen_buchstabe ='"+hausB +"',land='"+land+"',bundesland='"+bundesland+"',plz='"+plz+"' WHERE adress_id="+id;
+        String sql_adresse="UPDATE Adressinfo SET strasse='" +strasse+"', strassen_nummer='"+hausNR+"',Strassen_buchstabe ='"+hausB +"',land='"+land+"',bundesland='"+bundesland+"',plz='"+plz+"' WHERE adress_id="+id;
         String sql_jobinfo="UPDATE JOBINFO SET jobname='"+jobname+"',Beschäftigungsgrad ='"+besGrad +"', Abteilung='"+abteilung +"',Abteilungsleiter ='"+abtLeiter+"',Raum ='"+raum +"',Standort ='"+standort+"' WHERE job_ID="+id;
         try {
             Statement stmt = con.createStatement();
             stmt.executeQuery(sql_Mstamm);
-            stmt.executeQuery(sql_strasse);
+            stmt.executeQuery(sql_adresse);
             stmt.executeQuery(sql_jobinfo);
         } catch (SQLException e) {
             throw new RuntimeException(e);

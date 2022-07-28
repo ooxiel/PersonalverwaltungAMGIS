@@ -21,43 +21,39 @@ public class LoginCheck {
             e.printStackTrace();
         }
     }
-    public boolean isHR_User(String kontoname){
-        int id=Integer.parseInt(searchIDwithKN(kontoname));
-        try {
-            Statement stmt=c.createStatement();
-            String sql= "SELECT hrmitarbeiter FROM Accounts WHERE id="+id;
-            ResultSet res= stmt.executeQuery(sql);
-            if (res.next() && res.getBoolean(1)==true){
-                return true;
-            }
-            res.close();
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public boolean validateKontoname_M(String eingabeKN){
+        if(eingabeKN.equals(checkKontonameInMitarbeiter(eingabeKN))){
+            return true;
+        }else{
+            return false;
         }
-        return false;
     }
-
-    public boolean validateKontoname(String eingabeKN){
-        if(eingabeKN.equals(doesKontonameExist(eingabeKN))){
+    public boolean validateKontoname_HR(String eingabeKN){
+        if(eingabeKN.equals(checkKontonameInHR(eingabeKN))){
             return true;
         }else{
             return false;
         }
     }
 
-    public boolean validatePasswort(String eingabeKN,String eingabePW){
-        if (validateKontoname(eingabeKN)==true && eingabePW.equals(getPasswort(Integer.parseInt(searchIDwithKN(eingabeKN))))){
+    public boolean validatePasswort_M(String eingabeKN,String eingabePW){
+        if (validateKontoname_M(eingabeKN)==true && eingabePW.equals(getPasswort_M(Integer.parseInt(searchIDwithKN_M(eingabeKN))))){
             return true;
         }else{
             return false;
         }
     }
-    //working  | suche nach dem Kontonamen mit dem Kontonamen
-    private String doesKontonameExist(String KN) {
+    public boolean validatePasswort_HR(String eingabeKN,String eingabePW){
+        if (validateKontoname_HR(eingabeKN)==true && eingabePW.equals(getPasswort_HR(Integer.parseInt(searchIDwithKN_HR(eingabeKN))))){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    private String checkKontonameInHR(String KN) {
         try {
             Statement stmt=c.createStatement();
-            String sqlPW= "SELECT kontoname FROM Accounts WHERE kontoname='"+KN+"'";
+            String sqlPW= "SELECT username FROM HRRoot WHERE username='"+KN+"'";
             ResultSet res= stmt.executeQuery(sqlPW);
             if (res.next()){
                 String kn=res.getString(1);
@@ -70,11 +66,41 @@ public class LoginCheck {
         }
         return "Kontoname nicht vorhanden";
     }
-    //working  | ID des Kontonamen mit dem Kontonamen suchen
-    public String searchIDwithKN(String kontoname){
+    private String checkKontonameInMitarbeiter(String KN) {
         try {
             Statement stmt=c.createStatement();
-            String sqlID= "SELECT id FROM Accounts WHERE kontoname='"+kontoname+"'";
+            String sqlPW= "SELECT username FROM Mitarbeiterlogin WHERE username='"+KN+"'";
+            ResultSet res= stmt.executeQuery(sqlPW);
+            if (res.next()){
+                String kn=res.getString(1);
+                return kn;
+            }
+            res.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "Kontoname nicht vorhanden";
+    }
+    //work in progress
+    public boolean isRoot(int id) {
+        try {
+            Statement stmt = c.createStatement();
+            String sql = "SELECT Root FROM HRRoot WHERE HR_ID='"+id+"'";
+            ResultSet res = stmt.executeQuery(sql);
+            //System.out.println(res.getBoolean(1));
+            if (res.next()){
+                return res.getBoolean(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public String searchIDwithKN_HR(String kontoname){
+        try {
+            Statement stmt=c.createStatement();
+            String sqlID= "SELECT hr_id FROM HRRoot WHERE username='"+kontoname+"'";
             ResultSet res= stmt.executeQuery(sqlID);
             if (res.next()){
                 String id=res.getString(1);
@@ -87,28 +113,43 @@ public class LoginCheck {
         }
         return "Falscher Kontoname!";
     }
-    //working  | Kontoname mit der ID suchen
-    private String getKontonameWithID(int id) {
+    public String searchIDwithKN_M(String kontoname){
         try {
             Statement stmt=c.createStatement();
-            String sqlPW= "SELECT kontoname FROM Accounts WHERE id='"+id+"'";
-            ResultSet res= stmt.executeQuery(sqlPW);
+            String sqlID= "SELECT m_id FROM Mitarbeiterlogin WHERE username='"+kontoname+"'";
+            ResultSet res= stmt.executeQuery(sqlID);
             if (res.next()){
-                String kn=res.getString(1);
-                return kn;
+                String id=res.getString(1);
+                return id;
             }
             res.close();
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return "id/kontoname nicht vorhanden";
+        return "Falscher Kontoname!";
     }
-    //working  | Passwort fuer die zugehörige ID
-    private String getPasswort(int id) {
+
+    private String getPasswort_HR(int id) {
         try {
             Statement stmt=c.createStatement();
-            String sqlPW= "SELECT passwort FROM Accounts WHERE id='"+id+"'";
+            String sqlPW= "SELECT password FROM HRRoot WHERE hr_id='"+id+"'";
+            ResultSet res= stmt.executeQuery(sqlPW);
+            if (res.next()){
+                String pw=res.getString(1);
+                return pw;
+            }
+            res.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "id/passwort nicht vorhanden";
+    }
+    private String getPasswort_M(int id) {
+        try {
+            Statement stmt=c.createStatement();
+            String sqlPW= "SELECT password FROM Mitarbeiterlogin WHERE m_id='"+id+"'";
             ResultSet res= stmt.executeQuery(sqlPW);
             if (res.next()){
                 String pw=res.getString(1);

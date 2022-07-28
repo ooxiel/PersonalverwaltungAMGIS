@@ -3,6 +3,7 @@ package GUI.Apperance.Login;
 
 import GUI.Apperance.Hauptbildschirm.HR.MainHR;
 import GUI.Apperance.Hauptbildschirm.Mitarbeiter.MainMitarbeiter;
+import GUI.Apperance.Hauptbildschirm.Root.MainRoot;
 import com.AMGIS.Akteure.HR_Mitarbeiter;
 import com.AMGIS.Akteure.Mitarbeiter;
 import com.AMGIS.Login.LoginCheck;
@@ -173,16 +174,18 @@ public class Login {
             LoginCheck lc = new LoginCheck();
             //System.out.println("amgis: "+lc.isHR_User("amgis"));
             //System.out.println("admin: "+lc.isHR_User("admin"));
-            if (lc.validateKontoname(usernameField.getText()) && lc.validatePasswort(usernameField.getText(), String.valueOf(passwordField.getPassword())) && lc.isHR_User(usernameField.getText())) {
+            if (lc.validateKontoname_HR(usernameField.getText()) && lc.validatePasswort_HR(usernameField.getText(), String.valueOf(passwordField.getPassword()))) {
+                if (lc.isRoot(Integer.parseInt(lc.searchIDwithKN_HR(usernameField.getText())))) {
+                    MainRoot r = new MainRoot();
+                } else {
+                    //Mitarbeiter Objekt erzeugen
+                    HR_Mitarbeiter hrMitarbeiter = new HR_Mitarbeiter(Integer.parseInt(lc.searchIDwithKN_HR(usernameField.getText())), usernameField.getText(), String.valueOf(passwordField.getPassword()), true);
+                    frame.dispose();
+                    new MainHR(/*hrMitarbeiter*/);
+                }
+            } else if (lc.validateKontoname_M(usernameField.getText()) && lc.validatePasswort_M(usernameField.getText(), String.valueOf(passwordField.getPassword()))) {
                 //Mitarbeiter Objekt erzeugen
-                HR_Mitarbeiter hrMitarbeiter = new HR_Mitarbeiter(Integer.parseInt(lc.searchIDwithKN(usernameField.getText())), usernameField.getText(), String.valueOf(passwordField.getPassword()), true);
-
-                frame.dispose();
-                new MainHR(/*hrMitarbeiter*/);
-            } else if (lc.validateKontoname(usernameField.getText()) && lc.validatePasswort(usernameField.getText(), String.valueOf(passwordField.getPassword())) && !(lc.isHR_User(usernameField.getText()))) {
-                //Mitarbeiter Objekt erzeugen
-                Mitarbeiter mitarbeiter = new Mitarbeiter(Integer.parseInt(lc.searchIDwithKN(usernameField.getText())), usernameField.getText(), String.valueOf(passwordField.getPassword()), false);
-
+                Mitarbeiter mitarbeiter = new Mitarbeiter(Integer.parseInt(lc.searchIDwithKN_M(usernameField.getText())), usernameField.getText(), String.valueOf(passwordField.getPassword()), false);
                 frame.dispose();
                 new MainMitarbeiter();
             } else {

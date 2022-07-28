@@ -53,7 +53,7 @@ public class PA_erstellen {
             AccountErzeugen aE=new AccountErzeugen();
             prep_MLogin.setInt(1,newID);
             prep_MLogin.setString(2,aE.kontoname_erzeugen(newID,vorname,nachname));
-            prep_MLogin.setString(3,aE.passwort_erzeugen(newID,vorname,nachname));
+            prep_MLogin.setString(3,aE.passwort_erzeugen());
             prep_MLogin.executeUpdate();
 
             //AdressInfo
@@ -97,6 +97,8 @@ public class PA_erstellen {
             prep_Mstamm.setInt(13,newID);
             //14 | HR_ID bleibt null -> wird separat erstellt und dann erst hinzugefuegt!
             prep_Mstamm.executeUpdate();
+
+
 
         } catch (SQLException e) {
             e.printStackTrace();

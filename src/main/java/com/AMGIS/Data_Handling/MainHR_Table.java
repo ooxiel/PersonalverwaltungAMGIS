@@ -94,13 +94,6 @@ public class MainHR_Table {
     }
 
 
-    // wenn wir alle Felder beruecksichtigen wuerden
-    public JTable filteredTable(JTable table, String anrede, String vorname,String zweitname, String nachname,String geburtsdatum, String telefon, String email,String strasse,String hausNR,
-                                String hausB,String land,String bundesland,String plz,String jobname,String besGrad,String abteilung,String abtLeiter,String raum,String standort){
-        String sql= "SELECT  * FROM Personalakte WHERE anrede LIKE '%"+anrede+"%' AND vorname LIKE '%"+vorname+"%' AND zweitname LIKE '%"+zweitname+"%' AND nachname LIKE '%"+nachname+"%' AND geburtstag LIKE '%"+geburtsdatum+"%' AND telefon LIKE '%"+telefon+"%' AND email LIKE '%"+email+"%' AND strasse LIKE '%"+strasse+"%' AND strassennr LIKE '%"+hausNR+"%' AND Straßenbuchstabe LIKE '%"+hausB +"%' AND land LIKE '%"+land+"%' AND bundesland LIKE '%"+bundesland+"%' AND plz LIKE '%"+plz+"%' AND jobname LIKE '%"+jobname+"%' AND Beschäftigungsgrad  LIKE '%"+besGrad +"%' AND Abteilung LIKE '%"+abteilung +"%' AND Abteilungsleiter  LIKE '%"+abtLeiter +"%' AND Raum  LIKE '%"+raum +"%' AND Standort  LIKE '%"+standort +"%'";//euqals
-        table.setModel(resultSQL_PA(sql));
-        return table;
-    }
     public Connection getCon(){
         try {Class.forName("org.hsqldb.jdbcDriver");}catch(ClassNotFoundException e) {return null;}
         try {Connection con = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis");return con;}catch(SQLException e){e.printStackTrace();}
