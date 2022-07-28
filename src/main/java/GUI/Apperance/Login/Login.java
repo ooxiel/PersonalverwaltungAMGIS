@@ -176,7 +176,8 @@ public class Login {
             //System.out.println("admin: "+lc.isHR_User("admin"));
             if (lc.validateKontoname_HR(usernameField.getText()) && lc.validatePasswort_HR(usernameField.getText(), String.valueOf(passwordField.getPassword()))) {
                 if (lc.isRoot(Integer.parseInt(lc.searchIDwithKN_HR(usernameField.getText())))) {
-                    MainRoot r = new MainRoot();
+                    frame.dispose();
+                    new MainRoot();
                 } else {
                     //Mitarbeiter Objekt erzeugen
                     HR_Mitarbeiter hrMitarbeiter = new HR_Mitarbeiter(Integer.parseInt(lc.searchIDwithKN_HR(usernameField.getText())), usernameField.getText(), String.valueOf(passwordField.getPassword()), true);
