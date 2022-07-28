@@ -113,6 +113,7 @@ public class Personalakte_erstellen extends JFrame {
             logo_left = ImageIO.read(new File("src/main/resources/icons/LogoKlein80x80.png"));
         } catch (IOException ex) {
             ex.printStackTrace();
+            frame.setUndecorated(true);
         }
         ImageIcon iconLogo_left = new ImageIcon(logo_left);
         logoIconLeft.setIcon(iconLogo_left);
@@ -122,6 +123,7 @@ public class Personalakte_erstellen extends JFrame {
         try {
             logo_right = ImageIO.read(new File("src/main/resources/icons/noLogoKlein80x80.png"));
         } catch (IOException ex) {
+            frame.setUndecorated(true);
             ex.printStackTrace();
         }
         ImageIcon iconLogo_right = new ImageIcon(logo_right);
@@ -180,7 +182,6 @@ public class Personalakte_erstellen extends JFrame {
                     try {
                         Files.copy(Path.of(fileSelected.getAbsolutePath()), newDIR.resolve(fileSelected.getName()));
                     } catch (IOException ex) {
-
                         throw new RuntimeException(ex);
                     }
                 }
