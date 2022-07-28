@@ -61,10 +61,13 @@ public class Personalakte_bearbeiten {
     private JLabel erstelltDate;
     private JLabel geandertDate;
     private JLabel pidField;
+    private JLabel mitarbeiterField;
+    private JButton personalakteLoeschenButton;
 
     public Personalakte_bearbeiten(int id, String anrede, String vorname, String zweitname, String nachname, String geburtsdatum, String telefon, String email, String strasse, String strassenNR, String strassenBuchstabe, String land, String bundesland,
                                    String plz, String jobname, String besGrad, String abteilung, String abtLeiter, String raum, String standort, String erstelltDatum, String letzteAenderung) {
 
+        this.mitarbeiterField.setText("Akte von: " + vorname + " " + zweitname + " " + nachname);
         this.pidField.setText(String.valueOf(id));
         this.geschlecht.setSelectedItem(anrede);
         this.vornameField.setText(vorname);
@@ -98,20 +101,22 @@ public class Personalakte_bearbeiten {
         ArrayList<JTextField> numbersOnly_1 = new ArrayList<>();
         ArrayList<JTextField> specialChars_1 = new ArrayList<>();
 
-        this.show(frame_1);
-        this.disposeButton(frame_1);
-        this.deleteAll(optionalInput_1, lettersOnly_1, numbersOnly_1, specialChars_1);
+        show(frame_1);
+        disposeButton(frame_1);
+        deleteAll(optionalInput_1, lettersOnly_1, numbersOnly_1, specialChars_1);
+        deleteP_Akte();
 
 
-        this.addOptionalInput(optionalInput_1);
-        this.addLettersOnly(lettersOnly_1);
-        this.addNumbersOnly(numbersOnly_1);
-        this.addSpecialChars(specialChars_1);
+        addOptionalInput(optionalInput_1);
+        addLettersOnly(lettersOnly_1);
+        addNumbersOnly(numbersOnly_1);
+        addSpecialChars(specialChars_1);
 
-        this.checkInputDynamicStandard(dynamicInput_1, optionalInput_1, lettersOnly_1, numbersOnly_1);
-        this.checkInputDynamicSpecial(dynamicInput_1);
+        checkInputDynamicStandard(dynamicInput_1, optionalInput_1, lettersOnly_1, numbersOnly_1);
+        checkInputDynamicSpecial(dynamicInput_1);
 
-        this.userInputPruefungStatisch(frame_1, staticInput_1, lettersOnly_1, numbersOnly_1, specialChars_1);
+        userInputPruefungStatisch(frame_1, staticInput_1, lettersOnly_1, numbersOnly_1, specialChars_1);
+
     }
 
 //---/ GUI-Funktionen-Implementierung /---//
@@ -123,16 +128,18 @@ public class Personalakte_bearbeiten {
     private void show(JFrame frame) {
 
         frame.add(main);
-        frame.setTitle("Personalakte erstellen");
-        frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        frame.setSize(1000, 1000);
+        frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
-        frame.setSize(1000, 1300);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
 
         Image logo_left = null;
         try {
             logo_left = ImageIO.read(new File("src/main/resources/icons/LogoKlein80x80.png"));
         } catch (IOException ex) {
+            frame.setUndecorated(true);
             ex.printStackTrace();
         }
         ImageIcon iconLogo_left = new ImageIcon(logo_left);
@@ -143,6 +150,7 @@ public class Personalakte_bearbeiten {
         try {
             logo_right = ImageIO.read(new File("src/main/resources/icons/noLogoKlein80x80.png"));
         } catch (IOException ex) {
+            frame.setUndecorated(true);
             ex.printStackTrace();
         }
         ImageIcon iconLogo_right = new ImageIcon(logo_right);
@@ -187,6 +195,29 @@ public class Personalakte_bearbeiten {
 
                 JFileChooser fileChooser = new JFileChooser(appdata);
                 fileChooser.showOpenDialog(new JFrame());
+            }
+        });
+    }
+
+    private void deleteP_Akte() {
+        personalakteLoeschenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                JOptionPane confirmDelete = new JOptionPane();
+                int res = confirmDelete.showConfirmDialog(main, "Sind Sie sicher, dass diese Personalakte von " + vornameField.getText() + " " + nameField.getText() + " endgültig gelöscht werden soll?");
+
+                switch (res) {
+
+                    case 0:
+                        // loeschen
+
+                        break;
+                    case 1:
+                        // nicht loeschen
+
+                        break;
+                }
             }
         });
     }
@@ -313,7 +344,7 @@ public class Personalakte_bearbeiten {
      */
     private void $$$setupUI$$$() {
         main = new JPanel();
-        main.setLayout(new GridLayoutManager(10, 5, new Insets(0, 0, 0, 0), -1, -1));
+        main.setLayout(new GridLayoutManager(12, 5, new Insets(0, 0, 0, 0), -1, -1));
         main.setBackground(new Color(-16446928));
         personalInfoPanel = new JPanel();
         personalInfoPanel.setLayout(new GridLayoutManager(8, 4, new Insets(0, 0, 0, 0), -1, -1));
@@ -455,18 +486,23 @@ public class Personalakte_bearbeiten {
         jobInfoPanel.add(beschaeftigungField, new GridConstraints(0, 6, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 1, false));
         button1 = new JButton();
         button1.setBackground(new Color(-1));
+        button1.setForeground(new Color(-16446928));
         button1.setText("Button");
         main.add(button1, new GridConstraints(9, 1, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         abbrechenButton = new JButton();
         abbrechenButton.setBackground(new Color(-1));
+        abbrechenButton.setForeground(new Color(-16446928));
+        abbrechenButton.setHideActionText(false);
         abbrechenButton.setText("Abbrechen");
         main.add(abbrechenButton, new GridConstraints(8, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         alleEingabenLoeschenButton = new JButton();
         alleEingabenLoeschenButton.setBackground(new Color(-1));
+        alleEingabenLoeschenButton.setForeground(new Color(-16446928));
         alleEingabenLoeschenButton.setText("Alle Eingaben loeschen");
         main.add(alleEingabenLoeschenButton, new GridConstraints(8, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         aenderungenUebernehmenButton = new JButton();
         aenderungenUebernehmenButton.setBackground(new Color(-1));
+        aenderungenUebernehmenButton.setForeground(new Color(-16446928));
         aenderungenUebernehmenButton.setText("Aenderungen uebernehmen");
         main.add(aenderungenUebernehmenButton, new GridConstraints(8, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel4 = new JPanel();
@@ -498,15 +534,24 @@ public class Personalakte_bearbeiten {
         geandertDate = new JLabel();
         geandertDate.setText("");
         panel6.add(geandertDate, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 2, false));
-        final JLabel label23 = new JLabel();
-        Font label23Font = this.$$$getFont$$$("Arial Black", Font.ITALIC, 28, label23.getFont());
-        if (label23Font != null) label23.setFont(label23Font);
-        label23.setForeground(new Color(-1));
-        label23.setText("Personalakte erstellen");
-        main.add(label23, new GridConstraints(0, 1, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mitarbeiterField = new JLabel();
+        Font mitarbeiterFieldFont = this.$$$getFont$$$("Arial Black", Font.BOLD, 28, mitarbeiterField.getFont());
+        if (mitarbeiterFieldFont != null) mitarbeiterField.setFont(mitarbeiterFieldFont);
+        mitarbeiterField.setForeground(new Color(-1));
+        mitarbeiterField.setText("");
+        main.add(mitarbeiterField, new GridConstraints(0, 1, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         logoIconLeft = new JLabel();
         logoIconLeft.setText("");
         main.add(logoIconLeft, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        personalakteLoeschenButton = new JButton();
+        personalakteLoeschenButton.setBackground(new Color(-1));
+        personalakteLoeschenButton.setForeground(new Color(-16446928));
+        personalakteLoeschenButton.setText("Personalakte löschen");
+        main.add(personalakteLoeschenButton, new GridConstraints(11, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JPanel panel7 = new JPanel();
+        panel7.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel7.setBackground(new Color(-16446928));
+        main.add(panel7, new GridConstraints(10, 0, 1, 5, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
     }
 
     /**

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="GUI.Apperance.Personalakte.Personalakte_bearbeiten">
-  <grid id="27dc6" binding="main" layout-manager="GridLayoutManager" row-count="10" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="main" layout-manager="GridLayoutManager" row-count="12" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
       <xy x="20" y="20" width="1419" height="1291"/>
@@ -420,6 +420,7 @@
         </constraints>
         <properties>
           <background color="-1"/>
+          <foreground color="-16446928"/>
           <text value="Button"/>
         </properties>
       </component>
@@ -429,6 +430,8 @@
         </constraints>
         <properties>
           <background color="-1"/>
+          <foreground color="-16446928"/>
+          <hideActionText value="false"/>
           <text value="Abbrechen"/>
         </properties>
       </component>
@@ -438,6 +441,7 @@
         </constraints>
         <properties>
           <background color="-1"/>
+          <foreground color="-16446928"/>
           <text value="Alle Eingaben loeschen"/>
         </properties>
       </component>
@@ -447,6 +451,7 @@
         </constraints>
         <properties>
           <background color="-1"/>
+          <foreground color="-16446928"/>
           <text value="Aenderungen uebernehmen"/>
         </properties>
       </component>
@@ -530,14 +535,14 @@
           </component>
         </children>
       </grid>
-      <component id="3cac0" class="javax.swing.JLabel">
+      <component id="3cac0" class="javax.swing.JLabel" binding="mitarbeiterField">
         <constraints>
           <grid row="0" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <font name="Arial Black" size="28" style="2"/>
+          <font name="Arial Black" size="28" style="1"/>
           <foreground color="-1"/>
-          <text value="Personalakte erstellen"/>
+          <text value=""/>
         </properties>
       </component>
       <component id="bee48" class="javax.swing.JLabel" binding="logoIconLeft">
@@ -548,6 +553,27 @@
           <text value=""/>
         </properties>
       </component>
+      <component id="282bc" class="javax.swing.JButton" binding="personalakteLoeschenButton">
+        <constraints>
+          <grid row="11" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-1"/>
+          <foreground color="-16446928"/>
+          <text value="Personalakte löschen"/>
+        </properties>
+      </component>
+      <grid id="95061" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="10" column="0" row-span="1" col-span="5" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-16446928"/>
+        </properties>
+        <border type="none"/>
+        <children/>
+      </grid>
     </children>
   </grid>
 </form>
