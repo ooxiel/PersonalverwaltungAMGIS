@@ -130,7 +130,7 @@ public class MainRoot {
 
     public void filter() {
         MainHR_Table mHRt = new MainHR_Table();
-        mHRt.filterTable(personalaktenTable, idField.getText(), geschlecht.getSelectedItem().toString(), vornameField.getText(), zweitNameField.getText(), nameField.getText());
+        //mHRt.filterTable(personalaktenTable, idField.getText(), geschlecht.getSelectedItem().toString(), vornameField.getText(), zweitNameField.getText(), nameField.getText());
         mHRt.defaultTableAccounts(loginTable);
     }
 

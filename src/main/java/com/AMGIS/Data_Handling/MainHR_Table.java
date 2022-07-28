@@ -60,16 +60,16 @@ public class MainHR_Table {
             throw new RuntimeException(e);
         }
     }
-    public JTable filterTable(JTable table,String id,String anrede, String vorname,String zweitname, String nachname){
-        String sql= "SELECT  * FROM Personalakte WHERE id LIKE '%"+id+"%' AND anrede LIKE '%"+anrede+"%' AND vorname LIKE '%"+vorname+"%' AND zweitname LIKE '%"+zweitname+"%' AND nachname LIKE '%"+nachname+"%'";
+    public JTable filterTable(JTable table,String anrede, String vorname, String nachname,String jobname, String abteilung, String standort){
+        String sql= "SELECT  ms.person_id, ms.anrede, ms.vorname, ms.zweitname,ms.nachname, ms.geburtstag, ms.telefon,  ji.jobname,  ji.abteilung,ji.standort FROM mitarbeiterstamm ms, adressinfo ai, jobinfo ji  WHERE  ms.anrede LIKE '%"+anrede+"%' AND ms.vorname LIKE '%"+vorname+"%' AND ms.nachname LIKE '%"+nachname+"%' AND ji.jobname LIKE '%"+jobname+"%' AND ji.abteilung LIKE'%"+abteilung+"%' AND ji.standort LIKE '%"+standort+"%' AND ms.person_id=ai.Adress_ID AND person_id=ji.job_ID";
         table.setModel(resultSQL_PA(sql));
         return table;
     }
-    //search fuer daten in der Accounts Table
+
     public JTable defaultTableAccounts(JTable table){//ganzen Inhalt der Accounts auslesen und in einer Table darstellen
         try{
             con=getCon();
-            String sql= "SELECT  ID, Kontoname, Passwort, HRMitarbeiter FROM Accounts";
+            String sql= "SELECT  * FROM Mitarbeiterlogin";
             Statement stmt = con.createStatement();
             ResultSet rs=stmt.executeQuery(sql);
 
@@ -91,6 +91,32 @@ public class MainHR_Table {
             return table;
         }catch (Exception e){e.printStackTrace();}
     return table;
+    }
+    public JTable defaultTableAccounts_HR(JTable table){//ganzen Inhalt der Accounts auslesen und in einer Table darstellen
+        try{
+            con=getCon();
+            String sql= "SELECT * FROM HRroot";
+            Statement stmt = con.createStatement();
+            ResultSet rs=stmt.executeQuery(sql);
+
+            List<Logindaten> logindaten = new ArrayList<>();
+
+            while (rs.next()){
+                int id = rs.getInt(1);
+                String kontoname = String.valueOf(rs.getString(2));
+                String passwort = String.valueOf(rs.getString(3));
+                boolean hrmitarbeiter = rs.getBoolean(4);
+                Logindaten ld = new Logindaten(id,kontoname,passwort,hrmitarbeiter);
+                logindaten.add(ld);
+            }
+            LogindatenTableModel ldtm = new LogindatenTableModel(logindaten);
+            table.setModel(ldtm);
+            rs.close();
+            stmt.close();
+            try{con.close();}catch(SQLException ex) {ex.printStackTrace();}
+            return table;
+        }catch (Exception e){e.printStackTrace();}
+        return table;
     }
 
 

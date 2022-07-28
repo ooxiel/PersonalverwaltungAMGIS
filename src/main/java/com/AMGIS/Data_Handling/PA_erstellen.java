@@ -27,16 +27,16 @@ public class PA_erstellen {
         String sql_Mstamm = "INSERT INTO Mitarbeiterstamm VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement prep_Mstamm=null;
 
-        String sql_Adr = "INSERT INTO Mitarbeiterstamm VALUES(?,?,?,?,?,?,?)";
+        String sql_Adr = "INSERT INTO Adressinfo VALUES(?,?,?,?,?,?,?)";
         PreparedStatement prep_Adr=null;
 
-        String sql_MLogin = "INSERT INTO Mitarbeiterstamm VALUES(?,?,?)";
+        String sql_MLogin = "INSERT INTO Mitarbeiterlogin VALUES(?,?,?)";
         PreparedStatement prep_MLogin=null;
 
-        String sql_AStamm = "INSERT INTO Mitarbeiterstamm VALUES(?,?)";
+        String sql_AStamm = "INSERT INTO Aktenstamm VALUES(?,?)";
         PreparedStatement prep_AStamm=null;
 
-        String sql_JobInfo = "INSERT INTO Mitarbeiterstamm VALUES(?,?,?,?,?,?,?)";
+        String sql_JobInfo = "INSERT INTO Jobinfo VALUES(?,?,?,?,?,?,?)";
         PreparedStatement prep_JobInfo=null;
 
         try {
@@ -55,7 +55,6 @@ public class PA_erstellen {
             prep_MLogin.setString(2,aE.kontoname_erzeugen(newID,vorname,nachname));
             prep_MLogin.setString(3,aE.passwort_erzeugen());
             prep_MLogin.executeUpdate();
-
             //AdressInfo
             prep_Adr.setInt(1,newID);
             prep_Adr.setString(2,strasse);
@@ -118,7 +117,7 @@ public class PA_erstellen {
         int nextid=0;
         try{
             Statement stmt=con.createStatement();
-            String sql= "SELECT * FROM Personalakte";
+            String sql= "SELECT * FROM Mitarbeiterstamm";
             ResultSet r= stmt.executeQuery(sql);
             while(r.next()){
                 if(r.getInt(1)>nextid)
