@@ -102,11 +102,11 @@ public class Personalakte_erstellen extends JFrame {
     private void show(JFrame frame) {
 
         frame.add(main);
-        frame.setTitle("Personalakte erstellen");
-        frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        frame.setSize(1000, 1000);
+        frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
-        frame.setSize(1000, 1300);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         Image logo_left = null;
         try {

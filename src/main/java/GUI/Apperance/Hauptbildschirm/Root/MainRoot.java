@@ -83,12 +83,12 @@ public class MainRoot {
     private void show(JFrame frame) {
 
         frame.add(main);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-
-
         frame.setSize(1000, 700);
+        frame.pack();
+        frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
 
 
         Border border = new BevelBorder(0, Color.white, Color.decode("#050a30"));

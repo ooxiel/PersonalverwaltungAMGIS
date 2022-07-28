@@ -54,11 +54,15 @@ public class Login {
      */
         JFrame frame = new JFrame();
         frame.add(main);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(500, 300);
+        frame.pack();
         frame.setResizable(false);
+        frame.setVisible(true);
         frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+
+
 
 
     /*

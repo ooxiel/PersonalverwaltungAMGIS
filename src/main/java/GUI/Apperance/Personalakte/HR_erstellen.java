@@ -38,16 +38,13 @@ public class HR_erstellen extends JFrame {
 
         JFrame frame = new JFrame();
 
-
         frame.add(main);
-        frame.setVisible(true);
-
-        frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-        frame.setResizable(false);
         frame.setSize(600, 400);
+        frame.setResizable(false);
+        frame.pack();
+        frame.setVisible(true);
         frame.setLocationRelativeTo(null);
-
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         Border border = new BevelBorder(0, Color.white, Color.decode("#050a30"));
 

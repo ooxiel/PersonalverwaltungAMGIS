@@ -58,10 +58,11 @@ public class MainMitarbeiter {
         JFrame frame = new JFrame();
 
         frame.add(main);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(1000, 900);
+        frame.pack();
+        frame.setVisible(true);
         frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         disposeButton(frame);
 
