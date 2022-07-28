@@ -52,7 +52,9 @@ public class MainRoot {
         JFrame frame = new JFrame();
         show(frame);
         disposeButton(frame);
-
+        MainHR_Table mHRt = new MainHR_Table();
+        mHRt.filterTable(personalaktenTable, geschlecht.getSelectedItem().toString(), vornameField.getText(), nameField.getText(), jobnameField.getText(), abteilungField.getText(), standortFeild.getText());
+        mHRt.defaultTableAccounts(loginTable);
         newHRUser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
