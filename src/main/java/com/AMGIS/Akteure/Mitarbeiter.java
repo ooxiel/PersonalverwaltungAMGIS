@@ -7,16 +7,18 @@ import java.io.Serializable;
 
 public class Mitarbeiter{
 
-    public final int id;
+    public int id;
     public String kontoname;
     private String passwort;
-    public boolean isHRmitarbeiter;
 
-    public Mitarbeiter(int id, String kontoname, String passwort, boolean isHRmitarbeiter) {
+
+    public Mitarbeiter(int id, String kontoname, String passwort) {
         this.id = id;
         this.kontoname = kontoname;
         this.passwort = passwort;
-        this.isHRmitarbeiter = isHRmitarbeiter;
+    }
+
+    public Mitarbeiter(String searchIDwithKN_m, String text, String passwort) {
     }
 
     public int getId() {
@@ -38,12 +40,5 @@ public class Mitarbeiter{
     public void setPasswort(String passwort) {
         this.passwort = passwort;
     }
-
-    public boolean isHRmitarbeiter() {
-        return isHRmitarbeiter;
-    }
-
-    public void setHRmitarbeiter(boolean HRmitarbeiter) {
-        isHRmitarbeiter = HRmitarbeiter;
-    }
 }
+

@@ -55,7 +55,6 @@ public class Login {
         JFrame frame = new JFrame();
         frame.add(main);
         frame.setSize(500, 300);
-        frame.pack();
         frame.setResizable(false);
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
@@ -190,9 +189,9 @@ public class Login {
                 }
             } else if (lc.validateKontoname_M(usernameField.getText()) && lc.validatePasswort_M(usernameField.getText(), String.valueOf(passwordField.getPassword()))) {
                 //Mitarbeiter Objekt erzeugen
-                Mitarbeiter mitarbeiter = new Mitarbeiter(Integer.parseInt(lc.searchIDwithKN_M(usernameField.getText())), usernameField.getText(), String.valueOf(passwordField.getPassword()), false);
                 frame.dispose();
-                new MainMitarbeiter();
+                Mitarbeiter m = new Mitarbeiter(Integer.parseInt(lc.searchIDwithKN_M(usernameField.getText())), usernameField.getText(), String.valueOf(passwordField.getPassword()));
+                new MainMitarbeiter(m);
             } else {
                 JOptionPane.showMessageDialog(main, "Username oder Passwort ist falsch!");
                 passwordField.setText("");

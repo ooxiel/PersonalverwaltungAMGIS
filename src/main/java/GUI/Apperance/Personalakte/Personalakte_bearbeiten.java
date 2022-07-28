@@ -19,7 +19,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -211,11 +214,29 @@ public class Personalakte_bearbeiten {
 
                     case 0:
                         // loeschen
-
+                        Connection con = null;
+                        try {
+                            Class.forName("org.hsqldb.jdbcDriver");
+                        } catch (ClassNotFoundException eee) {
+                            return;
+                        }
+                        try {
+                            con = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis");
+                        } catch (SQLException ee) {
+                            ee.printStackTrace();
+                        }
+                        int id = Integer.parseInt(pidField.getText());
+                        String sql = "DELETE FROM Mitarbeiterstamm WHERE Person_ID=" + id + ";DELETE FROM adressinfo WHERE Adress_ID=" + id + ";DELETE FROM aktenstamm WHERE Akten_id=" + id + ";DELETE FROM jobinfo WHERE job_id=" + id + ";DELETE FROM aktenkennzeichen WHERE Akten_id=" + id + ";DELETE FROM mitarbeiterlogin  WHERE m_id=" + id + ";DELETE FROM hrroot WHERE hr_id=" + id + ";";
+                        try {
+                            Statement stmt = con.createStatement();
+                            stmt.executeQuery(sql);
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
                         break;
                     case 1:
                         // nicht loeschen
-
+                        confirmDelete.setVisible(false);
                         break;
                 }
             }

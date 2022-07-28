@@ -153,6 +153,8 @@ public class MainHR extends JFrame {
                             String letzteAenderung = String.valueOf(rs.getString(22));
                             new Personalakte_bearbeiten(id, anrede, vorname, zweitname, nachname, geburtsdatum, telefon, email, strasse, strassenNR, strassenBuchstabe, land, bundesland, plz, jobname, besGrad, abteilung, abtLeiter, raum, standort, erstelltDatum, letzteAenderung);
                         }
+                        stmt.close();
+                        rs.close();
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
