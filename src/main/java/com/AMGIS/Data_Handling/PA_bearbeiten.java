@@ -34,6 +34,7 @@ public class PA_bearbeiten {
             stmt.executeQuery(sql_Mstamm);
             stmt.executeQuery(sql_adresse);
             stmt.executeQuery(sql_jobinfo);
+            stmt.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

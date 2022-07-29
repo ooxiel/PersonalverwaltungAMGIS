@@ -1,8 +1,13 @@
 package com.AMGIS.Data_Handling;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.stream.Stream;
 
 public class PA_erstellen {
     public Connection con=null;
@@ -21,7 +26,7 @@ public class PA_erstellen {
 
     //Konstruktor
     public void einfuegenPA(String anrede, String vorname,String zweitname, String nachname,String geburtsdatum, String telefon, String email,String strasse,String hausNR,
-                            String hausB,String land,String bundesland,String plz,String jobname,String besGrad,String abteilung,String abtLeiter,String raum,String standort,boolean hrMitarbeiter){
+                            String hausB,String land,String bundesland,String plz,String jobname,String besGrad,String abteilung,String abtLeiter,String raum,String standort){
         int newID=generateID();
 
         String sql_Mstamm = "INSERT INTO Mitarbeiterstamm VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -94,9 +99,21 @@ public class PA_erstellen {
             prep_Mstamm.setInt(11,newID);
             prep_Mstamm.setInt(12,newID);
             prep_Mstamm.setInt(13,newID);
-            //14 | HR_ID bleibt null -> wird separat erstellt und dann erst hinzugefuegt!
+            prep_Mstamm.setInt(14,-1);
             prep_Mstamm.executeUpdate();
 
+
+            try {
+                System.out.println(isEmpty(Path.of("src/main/resources/AktenFiles/Pending")));
+                if (!isEmpty(Path.of("src/main/resources/AktenFiles/Pending"))){
+                    new File("src/main/resources/AktenFiles/"+newID).mkdirs();
+                    Path targetPath = Paths.get("src/main/resources/AktenFiles/"+newID);
+                    Path sourcePath = Paths.get("src/main/resources/AktenFiles/Pending");
+                    Files.walk(sourcePath).forEach(path -> showFile(path.toFile(),targetPath,newID));
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
 
         } catch (SQLException e) {
@@ -113,11 +130,29 @@ public class PA_erstellen {
             }
         }
     }
-    public int generateID(){
-        int nextid=0;
+    public void showFile(File file, Path targetPath,int newID) {
+        if (file.isDirectory()) {
+            System.out.println("idk first if ??");
+        } else {
+            System.out.println("File: " + file.getAbsolutePath());
+            try {
+                Files.move(Path.of(file.getAbsolutePath()), targetPath.resolve(file.getName()));
+                String sql_insertFile = "INSERT INTO AKTENKENNZEICHEN ( 'POS_NR', 'DATEIPFAD', 'AKTEN_ID' ) VALUES ("+nextPOS_NR()+" ,"+targetPath.resolve(file.getName())+","+newID+")";
+                Statement stmt = con.createStatement();
+                stmt.executeQuery(sql_insertFile);
+                stmt.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+    public int nextPOS_NR(){
+        int nextid=1;
         try{
             Statement stmt=con.createStatement();
-            String sql= "SELECT * FROM Mitarbeiterstamm";
+            String sql= "SELECT * FROM Aktenkennzeichen";
             ResultSet r= stmt.executeQuery(sql);
             while(r.next()){
                 if(r.getInt(1)>nextid)
@@ -130,4 +165,33 @@ public class PA_erstellen {
         }
         return nextid;
     }
+
+    public int generateID(){
+        int nextid=0;
+        try{
+            Statement stmt=con.createStatement();
+            String sql= "SELECT * FROM Mitarbeiterlogin";
+            ResultSet r= stmt.executeQuery(sql);
+            while(r.next()){
+                if(r.getInt(1)>nextid)
+                    nextid=r.getInt(1);
+            }
+            nextid++;
+            r.close();
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return nextid;
+    }
+    //chekc if the directory is empty
+    public boolean isEmpty(Path path) throws IOException {
+        if (Files.isDirectory(path)) {
+            try (Stream<Path> entries = Files.list(path)) {
+                return !entries.findFirst().isPresent();
+            }
+        }
+        return false;
+    }
+
+
 }

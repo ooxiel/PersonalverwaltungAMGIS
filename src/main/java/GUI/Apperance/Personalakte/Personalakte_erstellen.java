@@ -177,9 +177,11 @@ public class Personalakte_erstellen extends JFrame {
                 if (select == JFileChooser.APPROVE_OPTION) {
                     File fileSelected = fileChooser.getSelectedFile();
 
-                    Path newDIR = Paths.get("src/main/resources/AktenFiles/1");
-
+                    Path newDIR = Paths.get("src/main/resources/AktenFiles/Pending/");
                     try {
+                        System.out.println(fileSelected.getAbsolutePath());
+                        System.out.println(newDIR.resolve(fileSelected.getName()));
+
                         Files.copy(Path.of(fileSelected.getAbsolutePath()), newDIR.resolve(fileSelected.getName()));
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
@@ -288,9 +290,8 @@ public class Personalakte_erstellen extends JFrame {
             pae.einfuegenPA(geschlecht.getSelectedItem().toString(), vornameField.getText(), zweitNameField.getText(), nameField.getText(),
                     geburstagField.getText(), telefonField.getText(), emailField.getText(), strasseField.getText(), hausnummerField.getText(),
                     hausnummerZusatzField.getText(), landField.getText(), bundeslandField.getText(), plzField.getText(), jobnameField.getText(),
-                    beschaeftigungField.getText(), abteilungField.getText(), abteilungsLeiterField.getText(), raumField.getText(), standortField.getText(),
-
-                    true);//Feld in Personalakte erstellen erstellen und verbinden ;)
+                    beschaeftigungField.getText(), abteilungField.getText(), abteilungsLeiterField.getText(), raumField.getText(), standortField.getText());
+            //Feld in Personalakte erstellen erstellen und verbinden ;)
 
 
             //FELD MUSS NOCH EINGEFÜGT WERDEN

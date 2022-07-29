@@ -4,14 +4,16 @@ public class HR_Mitarbeiter {
     public final int id;
     public String kontoname;
     private String passwort;
-    public boolean isHRmitarbeiter;
+    public boolean root;
 
 
-    public HR_Mitarbeiter(int id, String kontoname, String passwort, boolean isHRmitarbeiter) {
+
+
+    public HR_Mitarbeiter(int id, String kontoname, String passwort, boolean root) {
         this.id = id;
         this.kontoname = kontoname;
         this.passwort = passwort;
-        this.isHRmitarbeiter = isHRmitarbeiter;
+        this.root = root;
     }
 
     public int getId() {
@@ -34,12 +36,12 @@ public class HR_Mitarbeiter {
         this.passwort = passwort;
     }
 
-    public boolean isHRmitarbeiter() {
-        return isHRmitarbeiter;
+    public boolean isRoot() {
+        return root;
     }
 
-    public void setHRmitarbeiter(boolean HRmitarbeiter) {
-        isHRmitarbeiter = HRmitarbeiter;
+    public void setRoot(boolean root) {
+        this.root = root;
     }
 
 }
