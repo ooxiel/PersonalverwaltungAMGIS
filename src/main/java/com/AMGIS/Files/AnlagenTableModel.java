@@ -1,7 +1,6 @@
-package com.AMGIS.TableModels;
+package com.AMGIS.Files;
 
-import com.AMGIS.Akteure.Anlagen;
-import com.AMGIS.Akteure.Personalakten;
+import com.AMGIS.Files.Anlagen;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
@@ -38,9 +37,11 @@ public class AnlagenTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         Anlagen row = anlagen.get(rowIndex);
 
-        if(0==columnIndex){
-            return row.getFileName();
+        switch(columnIndex){
+            case 0:
+                return row.getFileName();
+            default:
+                return null;
         }
-        return null;
     }
 }

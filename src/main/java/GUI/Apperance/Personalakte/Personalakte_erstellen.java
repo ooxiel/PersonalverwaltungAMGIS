@@ -1,24 +1,29 @@
 package GUI.Apperance.Personalakte;
 
 
-import com.AMGIS.Akteure.Anlagen;
-import com.AMGIS.Akteure.Personalakten;
+import com.AMGIS.Files.Anlagen;
+import com.AMGIS.Files.CreateChildNodes;
+import com.AMGIS.Files.FileNode;
 import com.AMGIS.Services.InputCheck.Delete;
 import com.AMGIS.Services.InputCheck.DynamicInputProof;
 import com.AMGIS.Services.InputCheck.StaticInputProof;
 import com.AMGIS.Data_Handling.PA_erstellen;
-import com.AMGIS.TableModels.AnlagenTableModel;
+import com.AMGIS.Files.AnlagenTableModel;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import org.apache.commons.io.FileUtils;
-import org.hsqldb.lib.FileUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.*;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.text.StyleContext;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -73,10 +78,12 @@ public class Personalakte_erstellen extends JFrame {
     private JLabel logoIconRight;
     private JButton setAnlagenButton;
     private JTable anlagenTable;
+    private JTree fileTree;
 
     public Personalakte_erstellen() {
 
         JFrame frame = new JFrame();
+        JFileChooser fileChooser = new JFileChooser();
 
         DynamicInputProof dynamicInput = new DynamicInputProof();
         StaticInputProof staticInput = new StaticInputProof();
@@ -89,6 +96,7 @@ public class Personalakte_erstellen extends JFrame {
         show(frame);
         disposeButton(frame);
         deleteAll(optionalInput, lettersOnly, numbersOnly, specialChars);
+
         getAttachements();
 
         addOptionalInput(optionalInput);
@@ -102,6 +110,8 @@ public class Personalakte_erstellen extends JFrame {
         userInputPruefungStatisch(frame, staticInput, lettersOnly, numbersOnly, specialChars);
     }
 
+
+
     /*
      *                      // GUI-Funktionen-Implementierung \\
      */
@@ -110,7 +120,6 @@ public class Personalakte_erstellen extends JFrame {
 
         frame.add(main);
         frame.setSize(1000, 1000);
-        frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -128,6 +137,54 @@ public class Personalakte_erstellen extends JFrame {
                 }
             }
         });
+
+        // EIGNET SICH MÖGLICHERWEISE BESSER BEIM BEARBEITEN
+        // https://www.youtube.com/watch?v=rhRcxwreeVc&t=4s
+
+        File fileRoot = new File("src/main/resources/AktenFiles");
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode(new FileNode(fileRoot));
+        DefaultTreeModel treeModel = new DefaultTreeModel(root);
+
+        fileTree.setModel(treeModel);
+        fileTree.setShowsRootHandles(true);
+
+        fileTree.addTreeSelectionListener(new TreeSelectionListener() {
+            public void valueChanged(TreeSelectionEvent event) {
+
+                DefaultMutableTreeNode dmtn = (DefaultMutableTreeNode) fileTree.getSelectionPath().getLastPathComponent();
+                FileNode fileNode = (FileNode) dmtn.getUserObject();
+                File file = fileNode.getFile();
+
+                fileTree.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        super.mouseClicked(e);
+
+                        File fileToOpen = new File(String.valueOf(file));
+
+                        if (e.getClickCount() == 2 && fileToOpen.isFile()) {
+
+                            try {
+                                if (fileToOpen.exists() && Desktop.isDesktopSupported()) {
+                                    Desktop.getDesktop().open(fileToOpen);
+                                } else {
+                                    JOptionPane.showMessageDialog(main, "Datei kann nicht geöffnet werden.");
+                                }
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    }
+                });
+
+                System.out.println(file);
+            }
+        });
+
+
+
+        CreateChildNodes ccn = new CreateChildNodes(fileRoot, root);
+        new Thread(ccn).start();
 
 
         Image logo_left = null;
@@ -189,9 +246,6 @@ public class Personalakte_erstellen extends JFrame {
 
     private void getAttachements() {
 
-
-        // Ueberpruefung, ob File bereits vorhanden ist, dann macht BUMM (Exception)
-        // nicht anfassen, machen wir morgen dann
         setAnlagenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -203,57 +257,23 @@ public class Personalakte_erstellen extends JFrame {
 
                 int select = fileChooser.showOpenDialog(dirFrame);
 
+
                 if (select == JFileChooser.APPROVE_OPTION) {
 
                     File fileSelected = fileChooser.getSelectedFile();
 
                     Path newDIR = Paths.get("src/main/resources/AktenFiles/Pending/");
+
+
                     try {
                         Files.copy(Path.of(fileSelected.getAbsolutePath()), newDIR.resolve(fileSelected.getName()));
-
-                        List<Anlagen> anlagen = new ArrayList<>();
-                        anlagen.add(new Anlagen(fileSelected.getName()));
-
-                        AnlagenTableModel model = new AnlagenTableModel(anlagen);
-
-                        anlagenTable.setModel(model);
 
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
 
-                    // ---------- Anlage öffnen (work in PROGRESS)
-
-
-                    anlagenTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-                    anlagenTable.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                            super.mouseClicked(e);
-
-                            if (e.getClickCount() == 2) {
-
-                                JTable selected = (JTable) e.getSource();
-                                int row = selected.getSelectedRow();
-
-                                try {
-                                    //File file = new File(/* Name für den File der ausgewählt wurde*/);
-
-                                    // file.exists()
-
-                                    if (Desktop.isDesktopSupported()) {
-                                        Desktop.getDesktop().open(null);
-                                    } else {
-                                        JOptionPane.showMessageDialog(main, "Datei kann nicht geöffnet werden.");
-                                    }
-
-                                } catch (Exception ex) {
-                                    ex.printStackTrace();
-                                }
-                            }
-                        }
-                    });
+                    DefaultTreeModel model = (DefaultTreeModel) fileTree.getModel();
+                    model.reload();
                 }
             }
         });
@@ -586,8 +606,8 @@ public class Personalakte_erstellen extends JFrame {
         setAnlagenButton.setBackground(new Color(-1));
         setAnlagenButton.setText("Anlagen anfügen");
         panel7.add(setAnlagenButton, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        anlagenTable = new JTable();
-        panel7.add(anlagenTable, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        fileTree = new JTree();
+        panel7.add(fileTree, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
     }
 
     /**

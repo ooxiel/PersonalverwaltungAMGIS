@@ -78,6 +78,7 @@ public class MainHR_Table {
         }catch (Exception e){e.printStackTrace();}
     return table;
     }
+
     public JTable defaultTableAccounts_HR(JTable table){//ganzen Inhalt der Accounts auslesen und in einer Table darstellen
         try{
             con=getCon();
