@@ -90,7 +90,6 @@ public class MainRoot {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 
-
         Border border = new BevelBorder(0, Color.white, Color.decode("#050a30"));
 
         geschlecht.setBorder(border);

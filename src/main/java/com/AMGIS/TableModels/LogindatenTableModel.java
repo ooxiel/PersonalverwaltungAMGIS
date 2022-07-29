@@ -41,15 +41,18 @@ public class LogindatenTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Logindaten row = logindaten.get(rowIndex);
-        if(0==columnIndex){
-            return row.getId();
-        } else if (1==columnIndex) {
-            return row.getKontoname();
-        } else if (2==columnIndex) {
-            return row.getPasswort();
-        } else if (3==columnIndex) {
-            return row.isHrmitarbeiter();
+
+        switch (columnIndex){
+            case 0:
+                return row.getId();
+            case 1:
+                return row.getKontoname();
+            case 2:
+                return row.getPasswort();
+            case 3:
+                return row.isHrmitarbeiter();
+            default:
+                return null;
         }
-        return null;
     }
 }

@@ -137,6 +137,7 @@ public class PA_erstellen {
             System.out.println("File: " + file.getAbsolutePath());
             try {
                 Files.move(Path.of(file.getAbsolutePath()), targetPath.resolve(file.getName()));
+
                 String sql_insertFile = "INSERT INTO AKTENKENNZEICHEN ( 'POS_NR', 'DATEIPFAD', 'AKTEN_ID' ) VALUES ("+nextPOS_NR()+" ,"+targetPath.resolve(file.getName())+","+newID+")";
                 Statement stmt = con.createStatement();
                 stmt.executeQuery(sql_insertFile);

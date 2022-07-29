@@ -135,7 +135,7 @@ public class Personalakte_bearbeiten {
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 
         Image logo_left = null;
