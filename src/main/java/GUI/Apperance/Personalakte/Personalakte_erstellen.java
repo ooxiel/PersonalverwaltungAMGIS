@@ -20,10 +20,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.*;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.text.StyleContext;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreePath;
+import javax.swing.tree.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -141,7 +138,104 @@ public class Personalakte_erstellen extends JFrame {
         // EIGNET SICH MÖGLICHERWEISE BESSER BEIM BEARBEITEN
         // https://www.youtube.com/watch?v=rhRcxwreeVc&t=4s
 
-        File fileRoot = new File("src/main/resources/AktenFiles");
+        File fileRoot = new File("src/main/resources/AktenFiles/Pending");
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode(new FileNode(fileRoot));
+        DefaultTreeModel treeModel = new DefaultTreeModel(root);
+
+        fileTree.setModel(treeModel);
+        fileTree.setShowsRootHandles(true);
+
+        fileTree.addTreeSelectionListener(new TreeSelectionListener() {
+            public void valueChanged(TreeSelectionEvent event) {
+
+                DefaultMutableTreeNode dmtn = (DefaultMutableTreeNode) fileTree.getSelectionPath().getLastPathComponent();
+                FileNode fileNode = (FileNode) dmtn.getUserObject();
+                File file = fileNode.getFile();
+
+                fileTree.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        super.mouseClicked(e);
+
+                        File fileToOpen = new File(String.valueOf(file));
+
+
+                        if (e.getClickCount() == 2 && fileToOpen.isFile()) {
+
+                            try {
+                                if (fileToOpen.exists() && Desktop.isDesktopSupported()) {
+                                    Desktop.getDesktop().open(fileToOpen);
+                                } else {
+                                    JOptionPane.showMessageDialog(main, "Datei kann nicht geöffnet werden.");
+                                }
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    }
+                });
+
+                System.out.println(file);
+            }
+        });
+
+        CreateChildNodes ccn = new CreateChildNodes(fileRoot, root);
+        new Thread(ccn).start();
+
+        setAnlagenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                JFrame dirFrame = new JFrame();
+                String appdata = System.getenv("APPDATA");
+                File appDataDir = new File(appdata);
+                JFileChooser fileChooser = new JFileChooser(appdata);
+
+                int select = fileChooser.showOpenDialog(dirFrame);
+
+
+                if (select == JFileChooser.APPROVE_OPTION) {
+
+                    File fileSelected = fileChooser.getSelectedFile();
+                    Path newDIR = Paths.get("src/main/resources/AktenFiles/Pending/");
+
+
+                    try {
+                        Files.copy(Path.of(fileSelected.getAbsolutePath()), newDIR.resolve(fileSelected.getName()));
+                        updateFileTree();
+
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
+        });
+
+
+        Image logo_left = null;
+        try {
+            logo_left = ImageIO.read(new File("src/main/resources/icons/LogoKlein80x80.png"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            frame.setUndecorated(true);
+        }
+        ImageIcon iconLogo_left = new ImageIcon(logo_left);
+        logoIconLeft.setIcon(iconLogo_left);
+
+
+        Image logo_right = null;
+        try {
+            logo_right = ImageIO.read(new File("src/main/resources/icons/noLogoKlein80x80.png"));
+        } catch (IOException ex) {
+            frame.setUndecorated(true);
+            ex.printStackTrace();
+        }
+        ImageIcon iconLogo_right = new ImageIcon(logo_right);
+        logoIconRight.setIcon(iconLogo_right);
+    }
+
+    private void updateFileTree() {
+        File fileRoot = new File("src/main/resources/AktenFiles/Pending");
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(new FileNode(fileRoot));
         DefaultTreeModel treeModel = new DefaultTreeModel(root);
 
@@ -176,38 +270,13 @@ public class Personalakte_erstellen extends JFrame {
                         }
                     }
                 });
-
-                System.out.println(file);
             }
         });
 
-
-
         CreateChildNodes ccn = new CreateChildNodes(fileRoot, root);
         new Thread(ccn).start();
-
-
-        Image logo_left = null;
-        try {
-            logo_left = ImageIO.read(new File("src/main/resources/icons/LogoKlein80x80.png"));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            frame.setUndecorated(true);
-        }
-        ImageIcon iconLogo_left = new ImageIcon(logo_left);
-        logoIconLeft.setIcon(iconLogo_left);
-
-
-        Image logo_right = null;
-        try {
-            logo_right = ImageIO.read(new File("src/main/resources/icons/noLogoKlein80x80.png"));
-        } catch (IOException ex) {
-            frame.setUndecorated(true);
-            ex.printStackTrace();
-        }
-        ImageIcon iconLogo_right = new ImageIcon(logo_right);
-        logoIconRight.setIcon(iconLogo_right);
     }
+
 
     private void disposeButton(JFrame frame) {
 
@@ -246,37 +315,6 @@ public class Personalakte_erstellen extends JFrame {
 
     private void getAttachements() {
 
-        setAnlagenButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                JFrame dirFrame = new JFrame();
-                String appdata = System.getenv("APPDATA");
-                File appDataDir = new File(appdata);
-                JFileChooser fileChooser = new JFileChooser(appdata);
-
-                int select = fileChooser.showOpenDialog(dirFrame);
-
-
-                if (select == JFileChooser.APPROVE_OPTION) {
-
-                    File fileSelected = fileChooser.getSelectedFile();
-
-                    Path newDIR = Paths.get("src/main/resources/AktenFiles/Pending/");
-
-
-                    try {
-                        Files.copy(Path.of(fileSelected.getAbsolutePath()), newDIR.resolve(fileSelected.getName()));
-
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-
-                    DefaultTreeModel model = (DefaultTreeModel) fileTree.getModel();
-                    model.reload();
-                }
-            }
-        });
     }
 
     /*
