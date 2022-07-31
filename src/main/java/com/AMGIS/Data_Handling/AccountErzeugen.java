@@ -14,8 +14,8 @@ public class AccountErzeugen {
 
 
         //unique über Rowcount oder so
-        protected static String HR_kontoname_erzeugen(int id,String vorname, String nachname, String zweitname){
-            return "HR_"+nachname.substring(0,1).toUpperCase()+"_"+vorname.toUpperCase()+zweitname.substring(0,1).toUpperCase()+id;
+        protected static String HR_kontoname_erzeugen(int id,String vorname, String nachname){
+            return "HR_"+nachname.substring(0,1).toUpperCase()+"_"+vorname.toUpperCase()+id;
         }
 
         protected static String passwort_erzeugen(){
