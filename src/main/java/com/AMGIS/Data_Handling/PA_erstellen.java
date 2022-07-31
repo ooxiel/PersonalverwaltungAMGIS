@@ -163,6 +163,10 @@ public class PA_erstellen {
             }
         }
     }
+
+    /*
+        PK muss bei 1 starten
+     */
     public int nextPOS_NR(){
         int nextid=1;
         try{

@@ -3,10 +3,7 @@ package com.AMGIS.TableModels;
 import com.AMGIS.Akteure.Personalakten;
 
 import javax.swing.table.AbstractTableModel;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
+
 import java.util.List;
 
 public class PersonalaktenTableModel extends AbstractTableModel {

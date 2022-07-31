@@ -1,9 +1,9 @@
 package GUI.Apperance.Personalakte;
 
 import com.AMGIS.Data_Handling.PA_bearbeiten;
+import com.AMGIS.Services.InputCheck.Delete;
 import com.AMGIS.Services.InputCheck.DynamicInputProof;
 import com.AMGIS.Services.InputCheck.StaticInputProof;
-import com.AMGIS.Services.InputCheck.Delete;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
@@ -27,7 +27,7 @@ import java.util.Locale;
 
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
-public class Personalakte_bearbeiten {
+public class Personalakte_bearbeiten_ROOT {
 
     private JPanel main;
     private JPanel personalInfoPanel;
@@ -67,8 +67,8 @@ public class Personalakte_bearbeiten {
     private JButton personalakteLoeschenButton;
     private JButton HRMitarbeiterErstellenButton;
 
-    public Personalakte_bearbeiten(int id, String anrede, String vorname, String zweitname, String nachname, String geburtsdatum, String telefon, String email, String strasse, String strassenNR, String strassenBuchstabe, String land, String bundesland,
-                                   String plz, String jobname, String besGrad, String abteilung, String abtLeiter, String raum, String standort, String erstelltDatum, String letzteAenderung) {
+    public Personalakte_bearbeiten_ROOT(int id, String anrede, String vorname, String zweitname, String nachname, String geburtsdatum, String telefon, String email, String strasse, String strassenNR, String strassenBuchstabe, String land, String bundesland,
+                                        String plz, String jobname, String besGrad, String abteilung, String abtLeiter, String raum, String standort, String erstelltDatum, String letzteAenderung) {
 
         this.mitarbeiterField.setText("Akte von: " + vorname + " " + zweitname + " " + nachname);
         this.pidField.setText(String.valueOf(id));
@@ -120,6 +120,26 @@ public class Personalakte_bearbeiten {
 
         userInputPruefungStatisch(frame_1, staticInput_1, lettersOnly_1, numbersOnly_1, specialChars_1);
 
+        HRMitarbeiterErstellenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                JOptionPane confirmCreate = new JOptionPane();
+
+                int res = confirmCreate.showConfirmDialog(main, "Wollen Sie einen neuen HR-Mitarbeiter für " + vornameField.getText() + " " + zweitNameField.getText() + " " + nameField.getText() + " erstellen?");
+
+                switch (res) {
+
+                    case 0:
+                        //JA
+
+                        break;
+                    case 1:
+                        confirmCreate.setVisible(false);
+                        break;
+                }
+            }
+        });
     }
 
 //---/ GUI-Funktionen-Implementierung /---//
@@ -568,15 +588,20 @@ public class Personalakte_bearbeiten {
         panel7.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel7.setBackground(new Color(-16446928));
         main.add(panel7, new GridConstraints(10, 0, 1, 5, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        final JPanel panel8 = new JPanel();
-        panel8.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        panel8.setBackground(new Color(-16446928));
-        main.add(panel8, new GridConstraints(12, 0, 1, 5, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        HRMitarbeiterErstellenButton = new JButton();
+        HRMitarbeiterErstellenButton.setBackground(new Color(-1));
+        HRMitarbeiterErstellenButton.setForeground(new Color(-16446928));
+        HRMitarbeiterErstellenButton.setText("HR-Mitarbeiter erstellen");
+        main.add(HRMitarbeiterErstellenButton, new GridConstraints(11, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         personalakteLoeschenButton = new JButton();
         personalakteLoeschenButton.setBackground(new Color(-1));
         personalakteLoeschenButton.setForeground(new Color(-16446928));
         personalakteLoeschenButton.setText("Personalakte löschen");
-        main.add(personalakteLoeschenButton, new GridConstraints(11, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        main.add(personalakteLoeschenButton, new GridConstraints(11, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JPanel panel8 = new JPanel();
+        panel8.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel8.setBackground(new Color(-16446928));
+        main.add(panel8, new GridConstraints(12, 0, 1, 5, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
     }
 
     /**

@@ -25,6 +25,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,6 +33,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class Personalakte_erstellen extends JFrame {
 
@@ -193,7 +196,6 @@ public class Personalakte_erstellen extends JFrame {
 
                 int select = fileChooser.showOpenDialog(dirFrame);
 
-
                 if (select == JFileChooser.APPROVE_OPTION) {
 
                     File fileSelected = fileChooser.getSelectedFile();
@@ -201,7 +203,7 @@ public class Personalakte_erstellen extends JFrame {
 
 
                     try {
-                        Files.copy(Path.of(fileSelected.getAbsolutePath()), newDIR.resolve(fileSelected.getName()));
+                        Files.copy(Path.of(fileSelected.getAbsolutePath()), newDIR.resolve(fileSelected.getName()), REPLACE_EXISTING);
                         updateFileTree();
 
                     } catch (IOException ex) {

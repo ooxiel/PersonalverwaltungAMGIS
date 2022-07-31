@@ -1,7 +1,6 @@
 package GUI.Apperance.Hauptbildschirm.Root;
 
 import GUI.Apperance.Login.Login;
-import GUI.Apperance.Personalakte.HR_erstellen;
 import GUI.Apperance.Personalakte.Personalakte_bearbeiten;
 import GUI.Apperance.Personalakte.Personalakte_erstellen;
 import com.AMGIS.Data_Handling.MainHR_Table;
@@ -55,16 +54,6 @@ public class MainRoot {
         MainHR_Table mHRt = new MainHR_Table();
         mHRt.filterTable(personalaktenTable, geschlecht.getSelectedItem().toString(), vornameField.getText(), nameField.getText(), jobnameField.getText(), abteilungField.getText(), standortFeild.getText());
         mHRt.defaultTableAccounts(loginTable);
-        newHRUser.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    new HR_erstellen();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        });
 
         neuePersonalakteErstellenButton.addActionListener(new ActionListener() {
             @Override
@@ -289,12 +278,7 @@ public class MainRoot {
         neuePersonalakteErstellenButton.setBackground(new Color(-1));
         neuePersonalakteErstellenButton.setForeground(new Color(-16446928));
         neuePersonalakteErstellenButton.setText("neue Personalakte erstellen");
-        main.add(neuePersonalakteErstellenButton, new GridConstraints(14, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        newHRUser = new JButton();
-        newHRUser.setBackground(new Color(-1));
-        newHRUser.setForeground(new Color(-16446928));
-        newHRUser.setText("neuen HR-User erstellen");
-        main.add(newHRUser, new GridConstraints(14, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        main.add(neuePersonalakteErstellenButton, new GridConstraints(14, 1, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         sucheStartenButton = new JButton();
         sucheStartenButton.setBackground(new Color(-1));
         sucheStartenButton.setForeground(new Color(-16446928));
@@ -315,7 +299,7 @@ public class MainRoot {
         final JPanel panel13 = new JPanel();
         panel13.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel13.setBackground(new Color(-1));
-        main.add(panel13, new GridConstraints(11, 2, 4, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        main.add(panel13, new GridConstraints(11, 2, 3, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JPanel panel14 = new JPanel();
         panel14.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel14.setBackground(new Color(-1));
