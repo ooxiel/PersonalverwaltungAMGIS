@@ -1,0 +1,36 @@
+[I][16:33:15] Connecting to Jira...
+[I][16:33:15] Retrieving Jira fields...
+[E][16:33:15] Unexpected migration error.
+[System.AggregateException] System.AggregateException: Mindestens ein Fehler ist aufgetreten. ---> System.Security.Authentication.AuthenticationException: Response Content: Basic authentication with passwords is deprecated.  For more information, see: https://developer.atlassian.com/cloud/confluence/deprecation-notice-basic-auth/
+   bei Atlassian.Jira.Remote.JiraRestClient.GetValidJsonFromResponse(IRestRequest request, IRestResponse response)
+   bei Atlassian.Jira.Remote.JiraRestClient.<ExecuteRequestAsync>d__11.MoveNext()
+--- Ende der Stapelüberwachung vom vorhergehenden Ort, an dem die Ausnahme ausgelöst wurde ---
+   bei System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   bei System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   bei Atlassian.Jira.Remote.JiraRestClient.<ExecuteRequestAsync>d__10`1.MoveNext()
+--- Ende der Stapelüberwachung vom vorhergehenden Ort, an dem die Ausnahme ausgelöst wurde ---
+   bei System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   bei System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   bei Atlassian.Jira.Remote.IssueFieldService.<GetCustomFieldsAsync>d__2.MoveNext()
+   --- Ende der internen Ausnahmestapelüberwachung ---
+   bei System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   bei System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   bei JiraExport.JiraProvider.Initialize(JiraSettings settings)
+   bei JiraExport.JiraCommandLine.ExecuteMigration(CommandOption user, CommandOption password, CommandOption url, CommandOption configFile, Boolean forceFresh, CommandOption continueOnCritical)
+---> (Interne Ausnahme #0) System.Security.Authentication.AuthenticationException: Response Content: Basic authentication with passwords is deprecated.  For more information, see: https://developer.atlassian.com/cloud/confluence/deprecation-notice-basic-auth/
+   bei Atlassian.Jira.Remote.JiraRestClient.GetValidJsonFromResponse(IRestRequest request, IRestResponse response)
+   bei Atlassian.Jira.Remote.JiraRestClient.<ExecuteRequestAsync>d__11.MoveNext()
+--- Ende der Stapelüberwachung vom vorhergehenden Ort, an dem die Ausnahme ausgelöst wurde ---
+   bei System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   bei System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   bei Atlassian.Jira.Remote.JiraRestClient.<ExecuteRequestAsync>d__10`1.MoveNext()
+--- Ende der Stapelüberwachung vom vorhergehenden Ort, an dem die Ausnahme ausgelöst wurde ---
+   bei System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   bei System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   bei Atlassian.Jira.Remote.IssueFieldService.<GetCustomFieldsAsync>d__2.MoveNext()<---
+: 
+   bei System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   bei System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   bei JiraExport.JiraProvider.Initialize(JiraSettings settings)
+   bei JiraExport.JiraCommandLine.ExecuteMigration(CommandOption user, CommandOption password, CommandOption url, CommandOption configFile, Boolean forceFresh, CommandOption continueOnCritical)
+[I][16:33:15] Export complete. Exported 0 items (1 errors, 0 warnings) in 00:00:01.
