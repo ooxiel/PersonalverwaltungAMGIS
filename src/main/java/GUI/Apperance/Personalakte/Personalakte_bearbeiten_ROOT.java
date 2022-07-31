@@ -1,5 +1,6 @@
 package GUI.Apperance.Personalakte;
 
+import com.AMGIS.Data_Handling.AccountErzeugen;
 import com.AMGIS.Data_Handling.PA_bearbeiten;
 import com.AMGIS.Services.InputCheck.Delete;
 import com.AMGIS.Services.InputCheck.DynamicInputProof;
@@ -132,7 +133,8 @@ public class Personalakte_bearbeiten_ROOT {
 
                     case 0:
                         //JA
-
+                        PA_bearbeiten pab = new PA_bearbeiten();
+                        pab.generateHR(Integer.parseInt(pidField.getText()), vornameField.getText(), nameField.getName(), main);
                         break;
                     case 1:
                         confirmCreate.setVisible(false);
@@ -250,6 +252,7 @@ public class Personalakte_bearbeiten_ROOT {
                         try {
                             Statement stmt = con.createStatement();
                             stmt.executeQuery(sql);
+                            stmt.close();
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);
                         }
