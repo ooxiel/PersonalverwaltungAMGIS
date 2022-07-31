@@ -1,5 +1,6 @@
 package com.AMGIS.Data_Handling;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -8,6 +9,8 @@ import java.nio.file.Paths;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.stream.Stream;
+
+import static javax.swing.JOptionPane.*;
 
 public class PA_erstellen {
     public Connection con=null;
@@ -26,7 +29,7 @@ public class PA_erstellen {
 
     //Konstruktor
     public void einfuegenPA(String anrede, String vorname,String zweitname, String nachname,String geburtsdatum, String telefon, String email,String strasse,String hausNR,
-                            String hausB,String land,String bundesland,String plz,String jobname,String besGrad,String abteilung,String abtLeiter,String raum,String standort){
+                            String hausB,String land,String bundesland,String plz,String jobname,String besGrad,String abteilung,String abtLeiter,String raum,String standort, JPanel main){
         int newID=generateID();
 
         String sql_Mstamm = "INSERT INTO Mitarbeiterstamm VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -102,6 +105,13 @@ public class PA_erstellen {
             prep_Mstamm.setInt(14,-1);
             prep_Mstamm.executeUpdate();
 
+            prep_Mstamm.close();
+            prep_Adr.close();
+            prep_MLogin.close();
+            prep_AStamm.close();
+            prep_JobInfo.close();
+
+            showLogindaten(newID,main);
 
             try {
                 System.out.println(isEmpty(Path.of("src/main/resources/AktenFiles/Pending")));
@@ -114,22 +124,26 @@ public class PA_erstellen {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
-
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            try {
-                prep_Mstamm.close();
-                prep_Adr.close();
-                prep_MLogin.close();
-                prep_AStamm.close();
-                prep_JobInfo.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
+    private void  showLogindaten(int newID, JPanel main) {
+        String sql="SELECT username, password FROM Mitarbeiterlogin WHERE M_ID="+newID;
+        String username = null;String password = null;
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet r= stmt.executeQuery(sql);
+            while(r.next()) {
+                username = String.valueOf(r.getString(1));
+                password = String.valueOf(r.getString(2));
+            }
+            r.close();
+            stmt.close();
+        } catch (SQLException e) {throw new RuntimeException(e);}
+        showMessageDialog(main, "Logindaten  \nKontoname:  "+username+"\nPasswort:  "+password);
+    }
+
     public void showFile(File file, Path targetPath,int newID) {
         if (file.isDirectory()) {
             System.out.println("idk first if ??");
@@ -138,7 +152,7 @@ public class PA_erstellen {
             try {
                 Files.move(Path.of(file.getAbsolutePath()), targetPath.resolve(file.getName()));
 
-                String sql_insertFile = "INSERT INTO AKTENKENNZEICHEN ( 'POS_NR', 'DATEIPFAD', 'AKTEN_ID' ) VALUES ("+nextPOS_NR()+" ,"+targetPath.resolve(file.getName())+","+newID+")";
+                String sql_insertFile = "INSERT INTO AKTENKENNZEICHEN VALUES ("+nextPOS_NR()+" ,'"+targetPath.resolve(file.getName())+"',"+newID+");";
                 Statement stmt = con.createStatement();
                 stmt.executeQuery(sql_insertFile);
                 stmt.close();
