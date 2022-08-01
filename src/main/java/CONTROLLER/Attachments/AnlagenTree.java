@@ -4,8 +4,6 @@ import CONTROLLER.Attachments.FileDir.CreateChildNodes;
 import CONTROLLER.Attachments.FileDir.FileNode;
 
 import javax.swing.*;
-import javax.swing.event.TreeModelEvent;
-import javax.swing.event.TreeModelListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -152,8 +150,7 @@ public class AnlagenTree {
 
 
     public void clearAttachements(JTree fileTree, String id, JPanel main){
-
-
+        
     }
 
     private File idIsEmpty(String id){
