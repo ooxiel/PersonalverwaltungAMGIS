@@ -97,7 +97,7 @@ public class Personalakte {
                         try {con = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis");}catch (SQLException ee) {ee.printStackTrace();}
 
                         int id = Integer.parseInt(pid);
-                        String sql = "DELETE FROM Mitarbeiterstamm WHERE Person_ID=" + id + "; DELETE FROM Aktenkennzeichen WHERE Akten_ID="+id+";DELETE FROM adressinfo WHERE Adress_ID=" + id + ";DELETE FROM aktenstamm WHERE Akten_id=" + id + ";DELETE FROM jobinfo WHERE job_id=" + id + ";DELETE FROM aktenkennzeichen WHERE Akten_id=" + id + ";DELETE FROM mitarbeiterlogin  WHERE m_id=" + id + ";DELETE FROM hrroot WHERE hr_id=" + id + ";";
+                        String sql = "DELETE FROM Mitarbeiterstamm WHERE Person_ID=" + id + "; DELETE FROM Aktenkennzeichen WHERE Akten_ID="+id+"; DELETE FROM adressinfo WHERE Adress_ID=" + id + ";DELETE FROM aktenstamm WHERE Akten_id=" + id + ";DELETE FROM jobinfo WHERE job_id=" + id + ";DELETE FROM aktenkennzeichen WHERE Akten_id=" + id + ";DELETE FROM mitarbeiterlogin  WHERE m_id=" + id + ";DELETE FROM hrroot WHERE hr_id=" + id + ";";
                         try {
                             Statement stmt = con.createStatement();
                             stmt.executeQuery(sql);
