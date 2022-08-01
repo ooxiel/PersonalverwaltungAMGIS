@@ -1,5 +1,6 @@
 package CONTROLLER.Services;
 
+import MODEL.Update.MainHR_Table;
 import VIEW.Personalakte.Personalakte_bearbeiten;
 
 import javax.swing.*;
