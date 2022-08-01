@@ -7,7 +7,7 @@ import java.util.List;
 
 public class LogindatenTableModel extends AbstractTableModel {
 
-    private final String[] columnNames = {"ID", "KONTONAME", "PASSWORT","HR Mitarbeiter"};
+    private final String[] columnNames = {"ID", "KONTONAME", "PASSWORT","Root-Zugang"};
     private List<Logindaten> logindaten;
 
     private final Class[] columnClass = new Class[]{

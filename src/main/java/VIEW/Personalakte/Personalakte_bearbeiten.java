@@ -148,8 +148,8 @@ public class Personalakte_bearbeiten {
         });
 
         AnlagenTree anlagen = new AnlagenTree();
-        anlagen.show(fileTree, main, pidField.getText());
-        anlagen.addAttachements(setAnlagenButton, fileTree, main, pidField.getText());
+            anlagen.show(fileTree, main, pidField.getText());
+            anlagen.addAttachements(setAnlagenButton, fileTree, main, pidField.getText());
 
         IconDesign design = new IconDesign();
         design.setIcon(frame, logoIconLeft, "src/main/resources/icons/LogoKlein80x80.png");

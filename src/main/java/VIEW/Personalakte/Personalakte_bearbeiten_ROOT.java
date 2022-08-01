@@ -1,5 +1,6 @@
 package VIEW.Personalakte;
 
+import CONTROLLER.Attachments.AnlagenTree;
 import MODEL.Personalakten.PA_bearbeiten;
 import CONTROLLER.Attachments.FileDir.CreateChildNodes;
 import CONTROLLER.Attachments.FileDir.FileNode;
@@ -155,77 +156,6 @@ public class Personalakte_bearbeiten_ROOT {
                 }
             }
         });
-
-        setAnlagenButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                JFrame dirFrame = new JFrame();
-                String appdata = System.getenv("APPDATA");
-                File appDataDir = new File(appdata);
-                JFileChooser fileChooser = new JFileChooser(appdata);
-
-                int select = fileChooser.showOpenDialog(dirFrame);
-
-                if (select == JFileChooser.APPROVE_OPTION) {
-
-                    File fileSelected = fileChooser.getSelectedFile();
-                    Path newDIR = Paths.get("src/main/resources/AktenFiles/" + pidField.getText());
-
-
-                    try {
-                        Files.copy(Path.of(fileSelected.getAbsolutePath()), newDIR.resolve(fileSelected.getName()), REPLACE_EXISTING);
-                        updateFileTree();
-
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                }
-            }
-        });
-    }
-
-    private void updateFileTree() {
-        File fileRoot = new File("src/main/resources/AktenFiles/" + pidField.getText());
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode(new FileNode(fileRoot));
-        DefaultTreeModel treeModel = new DefaultTreeModel(root);
-
-        fileTree.setModel(treeModel);
-        fileTree.setShowsRootHandles(true);
-
-        fileTree.addTreeSelectionListener(new TreeSelectionListener() {
-            public void valueChanged(TreeSelectionEvent event) {
-
-                DefaultMutableTreeNode dmtn = (DefaultMutableTreeNode) fileTree.getSelectionPath().getLastPathComponent();
-                FileNode fileNode = (FileNode) dmtn.getUserObject();
-                File file = fileNode.getFile();
-
-                fileTree.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        super.mouseClicked(e);
-
-                        File fileToOpen = new File(String.valueOf(file));
-
-                        if (e.getClickCount() == 2 && fileToOpen.isFile()) {
-
-                            try {
-                                if (fileToOpen.exists() && Desktop.isDesktopSupported()) {
-                                    Desktop.getDesktop().open(fileToOpen);
-                                } else {
-                                    JOptionPane.showMessageDialog(main, "Datei kann nicht geöffnet werden.");
-                                }
-                            } catch (Exception ex) {
-                                ex.printStackTrace();
-                            }
-                        }
-                    }
-                });
-            }
-        });
-
-        CreateChildNodes ccn = new CreateChildNodes(fileRoot, root);
-        new Thread(ccn).start();
     }
 
 //---/ GUI-Funktionen-Implementierung /---//
@@ -242,6 +172,10 @@ public class Personalakte_bearbeiten_ROOT {
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+        AnlagenTree anlagen = new AnlagenTree();
+            anlagen.show(fileTree, main, pidField.getText());
+            anlagen.addAttachements(setAnlagenButton, fileTree, main, pidField.getText());
 
 
         Image logo_left = null;
@@ -290,20 +224,6 @@ public class Personalakte_bearbeiten_ROOT {
 
                 delete.setFieldNull(raumField);
                 delete.setComboBoxNull(geschlecht);
-            }
-        });
-    }
-
-    private void getAttachements() {
-        button1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String appdata = System.getenv("APPDATA");
-
-                File appDataDir = new File(appdata);
-
-                JFileChooser fileChooser = new JFileChooser(appdata);
-                fileChooser.showOpenDialog(new JFrame());
             }
         });
     }
