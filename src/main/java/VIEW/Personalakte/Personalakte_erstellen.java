@@ -142,20 +142,7 @@ public class Personalakte_erstellen extends JFrame {
 
     private void deleteAll(ArrayList<JTextField> optionalInput, ArrayList<JTextField> lettersOnly, ArrayList<JTextField> numbersOnly, ArrayList<JTextField> specialChars) {
 
-        alleEingabenLoeschenButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Delete delete = new Delete();
-
-                delete.setListNull(optionalInput);
-                delete.setListNull(lettersOnly);
-                delete.setListNull(numbersOnly);
-                delete.setListNull(specialChars);
-
-                delete.setFieldNull(raumField);
-                delete.setComboBoxNull(geschlecht);
-            }
-        });
+        new Delete().all(alleEingabenLoeschenButton, optionalInput, lettersOnly, numbersOnly, specialChars, raumField, geschlecht);
     }
 
     private void userInputPruefungStatisch(JFrame frame, StaticInputProof staticInput, ArrayList<JTextField> lettersOnly, ArrayList<JTextField> numbersOnly, ArrayList<JTextField> specialChars) {

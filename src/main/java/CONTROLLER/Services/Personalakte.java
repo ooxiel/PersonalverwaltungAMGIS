@@ -1,5 +1,7 @@
 package CONTROLLER.Services;
 
+import CONTROLLER.UserInput.CheckInput.StaticInputProof;
+import MODEL.Personalakten.PA_bearbeiten;
 import MODEL.Update.MainHR_Table;
 import VIEW.Personalakte.Personalakte_bearbeiten;
 
@@ -11,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.nio.file.DirectoryNotEmptyException;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Personalakte {
 
@@ -73,6 +76,10 @@ public class Personalakte {
                 }
             }
         });
+    }
+
+    public void save(){
+
     }
 
     public void delete(JPanel main, JButton button, String pid,JFrame frame){

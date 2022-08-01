@@ -4,6 +4,7 @@ import CONTROLLER.Attachments.AnlagenTree;
 import CONTROLLER.DefaultApperance.DefaultFraming;
 import CONTROLLER.AdditionalDesignElements.IconDesign;
 import CONTROLLER.Services.Personalakte;
+import CONTROLLER.UserInput.PullInput;
 import MODEL.Personalakten.PA_bearbeiten;
 import CONTROLLER.UserInput.CheckInput.DynamicInputProof;
 import CONTROLLER.UserInput.CheckInput.StaticInputProof;
@@ -95,45 +96,8 @@ public class Personalakte_bearbeiten {
         this.geandertDate.setText(letzteAenderung);
 
         JFrame frame = new JFrame();
-
-        DefaultFraming framing = new DefaultFraming();
-        framing.defaultDispose(frame, abbrechenButton);
-
-        DynamicInputProof dynamicInput_1 = new DynamicInputProof();
-        StaticInputProof staticInput_1 = new StaticInputProof();
-
-        ArrayList<JTextField> optionalInput_1 = new ArrayList<>();
-        ArrayList<JTextField> lettersOnly_1 = new ArrayList<>();
-        ArrayList<JTextField> numbersOnly_1 = new ArrayList<>();
-        ArrayList<JTextField> specialChars_1 = new ArrayList<>();
-
-        show(frame);
-        deleteAll(optionalInput_1, lettersOnly_1, numbersOnly_1, specialChars_1);
-        deleteP_Akte(frame);
-
-
-        addOptionalInput(optionalInput_1);
-        addLettersOnly(lettersOnly_1);
-        addNumbersOnly(numbersOnly_1);
-        addSpecialChars(specialChars_1);
-
-        checkInputDynamicStandard(dynamicInput_1, optionalInput_1, lettersOnly_1, numbersOnly_1);
-        checkInputDynamicSpecial(dynamicInput_1);
-
-        userInputPruefungStatisch(frame, staticInput_1, lettersOnly_1, numbersOnly_1, specialChars_1);
-
-
-    }
-
-    private void show(JFrame frame) {
-
         DefaultFraming framing = new DefaultFraming();
         framing.show(frame, main, 1000, 1000, "DISPOSE");
-        framing.defaultDispose(frame, abbrechenButton);
-
-
-        // noch fraglich, ob das so funktionieren sollte
-
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -148,88 +112,28 @@ public class Personalakte_bearbeiten {
             }
         });
 
+        PullInput pull = new PullInput();
+        ArrayList<JTextField> optionalInput = pull.itemstoAdd(zweitNameField, hausnummerZusatzField, abteilungsLeiterField);
+        ArrayList<JTextField> lettersOnly = pull.itemstoAdd(nameField, vornameField, strasseField, landField, bundeslandField, jobnameField, standortField);
+        ArrayList<JTextField> numbersOnly = pull.itemstoAdd(plzField, beschaeftigungField, hausnummerField);
+        ArrayList<JTextField> specialChars = pull.itemstoAdd(emailField, geburstagField, telefonField, abteilungField);
+
         AnlagenTree anlagen = new AnlagenTree();
-        anlagen.show(fileTree, main, pidField.getText());
+            anlagen.show(fileTree, main, pidField.getText());
 
         AnlagenTree pending = new AnlagenTree();
-        pending.show(pendingTree, main, null);
-        pending.addAttachements(setAnlagenButton, pendingTree, main, null);
+            pending.show(pendingTree, main, null);
+            pending.addAttachements(setAnlagenButton, pendingTree, main, null);
 
         IconDesign design = new IconDesign();
-        design.setIcon(frame, logoIconLeft, "src/main/resources/icons/LogoKlein80x80.png");
-        design.setIcon(frame, logoIconRight, "src/main/resources/icons/noLogoKlein80x80.png");
-    }
+            design.setIcon(frame, logoIconLeft, "src/main/resources/icons/LogoKlein80x80.png");
+            design.setIcon(frame, logoIconRight, "src/main/resources/icons/noLogoKlein80x80.png");
 
-    private void deleteAll(ArrayList<JTextField> optionalInput, ArrayList<JTextField> lettersOnly, ArrayList<JTextField> numbersOnly, ArrayList<JTextField> specialChars) {
 
-        alleEingabenLoeschenButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Delete delete = new Delete();
-
-                delete.setListNull(optionalInput);
-                delete.setListNull(lettersOnly);
-                delete.setListNull(numbersOnly);
-                delete.setListNull(specialChars);
-
-                delete.setFieldNull(raumField);
-                delete.setComboBoxNull(geschlecht);
-            }
-        });
-    }
-
-    private void deleteP_Akte(JFrame frame) {
-
-        Personalakte personalakte = new Personalakte();
-        personalakte.delete(main, personalakteLoeschenButton, pidField.getText(), frame);
-
-    }
-
-    private void addOptionalInput(ArrayList<JTextField> optionalInput) {
-
-        optionalInput.add(zweitNameField);
-        optionalInput.add(hausnummerZusatzField);
-        optionalInput.add(abteilungsLeiterField);
-
-    }
-
-    private void addLettersOnly(ArrayList<JTextField> lettersOnly) {
-
-        lettersOnly.add(nameField);
-        lettersOnly.add(vornameField);
-        lettersOnly.add(strasseField);
-        lettersOnly.add(landField);
-        lettersOnly.add(bundeslandField);
-        lettersOnly.add(jobnameField);
-        lettersOnly.add(standortField);
-
-    }
-
-    private void addNumbersOnly(ArrayList<JTextField> numbersOnly) {
-
-        numbersOnly.add(plzField);
-        numbersOnly.add(beschaeftigungField);
-        numbersOnly.add(hausnummerField);
-
-    }
-
-    private void addSpecialChars(ArrayList<JTextField> specialChars) {
-
-        specialChars.add(emailField);
-        specialChars.add(geburstagField);
-        specialChars.add(telefonField);
-        specialChars.add(abteilungField);
-
-    }
-
-    private void checkInputDynamicStandard(DynamicInputProof dynamicInput, ArrayList<JTextField> optionalInput, ArrayList<JTextField> lettersOnly, ArrayList<JTextField> numbersOnly) {
-
+        DynamicInputProof dynamicInput = new DynamicInputProof();
         dynamicInput.onlyLetterField(optionalInput);
         dynamicInput.onlyLetterField(lettersOnly);
         dynamicInput.onlyNumberField(numbersOnly);
-    }
-
-    private void checkInputDynamicSpecial(DynamicInputProof dynamicInput) {
 
         dynamicInput.setAmountofCharacterAllowed(telefonField, 15);
         dynamicInput.setAmountofCharacterAllowed(hausnummerZusatzField, 1);
@@ -237,6 +141,40 @@ public class Personalakte_bearbeiten {
         dynamicInput.setAmountofCharacterAllowed(beschaeftigungField, 3);
 
         dynamicInput.dateField(geburstagField);
+
+        StaticInputProof staticInput = new StaticInputProof();
+
+        disposeButton(frame);
+        deleteP_Akte(frame);
+        deleteAll(optionalInput, lettersOnly, numbersOnly, specialChars);
+        userInputPruefungStatisch(frame, staticInput, lettersOnly, numbersOnly, specialChars);
+
+
+    }
+    private void disposeButton(JFrame frame) {
+
+        abbrechenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+
+                File dir = new File("src/main/resources/AktenFiles/Pending/");
+                try {
+                    FileUtils.cleanDirectory(dir);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+    }
+    private void deleteAll(ArrayList<JTextField> optionalInput, ArrayList<JTextField> lettersOnly, ArrayList<JTextField> numbersOnly, ArrayList<JTextField> specialChars) {
+
+        new Delete().all(alleEingabenLoeschenButton, optionalInput, lettersOnly, numbersOnly, specialChars, raumField, geschlecht);
+    }
+    private void deleteP_Akte(JFrame frame) {
+
+        new Personalakte().delete(main, personalakteLoeschenButton, pidField.getText(), frame);
+
     }
 
     private void userInputPruefungStatisch(JFrame frame, StaticInputProof staticInput, ArrayList<JTextField> lettersOnly, ArrayList<JTextField> numbersOnly, ArrayList<JTextField> specialChars) {

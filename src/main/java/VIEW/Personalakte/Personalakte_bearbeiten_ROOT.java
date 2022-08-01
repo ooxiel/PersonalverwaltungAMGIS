@@ -1,6 +1,10 @@
 package VIEW.Personalakte;
 
+import CONTROLLER.AdditionalDesignElements.IconDesign;
 import CONTROLLER.Attachments.AnlagenTree;
+import CONTROLLER.DefaultApperance.DefaultFraming;
+import CONTROLLER.Services.Personalakte;
+import CONTROLLER.UserInput.PullInput;
 import MODEL.Personalakten.PA_bearbeiten;
 import CONTROLLER.Attachments.FileDir.CreateChildNodes;
 import CONTROLLER.Attachments.FileDir.FileNode;
@@ -10,6 +14,7 @@ import CONTROLLER.UserInput.CheckInput.StaticInputProof;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import org.apache.commons.io.FileUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -21,10 +26,7 @@ import javax.swing.text.StyleContext;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -110,31 +112,59 @@ public class Personalakte_bearbeiten_ROOT {
         this.erstelltDate.setText(erstelltDatum);
         this.geandertDate.setText(letzteAenderung);
 
-        JFrame frame_1 = new JFrame();
+        JFrame frame = new JFrame();
+        DefaultFraming framing = new DefaultFraming();
+        framing.show(frame, main, 1000, 1000, "DISPOSE");
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
 
-        DynamicInputProof dynamicInput_1 = new DynamicInputProof();
-        StaticInputProof staticInput_1 = new StaticInputProof();
+                File dir = new File("src/main/resources/AktenFiles/Pending/");
+                try {
+                    FileUtils.cleanDirectory(dir);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
 
-        ArrayList<JTextField> optionalInput_1 = new ArrayList<>();
-        ArrayList<JTextField> lettersOnly_1 = new ArrayList<>();
-        ArrayList<JTextField> numbersOnly_1 = new ArrayList<>();
-        ArrayList<JTextField> specialChars_1 = new ArrayList<>();
+        PullInput pull = new PullInput();
+        ArrayList<JTextField> optionalInput = pull.itemstoAdd(zweitNameField, hausnummerZusatzField, abteilungsLeiterField);
+        ArrayList<JTextField> lettersOnly = pull.itemstoAdd(nameField, vornameField, strasseField, landField, bundeslandField, jobnameField, standortField);
+        ArrayList<JTextField> numbersOnly = pull.itemstoAdd(plzField, beschaeftigungField, hausnummerField);
+        ArrayList<JTextField> specialChars = pull.itemstoAdd(emailField, geburstagField, telefonField, abteilungField);
 
-        show(frame_1);
-        disposeButton(frame_1);
-        deleteAll(optionalInput_1, lettersOnly_1, numbersOnly_1, specialChars_1);
-        deleteP_Akte();
+        AnlagenTree anlagen = new AnlagenTree();
+        anlagen.show(fileTree, main, pidField.getText());
+
+        AnlagenTree pending = new AnlagenTree();
+        pending.show(pendingTree, main, null);
+        pending.addAttachements(setAnlagenButton, pendingTree, main, null);
+
+        IconDesign design = new IconDesign();
+        design.setIcon(frame, logoIconLeft, "src/main/resources/icons/LogoKlein80x80.png");
+        design.setIcon(frame, logoIconRight, "src/main/resources/icons/noLogoKlein80x80.png");
 
 
-        addOptionalInput(optionalInput_1);
-        addLettersOnly(lettersOnly_1);
-        addNumbersOnly(numbersOnly_1);
-        addSpecialChars(specialChars_1);
+        DynamicInputProof dynamicInput = new DynamicInputProof();
+        dynamicInput.onlyLetterField(optionalInput);
+        dynamicInput.onlyLetterField(lettersOnly);
+        dynamicInput.onlyNumberField(numbersOnly);
 
-        checkInputDynamicStandard(dynamicInput_1, optionalInput_1, lettersOnly_1, numbersOnly_1);
-        checkInputDynamicSpecial(dynamicInput_1);
+        dynamicInput.setAmountofCharacterAllowed(telefonField, 15);
+        dynamicInput.setAmountofCharacterAllowed(hausnummerZusatzField, 1);
+        dynamicInput.setAmountofCharacterAllowed(plzField, 5);
+        dynamicInput.setAmountofCharacterAllowed(beschaeftigungField, 3);
 
-        userInputPruefungStatisch(frame_1, staticInput_1, lettersOnly_1, numbersOnly_1, specialChars_1);
+        dynamicInput.dateField(geburstagField);
+
+        StaticInputProof staticInput = new StaticInputProof();
+
+        disposeButton(frame);
+        deleteP_Akte(frame);
+        deleteAll(optionalInput, lettersOnly, numbersOnly, specialChars);
+        userInputPruefungStatisch(frame, staticInput, lettersOnly, numbersOnly, specialChars);
 
         HRMitarbeiterErstellenButton.addActionListener(new ActionListener() {
             @Override
@@ -159,173 +189,32 @@ public class Personalakte_bearbeiten_ROOT {
         });
     }
 
-//---/ GUI-Funktionen-Implementierung /---//
-
-    /*
-     *                  // statische, finale Feld-Ueberpruefungen-Implementierung \\
-     */
-
-    private void show(JFrame frame) {
-
-        frame.add(main);
-        frame.setSize(1000, 1000);
-        frame.pack();
-        frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-        AnlagenTree anlagen = new AnlagenTree();
-        anlagen.show(fileTree, main, pidField.getText());
-
-        AnlagenTree pending = new AnlagenTree();
-        pending.show(pendingTree, main, null);
-        pending.addAttachements(setAnlagenButton, pendingTree, main, null);
-
-
-        Image logo_left = null;
-        try {
-            logo_left = ImageIO.read(new File("src/main/resources/icons/LogoKlein80x80.png"));
-        } catch (IOException ex) {
-            frame.setUndecorated(true);
-            ex.printStackTrace();
-        }
-        ImageIcon iconLogo_left = new ImageIcon(logo_left);
-        logoIconLeft.setIcon(iconLogo_left);
-
-
-        Image logo_right = null;
-        try {
-            logo_right = ImageIO.read(new File("src/main/resources/icons/noLogoKlein80x80.png"));
-        } catch (IOException ex) {
-            frame.setUndecorated(true);
-            ex.printStackTrace();
-        }
-        ImageIcon iconLogo_right = new ImageIcon(logo_right);
-        logoIconRight.setIcon(iconLogo_right);
-    }
-
     private void disposeButton(JFrame frame) {
 
         abbrechenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
+
+                File dir = new File("src/main/resources/AktenFiles/Pending/");
+                try {
+                    FileUtils.cleanDirectory(dir);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
     }
 
     private void deleteAll(ArrayList<JTextField> optionalInput, ArrayList<JTextField> lettersOnly, ArrayList<JTextField> numbersOnly, ArrayList<JTextField> specialChars) {
 
-        alleEingabenLoeschenButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Delete delete = new Delete();
-
-                delete.setListNull(optionalInput);
-                delete.setListNull(lettersOnly);
-                delete.setListNull(numbersOnly);
-                delete.setListNull(specialChars);
-
-                delete.setFieldNull(raumField);
-                delete.setComboBoxNull(geschlecht);
-            }
-        });
+        new Delete().all(alleEingabenLoeschenButton, optionalInput, lettersOnly, numbersOnly, specialChars, raumField, geschlecht);
     }
 
-    private void deleteP_Akte() {
-        personalakteLoeschenButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+    private void deleteP_Akte(JFrame frame) {
 
-                JOptionPane confirmDelete = new JOptionPane();
-                int res = confirmDelete.showConfirmDialog(main, "Sind Sie sicher, dass diese Personalakte von " + vornameField.getText() + " " + zweitNameField.getText() + " " + nameField.getText() + " endgültig gelöscht werden soll?");
+        new Personalakte().delete(main, personalakteLoeschenButton, pidField.getText(), frame);
 
-                switch (res) {
-
-                    case 0:
-                        // loeschen
-                        Connection con = null;
-                        try {
-                            Class.forName("org.hsqldb.jdbcDriver");
-                        } catch (ClassNotFoundException eee) {
-                            return;
-                        }
-                        try {
-                            con = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis");
-                        } catch (SQLException ee) {
-                            ee.printStackTrace();
-                        }
-                        int id = Integer.parseInt(pidField.getText());
-                        String sql = "DELETE FROM Mitarbeiterstamm WHERE Person_ID=" + id + ";DELETE FROM adressinfo WHERE Adress_ID=" + id + ";DELETE FROM aktenstamm WHERE Akten_id=" + id + ";DELETE FROM jobinfo WHERE job_id=" + id + ";DELETE FROM aktenkennzeichen WHERE Akten_id=" + id + ";DELETE FROM mitarbeiterlogin  WHERE m_id=" + id + ";DELETE FROM hrroot WHERE hr_id=" + id + ";";
-                        try {
-                            Statement stmt = con.createStatement();
-                            stmt.executeQuery(sql);
-                            stmt.close();
-                        } catch (SQLException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                        break;
-                    case 1:
-                        // nicht loeschen
-                        confirmDelete.setVisible(false);
-                        break;
-                }
-            }
-        });
-    }
-
-    private void addOptionalInput(ArrayList<JTextField> optionalInput) {
-
-        optionalInput.add(zweitNameField);
-        optionalInput.add(hausnummerZusatzField);
-        optionalInput.add(abteilungsLeiterField);
-
-    }
-
-    private void addLettersOnly(ArrayList<JTextField> lettersOnly) {
-
-        lettersOnly.add(nameField);
-        lettersOnly.add(vornameField);
-        lettersOnly.add(strasseField);
-        lettersOnly.add(landField);
-        lettersOnly.add(bundeslandField);
-        lettersOnly.add(jobnameField);
-        lettersOnly.add(standortField);
-
-    }
-
-    private void addNumbersOnly(ArrayList<JTextField> numbersOnly) {
-
-        numbersOnly.add(plzField);
-        numbersOnly.add(beschaeftigungField);
-        numbersOnly.add(hausnummerField);
-
-    }
-
-    private void addSpecialChars(ArrayList<JTextField> specialChars) {
-
-        specialChars.add(emailField);
-        specialChars.add(geburstagField);
-        specialChars.add(telefonField);
-        specialChars.add(abteilungField);
-
-    }
-
-    private void checkInputDynamicStandard(DynamicInputProof dynamicInput, ArrayList<JTextField> optionalInput, ArrayList<JTextField> lettersOnly, ArrayList<JTextField> numbersOnly) {
-
-        dynamicInput.onlyLetterField(optionalInput);
-        dynamicInput.onlyLetterField(lettersOnly);
-        dynamicInput.onlyNumberField(numbersOnly);
-    }
-
-    private void checkInputDynamicSpecial(DynamicInputProof dynamicInput) {
-
-        dynamicInput.setAmountofCharacterAllowed(telefonField, 15);
-        dynamicInput.setAmountofCharacterAllowed(hausnummerZusatzField, 1);
-        dynamicInput.setAmountofCharacterAllowed(plzField, 5);
-        dynamicInput.setAmountofCharacterAllowed(beschaeftigungField, 3);
-
-        dynamicInput.dateField(geburstagField);
     }
 
     private void userInputPruefungStatisch(JFrame frame, StaticInputProof staticInput, ArrayList<JTextField> lettersOnly, ArrayList<JTextField> numbersOnly, ArrayList<JTextField> specialChars) {
