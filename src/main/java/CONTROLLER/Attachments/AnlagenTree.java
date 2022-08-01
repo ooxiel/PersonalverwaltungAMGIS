@@ -4,16 +4,15 @@ import CONTROLLER.Attachments.FileDir.CreateChildNodes;
 import CONTROLLER.Attachments.FileDir.FileNode;
 
 import javax.swing.*;
+import javax.swing.event.TreeModelEvent;
+import javax.swing.event.TreeModelListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -30,19 +29,23 @@ public class AnlagenTree {
         DefaultTreeModel treeModel = new DefaultTreeModel(root);
 
         fileTree.setModel(treeModel);
+        fileTree.putClientProperty("JTree.lineStyle","Angled");
         fileTree.setShowsRootHandles(true);
         fileTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 
         fileTree.addTreeSelectionListener(new TreeSelectionListener() {
             public void valueChanged(TreeSelectionEvent event) {
 
-                DefaultMutableTreeNode dmtn = (DefaultMutableTreeNode) fileTree.getLastSelectedPathComponent();
-                FileNode fileNode = (FileNode) dmtn.getUserObject();
-                File file = fileNode.getFile();
+                try{
+                    DefaultMutableTreeNode dmtn = (DefaultMutableTreeNode) fileTree.getSelectionModel().getSelectionPath().getLastPathComponent();
+                    FileNode fileNode = (FileNode) dmtn.getUserObject();
+                    File file = fileNode.getFile();
 
-                System.out.println(fileTree.getLastSelectedPathComponent().toString());
+                    OpenAndDeleteAttachements(fileTree,main, file, id);
 
-                openAttachment(fileTree, main, file);
+                }catch (NullPointerException ex){
+                    ex.getMessage();
+                }
             }
         });
 
@@ -79,28 +82,74 @@ public class AnlagenTree {
         });
     }
 
-    public void deleteAttachements(JTree fileTree, String id){
+    private void OpenAndDeleteAttachements(JTree fileTree, JPanel main, File file, String id){
 
-        File fileRoot = idIsEmpty(id);
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode(new FileNode(fileRoot));
-        DefaultTreeModel treeModel = new DefaultTreeModel(root);
+        JPopupMenu pop = new JPopupMenu();
+            JMenuItem open = new JMenuItem("Open");
+            open.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
 
-        fileTree.setModel(treeModel);
-        fileTree.setShowsRootHandles(true);
-        fileTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+                        try {
+                            if (file.exists() && file.isFile() && Desktop.isDesktopSupported()) {
+                                Desktop.getDesktop().open(file);
+                            } else {
+                                JOptionPane.showMessageDialog(main, "Datei kann nicht geöffnet werden.");
+                            }
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+            });
 
-        fileTree.addTreeSelectionListener(new TreeSelectionListener() {
-            public void valueChanged(TreeSelectionEvent event) {
+            JMenuItem delete = new JMenuItem("Delete");
+            delete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-                DefaultMutableTreeNode dmtn = (DefaultMutableTreeNode) fileTree.getSelectionPath().getLastPathComponent();
-                FileNode fileNode = (FileNode) dmtn.getUserObject();
-                File file = fileNode.getFile();
+            if(file.exists() && file.isFile()){
+                file.delete();
 
+                show(fileTree, main, id);
+            }
+            }
+            });
 
+            pop.add(open);
+            pop.add(delete);
+
+                fileTree.addMouseListener(new MouseListener() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+
+                        if(SwingUtilities.isRightMouseButton(e)){
+                            pop.show(fileTree, e.getX(), e.getY());
+                        }
+                    }
+
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+
+                    }
+                });
 
             }
-        });
-    }
+
 
     public void clearAttachements(JTree fileTree, String id, JPanel main){
 
@@ -115,29 +164,5 @@ public class AnlagenTree {
             return new File("src/main/resources/AktenFiles/Pending");
         }
     }
-
-    private void openAttachment(JTree fileTree, JPanel main, File file){
-
-        fileTree.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-
-                File fileToOpen = new File(String.valueOf(file));
-
-                if (e.getClickCount() == 2 && fileToOpen.isFile()) {
-
-                    try {
-                        if (fileToOpen.exists() && Desktop.isDesktopSupported()) {
-                            Desktop.getDesktop().open(fileToOpen);
-                        } else {
-                            JOptionPane.showMessageDialog(main, "Datei kann nicht geöffnet werden.");
-                        }
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }
-        });
-    }
 }
+

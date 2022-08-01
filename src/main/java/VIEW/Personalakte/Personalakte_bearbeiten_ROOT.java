@@ -177,7 +177,6 @@ public class Personalakte_bearbeiten_ROOT {
             anlagen.show(fileTree, main, pidField.getText());
             anlagen.addAttachements(setAnlagenButton, fileTree, main, pidField.getText());
 
-
         Image logo_left = null;
         try {
             logo_left = ImageIO.read(new File("src/main/resources/icons/LogoKlein80x80.png"));
