@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.nio.file.DirectoryNotEmptyException;
 import java.sql.*;
 
 public class Personalakte {
@@ -72,7 +74,7 @@ public class Personalakte {
         });
     }
 
-    public void delete(JPanel main, JButton button, String pid){
+    public void delete(JPanel main, JButton button, String pid,JFrame frame){
 
         button.addActionListener(new ActionListener() {
             @Override
@@ -91,21 +93,31 @@ public class Personalakte {
                         } catch (ClassNotFoundException eee) {
                             return;
                         }
-                        try {
-                            con = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis");
-                        } catch (SQLException ee) {
-                            ee.printStackTrace();
-                        }
+                        try {con = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis");}catch (SQLException ee) {ee.printStackTrace();}
+
                         int id = Integer.parseInt(pid);
-                        String sql = "DELETE FROM Mitarbeiterstamm WHERE Person_ID=" + id + ";DELETE FROM adressinfo WHERE Adress_ID=" + id + ";DELETE FROM aktenstamm WHERE Akten_id=" + id + ";DELETE FROM jobinfo WHERE job_id=" + id + ";DELETE FROM aktenkennzeichen WHERE Akten_id=" + id + ";DELETE FROM mitarbeiterlogin  WHERE m_id=" + id + ";DELETE FROM hrroot WHERE hr_id=" + id + ";";
+                        String sql = "DELETE FROM Mitarbeiterstamm WHERE Person_ID=" + id + "; DELETE FROM Aktenkennzeichen WHERE Akten_ID="+id+";DELETE FROM adressinfo WHERE Adress_ID=" + id + ";DELETE FROM aktenstamm WHERE Akten_id=" + id + ";DELETE FROM jobinfo WHERE job_id=" + id + ";DELETE FROM aktenkennzeichen WHERE Akten_id=" + id + ";DELETE FROM mitarbeiterlogin  WHERE m_id=" + id + ";DELETE FROM hrroot WHERE hr_id=" + id + ";";
                         try {
                             Statement stmt = con.createStatement();
                             stmt.executeQuery(sql);
-                        } catch (SQLException ex) {
+                            //Inhalt des Directory löschen -> for schleife weil das die einzige im programm ist :)
+                            File file = new File( "src/main/resources/AktenFiles/"+id);
+                            if ( file.isDirectory() )
+                            {
+                                File[] listFiles = file.listFiles();
+                                for ( int i = 0; i < listFiles.length; i++ )
+                                {
+                                    file=( listFiles[ i ] );
+                                    file.delete();
+                                }
+                            }
+                            new File("src/main/resources/AktenFiles/"+id).delete();
+                            frame.dispose();
+                            JOptionPane.showMessageDialog(main,"Personalakte erfolgreich gelöscht");
+                        }catch (SQLException ex) {
                             throw new RuntimeException(ex);
                         }
                         break;
-
                     case 1:
                         confirmDelete.setVisible(false);
                         break;

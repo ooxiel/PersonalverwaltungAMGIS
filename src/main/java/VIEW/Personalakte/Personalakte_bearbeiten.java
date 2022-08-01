@@ -109,7 +109,7 @@ public class Personalakte_bearbeiten {
 
         show(frame);
         deleteAll(optionalInput_1, lettersOnly_1, numbersOnly_1, specialChars_1);
-        deleteP_Akte();
+        deleteP_Akte(frame);
 
 
         addOptionalInput(optionalInput_1);
@@ -149,11 +149,11 @@ public class Personalakte_bearbeiten {
         });
 
         AnlagenTree anlagen = new AnlagenTree();
-            anlagen.show(fileTree, main, pidField.getText());
+        anlagen.show(fileTree, main, pidField.getText());
 
         AnlagenTree pending = new AnlagenTree();
-            pending.show(pendingTree, main, null);
-            pending.addAttachements(setAnlagenButton, pendingTree, main, null);
+        pending.show(pendingTree, main, null);
+        pending.addAttachements(setAnlagenButton, pendingTree, main, null);
 
         IconDesign design = new IconDesign();
         design.setIcon(frame, logoIconLeft, "src/main/resources/icons/LogoKlein80x80.png");
@@ -178,10 +178,11 @@ public class Personalakte_bearbeiten {
         });
     }
 
-    private void deleteP_Akte() {
+    private void deleteP_Akte(JFrame frame) {
 
         Personalakte personalakte = new Personalakte();
-        personalakte.delete(main, personalakteLoeschenButton, pidField.getText());
+        personalakte.delete(main, personalakteLoeschenButton, pidField.getText(), frame);
+
     }
 
     private void addOptionalInput(ArrayList<JTextField> optionalInput) {

@@ -3,8 +3,14 @@ package MODEL.Personalakten;
 import MODEL.Login.CreateNew.AccountErzeugen;
 
 import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.stream.Stream;
 
 public class PA_bearbeiten {
     public Connection con=null;
@@ -15,7 +21,7 @@ public class PA_bearbeiten {
             return;
         }
         try {
-            con = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis"); //url,user,pw
+            con = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis");
 
         }catch(SQLException e){
             e.printStackTrace();
@@ -54,6 +60,24 @@ public class PA_bearbeiten {
             stmt.executeQuery(sql_Mstamm);
             stmt.executeQuery(sql_adresse);
             stmt.executeQuery(sql_jobinfo);
+
+            try {
+                if (!isEmpty(Path.of("src/main/resources/AktenFiles/Pending"))){
+                    System.out.println(new File("src/main/resources/AktenFiles/"+id).exists());
+                    if(new File("src/main/resources/AktenFiles/"+id).exists()){
+                        Path targetPath = Paths.get("src/main/resources/AktenFiles/"+id);
+                        Path sourcePath = Paths.get("src/main/resources/AktenFiles/Pending");
+                        Files.walk(sourcePath).forEach(path -> showFile(path.toFile(),targetPath,id));
+                    }else{
+                        new File("src/main/resources/AktenFiles/"+id).mkdirs();
+                        Path targetPath = Paths.get("src/main/resources/AktenFiles/"+id);
+                        Path sourcePath = Paths.get("src/main/resources/AktenFiles/Pending");
+                        Files.walk(sourcePath).forEach(path -> showFile(path.toFile(),targetPath,id));
+                    }
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             stmt.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -61,4 +85,49 @@ public class PA_bearbeiten {
 
 
     }
+    public void showFile(File file, Path targetPath,int newID) {
+        if (file.isDirectory()) {
+        } else {
+            System.out.println("File: " + file.getAbsolutePath());
+            try {
+                Files.move(Path.of(file.getAbsolutePath()), targetPath.resolve(file.getName()));
+
+                String sql_insertFile = "INSERT INTO AKTENKENNZEICHEN VALUES ("+nextPOS_NR()+" ,'"+targetPath.resolve(file.getName())+"',"+newID+");";
+                Statement stmt = con.createStatement();
+                stmt.executeQuery(sql_insertFile);
+                stmt.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+    public int nextPOS_NR(){
+        int nextid=1;
+        try{
+            Statement stmt=con.createStatement();
+            String sql= "SELECT * FROM Aktenkennzeichen";
+            ResultSet r= stmt.executeQuery(sql);
+            while(r.next()){
+                if(r.getInt(1)>nextid)
+                    nextid=r.getInt(1);
+            }
+            nextid++;
+            r.close();
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return nextid;
+    }
+
+    public boolean isEmpty(Path path) throws IOException {
+        if (Files.isDirectory(path)) {
+            try (Stream<Path> entries = Files.list(path)) {
+                return !entries.findFirst().isPresent();
+            }
+        }
+        return false;
+    }
+
 }

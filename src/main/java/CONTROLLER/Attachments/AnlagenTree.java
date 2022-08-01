@@ -15,6 +15,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
@@ -106,8 +110,16 @@ public class AnlagenTree {
             public void actionPerformed(ActionEvent e) {
 
             if(file.exists() && file.isFile()){
+                try {Class.forName("org.hsqldb.jdbcDriver");}catch(ClassNotFoundException ee) {return;}
+                try {
+                    Connection con = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis");
+                    System.out.println("src/main/resources/AktenFiles/"+id+"/"+file.getName());
+                    String sql = "DELETE FROM Aktenkennzeichen WHERE Dateipfad='src\\main\\resources\\AktenFiles\\"+id+"\\"+file.getName()+"'";
+                    Statement stmt = con.createStatement();
+                    stmt.executeQuery(sql);
+                    stmt.close();
+                    }catch(SQLException eee){eee.printStackTrace();}
                 file.delete();
-
                 show(fileTree, main, id);
             }
             }

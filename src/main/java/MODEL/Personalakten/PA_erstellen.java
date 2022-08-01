@@ -116,30 +116,11 @@ public class PA_erstellen {
             showLogindaten(newID,main);
 
             try {
-
                 if (!isEmpty(Path.of("src/main/resources/AktenFiles/Pending"))){
-
-                    System.out.println(new File("src/main/resources/AktenFiles/"+newID).exists());
-
-                    if(new File("src/main/resources/AktenFiles/"+newID).exists()){
-
-                        Path targetPath = Paths.get("src/main/resources/AktenFiles/"+newID);
-                        Path sourcePath = Paths.get("src/main/resources/AktenFiles/Pending");
-
-                        Files.walk(sourcePath).forEach(path -> showFile(path.toFile(),targetPath,newID));
-
-                    }else{
-
-                        new File("src/main/resources/AktenFiles/"+newID).mkdirs();
-
-                        Path targetPath = Paths.get("src/main/resources/AktenFiles/"+newID);
-                        Path sourcePath = Paths.get("src/main/resources/AktenFiles/Pending");
-
-                        Files.walk(sourcePath).forEach(path -> showFile(path.toFile(),targetPath,newID));
-                    }
-
-
-
+                    new File("src/main/resources/AktenFiles/"+newID).mkdirs();
+                    Path targetPath = Paths.get("src/main/resources/AktenFiles/"+newID);
+                    Path sourcePath = Paths.get("src/main/resources/AktenFiles/Pending");
+                    Files.walk(sourcePath).forEach(path -> showFile(path.toFile(),targetPath,newID));
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -166,7 +147,6 @@ public class PA_erstellen {
 
     public void showFile(File file, Path targetPath,int newID) {
         if (file.isDirectory()) {
-
         } else {
             System.out.println("File: " + file.getAbsolutePath());
             try {
