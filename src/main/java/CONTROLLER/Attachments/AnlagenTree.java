@@ -36,9 +36,11 @@ public class AnlagenTree {
         fileTree.addTreeSelectionListener(new TreeSelectionListener() {
             public void valueChanged(TreeSelectionEvent event) {
 
-                DefaultMutableTreeNode dmtn = (DefaultMutableTreeNode) fileTree.getSelectionPath().getLastPathComponent();
+                DefaultMutableTreeNode dmtn = (DefaultMutableTreeNode) fileTree.getLastSelectedPathComponent();
                 FileNode fileNode = (FileNode) dmtn.getUserObject();
                 File file = fileNode.getFile();
+
+                System.out.println(fileTree.getLastSelectedPathComponent().toString());
 
                 openAttachment(fileTree, main, file);
             }
@@ -77,17 +79,31 @@ public class AnlagenTree {
         });
     }
 
-    public void deleteAttachements(JTree fileTree){
+    public void deleteAttachements(JTree fileTree, String id){
+
+        File fileRoot = idIsEmpty(id);
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode(new FileNode(fileRoot));
+        DefaultTreeModel treeModel = new DefaultTreeModel(root);
+
+        fileTree.setModel(treeModel);
+        fileTree.setShowsRootHandles(true);
+        fileTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 
         fileTree.addTreeSelectionListener(new TreeSelectionListener() {
-            @Override
-            public void valueChanged(TreeSelectionEvent e) {
+            public void valueChanged(TreeSelectionEvent event) {
+
+                DefaultMutableTreeNode dmtn = (DefaultMutableTreeNode) fileTree.getSelectionPath().getLastPathComponent();
+                FileNode fileNode = (FileNode) dmtn.getUserObject();
+                File file = fileNode.getFile();
+
+
 
             }
         });
     }
 
     public void clearAttachements(JTree fileTree, String id, JPanel main){
+
 
     }
 
