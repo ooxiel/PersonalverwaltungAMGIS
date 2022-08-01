@@ -1,6 +1,8 @@
 package MODEL.Update;
 
 import VIEW.TableModel.Login.LogindatenTableModel;
+import VIEW.TableModel.Login.Mitarbeiterlogindaten;
+import VIEW.TableModel.Login.MitarbeiterlogindatenTableModel;
 import VIEW.TableModel.Personalakten.PersonalaktenTableModel;
 import VIEW.TableModel.Login.Logindaten;
 import VIEW.TableModel.Personalakten.Personalakten;
@@ -62,8 +64,8 @@ public class MainHR_Table {
                 int id = rs.getInt(1);
                 String kontoname = String.valueOf(rs.getString(2));
                 String passwort = String.valueOf(rs.getString(3));
-                boolean hrmitarbeiter = rs.getBoolean(4);
-                Logindaten ld = new Logindaten(id,kontoname,passwort,hrmitarbeiter);
+                boolean isRoot = rs.getBoolean(4);
+                Logindaten ld = new Logindaten(id,kontoname,passwort,isRoot);
                 logindaten.add(ld);
             }
             LogindatenTableModel ldtm = new LogindatenTableModel(logindaten);
@@ -76,25 +78,24 @@ public class MainHR_Table {
     return table;
     }
 
-    public JTable defaultTableAccounts_HR(JTable table){//ganzen Inhalt der Accounts auslesen und in einer Table darstellen
+    public JTable defaultTableMlogin(JTable table){//ganzen Inhalt der Accounts auslesen und in einer Table darstellen
         try{
             con=getCon();
-            String sql= "SELECT * FROM HRroot";
+            String sql= "SELECT * FROM Mitarbeiterlogin";
             Statement stmt = con.createStatement();
             ResultSet rs=stmt.executeQuery(sql);
 
-            List<Logindaten> logindaten = new ArrayList<>();
+            List<Mitarbeiterlogindaten> mitarbeiterlogindaten = new ArrayList<>();
 
             while (rs.next()){
                 int id = rs.getInt(1);
                 String kontoname = String.valueOf(rs.getString(2));
                 String passwort = String.valueOf(rs.getString(3));
-                boolean hrmitarbeiter = rs.getBoolean(4);
-                Logindaten ld = new Logindaten(id,kontoname,passwort,hrmitarbeiter);
-                logindaten.add(ld);
+                Mitarbeiterlogindaten mld = new Mitarbeiterlogindaten(id,kontoname,passwort);
+                mitarbeiterlogindaten.add(mld);
             }
-            LogindatenTableModel ldtm = new LogindatenTableModel(logindaten);
-            table.setModel(ldtm);
+            MitarbeiterlogindatenTableModel mldtm = new MitarbeiterlogindatenTableModel(mitarbeiterlogindaten);
+            table.setModel(mldtm);
             rs.close();
             stmt.close();
             try{con.close();}catch(SQLException ex) {ex.printStackTrace();}

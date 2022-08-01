@@ -94,6 +94,7 @@ public class MainRoot {
         MainHR_Table mHRt = new MainHR_Table();
         mHRt.filterTable(personalaktenTable, geschlecht.getSelectedItem().toString(), vornameField.getText(), nameField.getText(), jobnameField.getText(), abteilungField.getText(), standortFeild.getText());
         mHRt.defaultTableAccounts(loginTable);
+        mHRt.defaultTableMlogin(mitarbeiterLoginTable);
     }
 
     private void editPersonalakte() {
