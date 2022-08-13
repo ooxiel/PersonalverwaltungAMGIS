@@ -1,6 +1,8 @@
 package VIEW.MainScreen;
 
 import CONTROLLER.DefaultApperance.DefaultFraming;
+import CONTROLLER.DefaultApperance.Filter;
+import CONTROLLER.Services.Personalakte;
 import MODEL.Update.MainHR_Table;
 import VIEW.Personalakte.Personalakte_bearbeiten_ROOT;
 import VIEW.Personalakte.Personalakte_erstellen;
@@ -22,7 +24,7 @@ import java.awt.event.MouseEvent;
 import java.sql.*;
 import java.util.Locale;
 
-public class MainRoot {
+public class MainRoot extends JFrame implements INT_DefaultScreen, INT_HRScreen {
     private JPanel main;
     private javax.swing.JScrollPane JScrollPane;
     private JTable personalaktenTable;
@@ -46,109 +48,34 @@ public class MainRoot {
     public MainRoot() {
 
         JFrame frame = new JFrame();
-        show(frame);
-        search();
-        filter();
-        createPersonalakte();
-
-        DefaultFraming framing = new DefaultFraming();
-        framing.defaultLogout(frame);
+            show(frame);
+            logout(frame);
+            searchPersonalakte();
+            createPersonalakte(neuePersonalakteErstellenButton);
+            editPersonalakte(personalaktenTable);
+    }
+    @Override
+    public void show(JFrame frame) {
+        new DefaultFraming().show(frame, main, 1000, 1000, "EXIT");
+        new Filter().changeBorderLook(geschlecht, nameField, vornameField, jobnameField, abteilungField, standortFeild);
     }
 
-    private void search() {
+    @Override
+    public void logout(JFrame frame) {
+        new DefaultFraming().defaultLogout(frame);
+    }
+
+    @Override
+    public void searchPersonalakte() {
+
+        MainHR_Table mHRt = new MainHR_Table();
         sucheStartenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                filter();
-            }
-        });
-    }
 
-    private void createPersonalakte() {
-        neuePersonalakteErstellenButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Personalakte_erstellen();
-            }
-        });
-    }
-
-    private void show(JFrame frame) {
-
-        DefaultFraming framing = new DefaultFraming();
-        framing.show(frame, main, 1000, 1000, "EXIT");
-
-        Border border = new BevelBorder(0, Color.white, Color.decode("#050a30"));
-
-        geschlecht.setBorder(border);
-        nameField.setBorder(border);
-        vornameField.setBorder(border);
-        jobnameField.setBorder(border);
-        abteilungField.setBorder(border);
-        standortFeild.setBorder(border);
-
-        editPersonalakte();
-    }
-
-    public void filter() {
-        MainHR_Table mHRt = new MainHR_Table();
-        mHRt.filterTable(personalaktenTable, geschlecht.getSelectedItem().toString(), vornameField.getText(), nameField.getText(), jobnameField.getText(), abteilungField.getText(), standortFeild.getText());
-        mHRt.defaultTableAccounts(loginTable);
-        mHRt.defaultTableMlogin(mitarbeiterLoginTable);
-    }
-
-    private void editPersonalakte() {
-
-        personalaktenTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        personalaktenTable.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-
-                if (e.getClickCount() == 2) {
-                    JTable selected = (JTable) e.getSource();
-                    int row = selected.getSelectedRow();
-                    int id_toEdit = Integer.parseInt(String.valueOf(selected.getModel().getValueAt(row, 0)));
-                    Connection con = null;
-                    try {
-                        Class.forName("org.hsqldb.jdbcDriver");
-                    } catch (ClassNotFoundException ee) {
-                        return;
-                    }
-                    try {
-                        con = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis");
-                        String sql = "SELECT ms.person_id, ms.anrede, ms.vorname, ms.zweitname,ms.nachname, ms.geburtstag, ms.telefon, ms.email, ai.strasse, ai.strassen_nummer, ai.strassen_buchstabe, ai.land, ai.bundesland, ai.plz, ji.jobname, ji.beschaeftigungsgrad, ji.abteilung, ji.abteilungsleiter, ji.raum, ji.standort, ms.erstellt_datum, ms.aenderung_datum FROM mitarbeiterstamm ms, adressinfo ai, jobinfo ji WHERE ms.person_id=" + id_toEdit + " AND ms.person_id=ai.Adress_ID AND person_id=ji.job_ID";
-                        Statement stmt = con.createStatement();
-                        ResultSet rs = stmt.executeQuery(sql);
-                        while (rs.next()) {
-                            int id = rs.getInt(1);
-                            String anrede = String.valueOf(rs.getString(2));
-                            String vorname = String.valueOf(rs.getString(3));
-                            String zweitname = String.valueOf(rs.getString(4));
-                            String nachname = String.valueOf(rs.getString(5));
-                            String geburtsdatum = String.valueOf(rs.getString(6));
-                            String telefon = String.valueOf(rs.getString(7));
-                            String email = String.valueOf(rs.getString(8));
-                            String strasse = String.valueOf(rs.getString(9));
-                            String strassenNR = String.valueOf(rs.getString(10));
-                            String strassenBuchstabe = String.valueOf(rs.getString(11));
-                            String land = String.valueOf(rs.getString(12));
-                            String bundesland = String.valueOf(rs.getString(13));
-                            String plz = String.valueOf(rs.getString(14));
-                            String jobname = String.valueOf(rs.getString(15));
-                            String besGrad = String.valueOf(rs.getString(16));
-                            String abteilung = String.valueOf(rs.getString(17));
-                            String abtLeiter = String.valueOf(rs.getString(18));
-                            String raum = String.valueOf(rs.getString(19));
-                            String standort = String.valueOf(rs.getString(20));
-                            String erstelltDatum = String.valueOf(rs.getString(21));
-                            String letzteAenderung = String.valueOf(rs.getString(22));
-                            new Personalakte_bearbeiten_ROOT(id, anrede, vorname, zweitname, nachname, geburtsdatum, telefon, email, strasse, strassenNR, strassenBuchstabe, land, bundesland, plz, jobname, besGrad, abteilung, abtLeiter, raum, standort, erstelltDatum, letzteAenderung);
-                        }
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    }
-                }
+                mHRt.filterTable(personalaktenTable, geschlecht.getSelectedItem().toString(), vornameField.getText(), nameField.getText(), jobnameField.getText(), abteilungField.getText(), standortFeild.getText());
+                mHRt.defaultTableAccounts(loginTable);
+                mHRt.defaultTableMlogin(mitarbeiterLoginTable);
             }
         });
     }

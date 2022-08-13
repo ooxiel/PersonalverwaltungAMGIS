@@ -1,23 +1,20 @@
 package VIEW.MainScreen;
 
+import CONTROLLER.DefaultApperance.DefaultFraming;
 import VIEW.TableModel.Mitarbeiter.Mitarbeiter;
-import VIEW.Login.Login;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.text.StyleContext;
 import java.awt.*;
-import java.io.IOException;
 import java.sql.*;
 import java.util.Locale;
 
-public class MainMitarbeiter {
+public class DefaultMitarbeiter implements INT_DefaultScreen {
 
     private JPanel main;
     private JPanel personalInfoPanel;
@@ -46,22 +43,13 @@ public class MainMitarbeiter {
     private JLabel standortLabel;
     private JLabel welcomeLabel;
     private JTable table1;
-    private JTree aktenBaum;
 
-    public static void main(String[] args) {
+    public DefaultMitarbeiter(Mitarbeiter m) {
 
-    }
-
-    public MainMitarbeiter(Mitarbeiter m) {
         JFrame frame = new JFrame();
 
-        frame.add(main);
-        frame.setSize(1000, 900);
-        frame.pack();
-        frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        disposeButton(frame);
+        show(frame);
+        logout(frame);
 
 
         Connection con = null;
@@ -112,37 +100,14 @@ public class MainMitarbeiter {
 
     }
 
+    @Override
+    public void show(JFrame frame) {
+        new DefaultFraming().show(frame, main, 1000, 900, "EXIT");
+    }
 
-    private void disposeButton(JFrame frame) {
-        JMenuBar menu = new JMenuBar();
-        JMenu logout = new JMenu("Logout");
-
-
-        logout.setForeground(Color.white);
-
-        menu.setBackground(Color.decode("#050a30"));
-
-        menu.add(logout);
-        logout.addMenuListener(new MenuListener() {
-            @Override
-            public void menuSelected(MenuEvent e) {
-                try {
-                    new Login();
-                    frame.dispose();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-
-            @Override
-            public void menuDeselected(MenuEvent e) {
-            }
-
-            @Override
-            public void menuCanceled(MenuEvent e) {
-            }
-        });
-        frame.setJMenuBar(menu);
+    @Override
+    public void logout(JFrame frame) {
+        new DefaultFraming().defaultLogout(frame);
     }
 
     {

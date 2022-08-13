@@ -11,8 +11,11 @@ public class DBConnect {
         try {Class.forName("org.hsqldb.jdbcDriver");}catch(ClassNotFoundException e) {return null;
         }
         try {
-            Connection con = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis"); return con;}catch(
-                SQLException e){e.printStackTrace();}
+            Connection con = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis"); return con;
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+
         return null;
     }
     public void closeCon(Connection con){

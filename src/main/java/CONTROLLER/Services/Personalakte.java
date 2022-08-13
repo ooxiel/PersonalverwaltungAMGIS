@@ -2,6 +2,7 @@ package CONTROLLER.Services;
 
 import CONTROLLER.UserInput.CheckInput.StaticInputProof;
 import MODEL.Personalakten.PA_bearbeiten;
+import MODEL.Personalakten.PA_erstellen;
 import MODEL.Update.MainHR_Table;
 import VIEW.Personalakte.Personalakte_bearbeiten;
 
@@ -15,9 +16,48 @@ import java.nio.file.DirectoryNotEmptyException;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class Personalakte {
+public class Personalakte implements INTPersonalakte{
 
-    public void edit(JTable table){
+    private JPanel main;
+    private JButton abbrechenButton;
+    private JButton personalakteErstellenButton;
+    private JButton alleEingabenLoeschenButton;
+
+    private JComboBox geschlecht;
+    private JTextField zweitNameField;
+    private JTextField vornameField;
+    private JTextField geburstagField;
+    private JTextField telefonField;
+    private JTextField emailField;
+    private JTextField nameField;
+
+    private JTextField strasseField;
+    private JTextField hausnummerField;
+    private JTextField hausnummerZusatzField;
+    private JTextField landField;
+    private JTextField bundeslandField;
+    private JTextField plzField;
+
+    private JTextField jobnameField;
+    private JTextField beschaeftigungField;
+    private JTextField abteilungField;
+    private JTextField abteilungsLeiterField;
+    private JTextField raumField;
+    private JTextField standortField;
+
+    private JButton button;
+
+    @Override
+    public void create() {
+
+    }
+
+    public void save(){
+
+    }
+
+    @Override
+    public void edit(JTable table) {
 
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -68,6 +108,7 @@ public class Personalakte {
                             String letzteAenderung = String.valueOf(rs.getString(22));
                             new Personalakte_bearbeiten(id, anrede, vorname, zweitname, nachname, geburtsdatum, telefon, email, strasse, strassenNR, strassenBuchstabe, land, bundesland, plz, jobname, besGrad, abteilung, abtLeiter, raum, standort, erstelltDatum, letzteAenderung);
                         }
+
                         stmt.close();
                         rs.close();
                     } catch (SQLException ex) {
@@ -78,12 +119,8 @@ public class Personalakte {
         });
     }
 
-    public void save(){
-
-    }
-
-    public void delete(JPanel main, JButton button, String pid,JFrame frame){
-
+    @Override
+    public void delete(JFrame frame, JPanel main, JButton button, String pid) {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -119,6 +156,7 @@ public class Personalakte {
                                     file.delete();
                                 }
                             }
+
                             new File("src/main/resources/AktenFiles/"+id).delete();
                             frame.dispose();
                             JOptionPane.showMessageDialog(main,"Personalakte erfolgreich gelöscht");
@@ -134,7 +172,62 @@ public class Personalakte {
         });
     }
 
-    public void create(){
 
+
+    public void create(JFrame frame, JPanel main, JButton button, ArrayList<JTextField> lettersOnly,ArrayList<JTextField> numbersOnly , ArrayList<JTextField> specialChars, JTextField beschaeftigungField, JTextField geburstagField, JTextField telefonField, JTextField emailField, JComboBox geschlecht ){
+
+        StaticInputProof staticInput = new StaticInputProof();
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                staticInput.setMaxInteger(beschaeftigungField, 100);
+
+                if (staticInput.inputNotNull(lettersOnly) &&
+                        staticInput.inputNotNull(numbersOnly) &&
+                        staticInput.inputNotNull(specialChars) &&
+                        staticInput.comboBoxFieldisEmpty(geschlecht)) {
+
+                    JOptionPane.showMessageDialog(main, "Es fehlen notwendige Eingaben!");
+
+                } else {
+                    //createMitarbeiter(frame, main, staticInput, );
+                }
+
+            }
+        });
+
+    }
+
+    private void createMitarbeiter(JFrame frame, JPanel main, StaticInputProof staticInput, JComboBox geschlecht, JTextField vornameField, JTextField zweitNameField, JTextField nameField,
+                                   JTextField strasseField, JTextField hausnummerField, JTextField hausnummerZusatzField, JTextField landField, JTextField bundeslandField,
+                                   JTextField plzField, JTextField jobnameField, JTextField beschaeftigungField, JTextField abteilungField, JTextField abteilungsLeiterField,
+                                   JTextField raumField, JTextField standortField, JTextField  geburstagField, JTextField telefonField, JTextField emailField) {
+
+        boolean testGeburstag = staticInput.dateValid(geburstagField);
+        boolean testTelefon = staticInput.telefonValide(telefonField);
+        boolean testMail = staticInput.mailValide(emailField);
+
+        if (testGeburstag && testTelefon && testMail) {
+
+            PA_erstellen pae = new PA_erstellen();
+
+            pae.einfuegenPA(geschlecht.getSelectedItem().toString(), vornameField.getText(), zweitNameField.getText(), nameField.getText(),
+                    geburstagField.getText(), telefonField.getText(), emailField.getText(), strasseField.getText(), hausnummerField.getText(),
+                    hausnummerZusatzField.getText(), landField.getText(), bundeslandField.getText(), plzField.getText(), jobnameField.getText(),
+                    beschaeftigungField.getText(), abteilungField.getText(), abteilungsLeiterField.getText(), raumField.getText(), standortField.getText(), main);
+
+            try {
+                pae.con.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+
+            JOptionPane.showMessageDialog(main, "Eingabe Erfolgreich!");
+            frame.dispose();
+
+        } else {
+            JOptionPane.showMessageDialog(main, "Ungueltige Angaben!");
+        }
     }
 }

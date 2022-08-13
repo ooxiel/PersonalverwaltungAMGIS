@@ -118,9 +118,9 @@ public class Personalakte_erstellen extends JFrame {
 
         StaticInputProof staticInput = new StaticInputProof();
 
-        disposeButton(frame);
-        deleteAll(optionalInput, lettersOnly, numbersOnly, specialChars);
-        userInputPruefungStatisch(frame, staticInput, lettersOnly, numbersOnly, specialChars);
+            disposeButton(frame);
+            deleteAll(optionalInput, lettersOnly, numbersOnly, specialChars);
+            userInputPruefungStatisch(frame, staticInput, lettersOnly, numbersOnly, specialChars);
 
     }
     private void disposeButton(JFrame frame) {

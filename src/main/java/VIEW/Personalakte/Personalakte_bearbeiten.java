@@ -1,6 +1,7 @@
 package VIEW.Personalakte;
 
 import CONTROLLER.Attachments.AnlagenTree;
+import CONTROLLER.Attachments.DIR;
 import CONTROLLER.DefaultApperance.DefaultFraming;
 import CONTROLLER.AdditionalDesignElements.IconDesign;
 import CONTROLLER.Services.Personalakte;
@@ -53,7 +54,6 @@ public class Personalakte_bearbeiten {
     private JTextField beschaeftigungField;
     private JTextField raumField;
 
-    private JButton button1;
     private JButton abbrechenButton;
     private JButton alleEingabenLoeschenButton;
     private JButton aenderungenUebernehmenButton;
@@ -96,21 +96,6 @@ public class Personalakte_bearbeiten {
         this.geandertDate.setText(letzteAenderung);
 
         JFrame frame = new JFrame();
-        DefaultFraming framing = new DefaultFraming();
-        framing.show(frame, main, 1000, 1000, "DISPOSE");
-        frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                super.windowClosing(e);
-
-                File dir = new File("src/main/resources/AktenFiles/Pending/");
-                try {
-                    FileUtils.cleanDirectory(dir);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        });
 
         PullInput pull = new PullInput();
         ArrayList<JTextField> optionalInput = pull.itemstoAdd(zweitNameField, hausnummerZusatzField, abteilungsLeiterField);
@@ -118,16 +103,20 @@ public class Personalakte_bearbeiten {
         ArrayList<JTextField> numbersOnly = pull.itemstoAdd(plzField, beschaeftigungField, hausnummerField);
         ArrayList<JTextField> specialChars = pull.itemstoAdd(emailField, geburstagField, telefonField, abteilungField);
 
-        AnlagenTree anlagen = new AnlagenTree();
-            anlagen.show(fileTree, main, pidField.getText());
+        new DefaultFraming().show(frame, main, 1000, 1000, "DISPOSE");
+        new DIR().clearOnClose(frame, abbrechenButton);
+        new AnlagenTree().show(fileTree, main, pidField.getText());
+        new Delete().all(alleEingabenLoeschenButton, optionalInput, lettersOnly, numbersOnly, specialChars, raumField, geschlecht);
+        new Personalakte().delete(frame, main, personalakteLoeschenButton, pidField.getText());
+
 
         AnlagenTree pending = new AnlagenTree();
-            pending.show(pendingTree, main, null);
-            pending.addAttachements(setAnlagenButton, pendingTree, main, null);
+        pending.show(pendingTree, main, null);
+        pending.addAttachements(setAnlagenButton, pendingTree, main, null);
 
         IconDesign design = new IconDesign();
-            design.setIcon(frame, logoIconLeft, "src/main/resources/icons/LogoKlein80x80.png");
-            design.setIcon(frame, logoIconRight, "src/main/resources/icons/noLogoKlein80x80.png");
+        design.setIcon(frame, logoIconLeft, "src/main/resources/icons/LogoKlein80x80.png");
+        design.setIcon(frame, logoIconRight, "src/main/resources/icons/noLogoKlein80x80.png");
 
 
         DynamicInputProof dynamicInput = new DynamicInputProof();
@@ -144,38 +133,10 @@ public class Personalakte_bearbeiten {
 
         StaticInputProof staticInput = new StaticInputProof();
 
-        disposeButton(frame);
-        deleteP_Akte(frame);
-        deleteAll(optionalInput, lettersOnly, numbersOnly, specialChars);
         userInputPruefungStatisch(frame, staticInput, lettersOnly, numbersOnly, specialChars);
 
-
     }
-    private void disposeButton(JFrame frame) {
 
-        abbrechenButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-
-                File dir = new File("src/main/resources/AktenFiles/Pending/");
-                try {
-                    FileUtils.cleanDirectory(dir);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        });
-    }
-    private void deleteAll(ArrayList<JTextField> optionalInput, ArrayList<JTextField> lettersOnly, ArrayList<JTextField> numbersOnly, ArrayList<JTextField> specialChars) {
-
-        new Delete().all(alleEingabenLoeschenButton, optionalInput, lettersOnly, numbersOnly, specialChars, raumField, geschlecht);
-    }
-    private void deleteP_Akte(JFrame frame) {
-
-        new Personalakte().delete(main, personalakteLoeschenButton, pidField.getText(), frame);
-
-    }
 
     private void userInputPruefungStatisch(JFrame frame, StaticInputProof staticInput, ArrayList<JTextField> lettersOnly, ArrayList<JTextField> numbersOnly, ArrayList<JTextField> specialChars) {
 
@@ -245,7 +206,7 @@ public class Personalakte_bearbeiten {
      */
     private void $$$setupUI$$$() {
         main = new JPanel();
-        main.setLayout(new GridLayoutManager(14, 5, new Insets(0, 0, 0, 0), -1, -1));
+        main.setLayout(new GridLayoutManager(13, 5, new Insets(0, 0, 0, 0), -1, -1));
         main.setBackground(new Color(-16446928));
         personalInfoPanel = new JPanel();
         personalInfoPanel.setLayout(new GridLayoutManager(8, 4, new Insets(0, 0, 0, 0), -1, -1));
@@ -385,11 +346,6 @@ public class Personalakte_bearbeiten {
         beschaeftigungField = new JTextField();
         beschaeftigungField.setText("");
         jobInfoPanel.add(beschaeftigungField, new GridConstraints(0, 6, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 1, false));
-        button1 = new JButton();
-        button1.setBackground(new Color(-1));
-        button1.setForeground(new Color(-16446928));
-        button1.setText("Button");
-        main.add(button1, new GridConstraints(10, 1, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         abbrechenButton = new JButton();
         abbrechenButton.setBackground(new Color(-1));
         abbrechenButton.setForeground(new Color(-16446928));
@@ -409,11 +365,11 @@ public class Personalakte_bearbeiten {
         final JPanel panel4 = new JPanel();
         panel4.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel4.setBackground(new Color(-16446928));
-        main.add(panel4, new GridConstraints(1, 0, 10, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        main.add(panel4, new GridConstraints(1, 0, 9, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JPanel panel5 = new JPanel();
         panel5.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel5.setBackground(new Color(-16446928));
-        main.add(panel5, new GridConstraints(1, 4, 10, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        main.add(panel5, new GridConstraints(1, 4, 9, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         logoIconRight = new JLabel();
         logoIconRight.setText("");
         panel5.add(logoIconRight, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -447,16 +403,16 @@ public class Personalakte_bearbeiten {
         final JPanel panel7 = new JPanel();
         panel7.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel7.setBackground(new Color(-16446928));
-        main.add(panel7, new GridConstraints(11, 0, 1, 5, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        main.add(panel7, new GridConstraints(10, 0, 1, 5, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JPanel panel8 = new JPanel();
         panel8.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel8.setBackground(new Color(-16446928));
-        main.add(panel8, new GridConstraints(13, 0, 1, 5, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        main.add(panel8, new GridConstraints(12, 0, 1, 5, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         personalakteLoeschenButton = new JButton();
         personalakteLoeschenButton.setBackground(new Color(-1));
         personalakteLoeschenButton.setForeground(new Color(-16446928));
         personalakteLoeschenButton.setText("Personalakte löschen");
-        main.add(personalakteLoeschenButton, new GridConstraints(12, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        main.add(personalakteLoeschenButton, new GridConstraints(11, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel9 = new JPanel();
         panel9.setLayout(new GridLayoutManager(6, 1, new Insets(0, 0, 0, 0), -1, -1));
         main.add(panel9, new GridConstraints(6, 1, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));

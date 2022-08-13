@@ -4,8 +4,8 @@ package VIEW.Login;
 import VIEW.TableModel.Mitarbeiter.HR_Mitarbeiter;
 import VIEW.TableModel.Mitarbeiter.Mitarbeiter;
 import MODEL.Login.Check.LoginCheck;
-import VIEW.MainScreen.MainHR;
-import VIEW.MainScreen.MainMitarbeiter;
+import VIEW.MainScreen.DefaultHR;
+import VIEW.MainScreen.DefaultMitarbeiter;
 import VIEW.MainScreen.MainRoot;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
@@ -49,9 +49,7 @@ public class Login {
     }
 
     public Login() throws IOException {
-    /*
-        Login-Panel wird geoeffnet
-     */
+
         JFrame frame = new JFrame();
         frame.add(main);
         frame.setSize(500, 300);
@@ -61,13 +59,9 @@ public class Login {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 
-
-
-
     /*
         Zentrierung Login-Panel in Abhängigkeit der Monitorauflösung
      */
-
 
 
     /*
@@ -175,8 +169,8 @@ public class Login {
             JOptionPane.showMessageDialog(main, "Username oder Passwort nicht aufgefuellt!");
         } else {
             LoginCheck lc = new LoginCheck();
-            //System.out.println("amgis: "+lc.isHR_User("amgis"));
-            //System.out.println("admin: "+lc.isHR_User("admin"));
+
+
             if (lc.validateKontoname_HR(usernameField.getText()) && lc.validatePasswort_HR(usernameField.getText(), String.valueOf(passwordField.getPassword()))) {
                 if (lc.isRoot(Integer.parseInt(lc.searchIDwithKN_HR(usernameField.getText())))) {
                     frame.dispose();
@@ -185,13 +179,13 @@ public class Login {
                     //Mitarbeiter Objekt erzeugen
                     HR_Mitarbeiter hrMitarbeiter = new HR_Mitarbeiter(Integer.parseInt(lc.searchIDwithKN_HR(usernameField.getText())), usernameField.getText(), String.valueOf(passwordField.getPassword()), true);
                     frame.dispose();
-                    new MainHR(/*hrMitarbeiter*/);
+                    new DefaultHR(/*hrMitarbeiter*/);
                 }
             } else if (lc.validateKontoname_M(usernameField.getText()) && lc.validatePasswort_M(usernameField.getText(), String.valueOf(passwordField.getPassword()))) {
                 //Mitarbeiter Objekt erzeugen
                 frame.dispose();
                 Mitarbeiter m = new Mitarbeiter(Integer.parseInt(lc.searchIDwithKN_M(usernameField.getText())), usernameField.getText(), String.valueOf(passwordField.getPassword()));
-                new MainMitarbeiter(m);
+                new DefaultMitarbeiter(m);
             } else {
                 JOptionPane.showMessageDialog(main, "Username oder Passwort ist falsch!");
                 passwordField.setText("");

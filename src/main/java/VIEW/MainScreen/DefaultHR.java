@@ -1,8 +1,9 @@
 package VIEW.MainScreen;
 
+import CONTROLLER.DefaultApperance.DefaultFraming;
+import CONTROLLER.DefaultApperance.Filter;
 import CONTROLLER.Services.Personalakte;
 import MODEL.Update.MainHR_Table;
-import VIEW.Login.Login;
 import VIEW.Personalakte.Personalakte_erstellen;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
@@ -11,16 +12,13 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
 import java.util.Locale;
 
-public class MainHR extends JFrame {
+public class DefaultHR extends JFrame implements INT_DefaultScreen, INT_HRScreen {
     private JPanel main;
     private JTable personalaktenTable;
     private JButton neuenHRMitarbeiterErstellenButton;
@@ -55,91 +53,35 @@ public class MainHR extends JFrame {
     private JPanel dashboardPanel;
     private JPanel personalakteErstellen;
 
+    public DefaultHR() {
 
-    public static void main(String[] args) {
-        new MainHR();
+        JFrame frame = new JFrame();
+            show(frame);
+            logout(frame);
+            createPersonalakte(neuePersonalakteErstellenButton);
+            editPersonalakte(personalaktenTable);
+            searchPersonalakte();
+
+    }
+    @Override
+    public void show(JFrame frame) {
+        new DefaultFraming().show(frame, main, 1000, 1000, "EXIT");
+        new Filter().changeBorderLook(geschlecht, nameField, vornameField, jobnameField, abteilungField, standortField);
     }
 
-    public MainHR(/*HR_Mitarbeiter hrMitarbeiter*/) {
-        JFrame frame = new JFrame();
-        show(frame);
-        disposeButton(frame);
-        filter();
-        neuePersonalakteErstellenButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Personalakte_erstellen();
-            }
-        });
+    @Override
+    public void logout(JFrame frame) {
+        new DefaultFraming().defaultLogout(frame);
+    }
 
+    @Override
+    public void searchPersonalakte() {
         sucheStartenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                filter();
+                new MainHR_Table().filterTable(personalaktenTable, geschlecht.getSelectedItem().toString(), vornameField.getText(), nameField.getText(), jobnameField.getText(), abteilungField.getText(), standortField.getText());
             }
         });
-    }
-
-    private void show(JFrame frame) {
-        frame.add(main);
-        frame.setSize(1000, 700);
-        frame.pack();
-        frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        Border border = new BevelBorder(0, Color.white, Color.decode("#050a30"));
-
-        geschlecht.setBorder(border);
-        nameField.setBorder(border);
-        vornameField.setBorder(border);
-        jobnameField.setBorder(border);
-        abteilungField.setBorder(border);
-        standortField.setBorder(border);
-
-
-        editPersonalakte();
-    }
-
-    private void editPersonalakte() {
-
-        Personalakte personalakte = new Personalakte();
-            personalakte.edit(personalaktenTable);
-    }
-
-    public void filter() {
-        MainHR_Table mHRt = new MainHR_Table();
-        mHRt.filterTable(personalaktenTable, geschlecht.getSelectedItem().toString(), vornameField.getText(), nameField.getText(), jobnameField.getText(), abteilungField.getText(), standortField.getText());
-    }
-
-
-    private void disposeButton(JFrame frame) {
-        JMenuBar menu = new JMenuBar();
-        JMenu logout = new JMenu("Logout");
-
-        logout.setForeground(Color.white);
-        menu.setBackground(Color.decode("#050a30"));
-        menu.add(logout);
-        logout.addMenuListener(new MenuListener() {
-            @Override
-            public void menuSelected(MenuEvent e) {
-                try {
-                    new Login();
-                    frame.dispose();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-
-            @Override
-            public void menuDeselected(MenuEvent e) {
-            }
-
-            @Override
-            public void menuCanceled(MenuEvent e) {
-            }
-        });
-        frame.setJMenuBar(menu);
     }
 
     {

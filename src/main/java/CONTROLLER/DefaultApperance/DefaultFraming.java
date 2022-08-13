@@ -66,7 +66,6 @@ public class DefaultFraming {
         frame.setJMenuBar(menu);
     }
     public void defaultDispose (JFrame frame, JButton button){
-
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -74,4 +73,5 @@ public class DefaultFraming {
             }
         });
     }
+
 }
