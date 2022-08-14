@@ -160,11 +160,6 @@ public class AnlagenTree {
 
             }
 
-
-    public void clearAttachements(JTree fileTree, String id, JPanel main){
-        
-    }
-
     private File idIsEmpty(String id){
 
         if(id != null){

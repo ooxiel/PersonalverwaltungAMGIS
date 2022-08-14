@@ -6,28 +6,21 @@ import CONTROLLER.DefaultApperance.DefaultFraming;
 import CONTROLLER.AdditionalDesignElements.IconDesign;
 import CONTROLLER.Services.Personalakte;
 import CONTROLLER.UserInput.PullInput;
-import MODEL.Personalakten.PA_bearbeiten;
 import CONTROLLER.UserInput.CheckInput.DynamicInputProof;
-import CONTROLLER.UserInput.CheckInput.StaticInputProof;
 import CONTROLLER.UserInput.DeleteInput.Delete;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import org.apache.commons.io.FileUtils;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.text.StyleContext;
 import java.awt.*;
-import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class Personalakte_bearbeiten {
+public class Personalakte_bearbeiten implements INT_PersonalakteVIEW {
 
     private JPanel main;
     private JPanel personalInfoPanel;
@@ -97,27 +90,68 @@ public class Personalakte_bearbeiten {
 
         JFrame frame = new JFrame();
 
-        PullInput pull = new PullInput();
-        ArrayList<JTextField> optionalInput = pull.itemstoAdd(zweitNameField, hausnummerZusatzField, abteilungsLeiterField);
-        ArrayList<JTextField> lettersOnly = pull.itemstoAdd(nameField, vornameField, strasseField, landField, bundeslandField, jobnameField, standortField);
-        ArrayList<JTextField> numbersOnly = pull.itemstoAdd(plzField, beschaeftigungField, hausnummerField);
-        ArrayList<JTextField> specialChars = pull.itemstoAdd(emailField, geburstagField, telefonField, abteilungField);
+        show(frame, abbrechenButton);
+        design(frame);
+        createAttachements();
+
+        ArrayList<JTextField> optionalInput = createOptionalInput();
+        ArrayList<JTextField> lettersOnly = createLettersOnly();
+        ArrayList<JTextField> numbersOnly = createNumbersOnly();
+        ArrayList<JTextField> specialChars = createSpecialChars();
+
+        proofInputDynamic(optionalInput, lettersOnly, numbersOnly);
+        deleteAll(optionalInput, lettersOnly, numbersOnly, specialChars);
+
+        savePersonalakte(frame, lettersOnly, numbersOnly, specialChars);
+        deletePersonalakte(frame, main, personalakteLoeschenButton, pidField.getText());
+    }
+
+    @Override
+    public void show(JFrame frame, JButton button) {
+
+        AnlagenTree anlagenTree = new AnlagenTree();
+        anlagenTree.show(pendingTree, main, null);
+        anlagenTree.show(fileTree, main, pidField.getText());
 
         new DefaultFraming().show(frame, main, 1000, 1000, "DISPOSE");
-        new DIR().clearOnClose(frame, abbrechenButton);
-        new AnlagenTree().show(fileTree, main, pidField.getText());
-        new Delete().all(alleEingabenLoeschenButton, optionalInput, lettersOnly, numbersOnly, specialChars, raumField, geschlecht);
-        new Personalakte().delete(frame, main, personalakteLoeschenButton, pidField.getText());
+        new DIR().clearOnClose(frame, button);
+    }
 
+    @Override
+    public ArrayList<JTextField> createOptionalInput() {
+        return new PullInput().itemstoAdd(zweitNameField, hausnummerZusatzField, abteilungsLeiterField);
+    }
 
-        AnlagenTree pending = new AnlagenTree();
-        pending.show(pendingTree, main, null);
-        pending.addAttachements(setAnlagenButton, pendingTree, main, null);
+    @Override
+    public ArrayList<JTextField> createLettersOnly() {
+        return new PullInput().itemstoAdd(nameField, vornameField, strasseField, landField, bundeslandField, jobnameField, standortField);
+    }
+
+    @Override
+    public ArrayList<JTextField> createNumbersOnly() {
+        return new PullInput().itemstoAdd(plzField, beschaeftigungField, hausnummerField);
+    }
+
+    @Override
+    public ArrayList<JTextField> createSpecialChars() {
+        return new PullInput().itemstoAdd(emailField, geburstagField, telefonField, abteilungField);
+    }
+
+    @Override
+    public void createAttachements() {
+        new AnlagenTree().addAttachements(setAnlagenButton, pendingTree, main, pidField.getText());
+    }
+
+    @Override
+    public void design(JFrame frame) {
 
         IconDesign design = new IconDesign();
         design.setIcon(frame, logoIconLeft, "src/main/resources/icons/LogoKlein80x80.png");
         design.setIcon(frame, logoIconRight, "src/main/resources/icons/noLogoKlein80x80.png");
+    }
 
+    @Override
+    public void proofInputDynamic(ArrayList<JTextField> optionalInput, ArrayList<JTextField> lettersOnly, ArrayList<JTextField> numbersOnly) {
 
         DynamicInputProof dynamicInput = new DynamicInputProof();
         dynamicInput.onlyLetterField(optionalInput);
@@ -128,66 +162,18 @@ public class Personalakte_bearbeiten {
         dynamicInput.setAmountofCharacterAllowed(hausnummerZusatzField, 1);
         dynamicInput.setAmountofCharacterAllowed(plzField, 5);
         dynamicInput.setAmountofCharacterAllowed(beschaeftigungField, 3);
-
-        dynamicInput.dateField(geburstagField);
-
-        StaticInputProof staticInput = new StaticInputProof();
-
-        userInputPruefungStatisch(frame, staticInput, lettersOnly, numbersOnly, specialChars);
-
     }
 
-
-    private void userInputPruefungStatisch(JFrame frame, StaticInputProof staticInput, ArrayList<JTextField> lettersOnly, ArrayList<JTextField> numbersOnly, ArrayList<JTextField> specialChars) {
-
-        aenderungenUebernehmenButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                staticInput.setMaxInteger(beschaeftigungField, 100);
-
-                if (staticInput.inputNotNull(lettersOnly) ||
-                        staticInput.inputNotNull(numbersOnly) ||
-                        staticInput.inputNotNull(specialChars) ||
-                        staticInput.comboBoxFieldisEmpty(geschlecht)) {
-
-                    JOptionPane.showMessageDialog(main, "Es fehlen notwendige Eingaben!");
-
-                } else {
-                    saveMitarbeiter(frame, staticInput);
-                }
-
-            }
-        });
+    @Override
+    public void deleteAll(ArrayList<JTextField> optionalInput, ArrayList<JTextField> lettersOnly, ArrayList<JTextField> numbersOnly, ArrayList<JTextField> specialChars) {
+        new Delete().all(alleEingabenLoeschenButton, optionalInput, lettersOnly, numbersOnly, specialChars, raumField, geschlecht);
     }
 
-    private void saveMitarbeiter(JFrame frame, StaticInputProof staticInput) {
-
-        boolean testGeburstag = staticInput.dateValid(geburstagField);
-        boolean testTelefon = staticInput.telefonValide(telefonField);
-        boolean testMail = staticInput.mailValide(emailField);
-
-
-        if (testGeburstag && testTelefon && testMail) {
-
-            PA_bearbeiten pab = new PA_bearbeiten();
-            pab.speichernPA(Integer.parseInt(pidField.getText()), geschlecht.getSelectedItem().toString(), vornameField.getText(), zweitNameField.getText(), nameField.getText(),
-                    geburstagField.getText(), telefonField.getText(), emailField.getText(), strasseField.getText(), hausnummerField.getText(),
-                    hausnummerZusatzField.getText(), landField.getText(), bundeslandField.getText(), plzField.getText(), jobnameField.getText(),
-                    beschaeftigungField.getText(), abteilungField.getText(), abteilungsLeiterField.getText(), raumField.getText(), standortField.getText(), erstelltDate.getText());
-            try {
-                pab.con.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-
-            JOptionPane.showMessageDialog(main, "Eingabe Erfolgreich!");
-            frame.dispose();
-
-        } else {
-            JOptionPane.showMessageDialog(main, "Ungueltige Angaben!");
-        }
+    @Override
+    public void savePersonalakte(JFrame frame, ArrayList<JTextField> lettersOnly, ArrayList<JTextField> numbersOnly, ArrayList<JTextField> specialChars) {
+        new Personalakte().save(frame, main, aenderungenUebernehmenButton, geschlecht, pidField, beschaeftigungField, lettersOnly, numbersOnly, specialChars, geburstagField,
+                telefonField, emailField, vornameField, zweitNameField, nameField, strasseField, hausnummerZusatzField, hausnummerZusatzField, landField, bundeslandField,
+                plzField, jobnameField, abteilungField, abteilungsLeiterField, raumField, standortField, erstelltDate);
     }
 
     {
@@ -466,5 +452,6 @@ public class Personalakte_bearbeiten {
     public JComponent $$$getRootComponent$$$() {
         return main;
     }
+
 
 }

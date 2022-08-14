@@ -3,7 +3,6 @@ package CONTROLLER.Services;
 import CONTROLLER.UserInput.CheckInput.StaticInputProof;
 import MODEL.Personalakten.PA_bearbeiten;
 import MODEL.Personalakten.PA_erstellen;
-import MODEL.Update.MainHR_Table;
 import VIEW.Personalakte.Personalakte_bearbeiten;
 
 import javax.swing.*;
@@ -12,48 +11,94 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.nio.file.DirectoryNotEmptyException;
 import java.sql.*;
 import java.util.ArrayList;
 
 public class Personalakte implements INTPersonalakte{
 
-    private JPanel main;
-    private JButton abbrechenButton;
-    private JButton personalakteErstellenButton;
-    private JButton alleEingabenLoeschenButton;
-
-    private JComboBox geschlecht;
-    private JTextField zweitNameField;
-    private JTextField vornameField;
-    private JTextField geburstagField;
-    private JTextField telefonField;
-    private JTextField emailField;
-    private JTextField nameField;
-
-    private JTextField strasseField;
-    private JTextField hausnummerField;
-    private JTextField hausnummerZusatzField;
-    private JTextField landField;
-    private JTextField bundeslandField;
-    private JTextField plzField;
-
-    private JTextField jobnameField;
-    private JTextField beschaeftigungField;
-    private JTextField abteilungField;
-    private JTextField abteilungsLeiterField;
-    private JTextField raumField;
-    private JTextField standortField;
-
-    private JButton button;
-
     @Override
-    public void create() {
+    public void create(JFrame frame, JPanel main, JButton button, JComboBox geschlecht, JTextField beschaeftigungField, ArrayList<JTextField> lettersOnly, ArrayList<JTextField> numbersOnly, ArrayList<JTextField> specialChars,
+                       JTextField geburstagField, JTextField telefonField, JTextField emailField, JTextField vornameField, JTextField zweitNameField, JTextField nameField, JTextField strasseField, JTextField hausnummerField,
+                       JTextField hausnummerZusatzField, JTextField landField, JTextField bundeslandField, JTextField plzField, JTextField jobnameField, JTextField abteilungField, JTextField abteilungsLeiterField, JTextField raumField, JTextField standortField) {
 
+        StaticInputProof staticInput = new StaticInputProof();
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                staticInput.setMaxInteger(beschaeftigungField, 100);
+
+                if (staticInput.inputNotNull(lettersOnly) &&
+                        staticInput.inputNotNull(numbersOnly) &&
+                        staticInput.inputNotNull(specialChars) &&
+                        staticInput.comboBoxFieldisEmpty(geschlecht)) {
+
+                    JOptionPane.showMessageDialog(main, "Es fehlen notwendige Eingaben!");
+
+                } else if(staticInput.dateValid(geburstagField) && staticInput.telefonValide(telefonField) && staticInput.mailValide(emailField)){
+
+                        PA_erstellen pae = new PA_erstellen();
+
+                        pae.einfuegenPA(geschlecht.getSelectedItem().toString(), vornameField.getText(), zweitNameField.getText(), nameField.getText(),
+                                geburstagField.getText(), telefonField.getText(), emailField.getText(), strasseField.getText(), hausnummerField.getText(),
+                                hausnummerZusatzField.getText(), landField.getText(), bundeslandField.getText(), plzField.getText(), jobnameField.getText(),
+                                beschaeftigungField.getText(), abteilungField.getText(), abteilungsLeiterField.getText(), raumField.getText(), standortField.getText(), main);
+
+                        try {
+                            pae.con.close();
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                        }
+
+                        JOptionPane.showMessageDialog(main, "Eingabe Erfolgreich!");
+                        frame.dispose();
+
+                } else {
+                        JOptionPane.showMessageDialog(main, "Ungueltige Angaben!");
+                }
+            }
+        });
     }
+    @Override
+    public void save(JFrame frame, JPanel main, JButton button, JComboBox geschlecht, JLabel pidField, JTextField beschaeftigungField, ArrayList<JTextField> lettersOnly, ArrayList<JTextField> numbersOnly, ArrayList<JTextField> specialChars,
+                     JTextField geburstagField, JTextField telefonField, JTextField emailField, JTextField vornameField, JTextField zweitNameField, JTextField nameField, JTextField strasseField, JTextField hausnummerField,JTextField hausnummerZusatzField,
+                     JTextField landField, JTextField bundeslandField, JTextField plzField, JTextField jobnameField, JTextField abteilungField, JTextField abteilungsLeiterField, JTextField raumField, JTextField standortField, JLabel erstelltDate) {
 
-    public void save(){
+        StaticInputProof staticInput = new StaticInputProof();
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
+                staticInput.setMaxInteger(beschaeftigungField, 100);
+
+                if (staticInput.inputNotNull(lettersOnly) &&
+                        staticInput.inputNotNull(numbersOnly) &&
+                        staticInput.inputNotNull(specialChars) &&
+                        staticInput.comboBoxFieldisEmpty(geschlecht)) {
+
+                    JOptionPane.showMessageDialog(main, "Es fehlen notwendige Eingaben!");
+
+                } else if(staticInput.dateValid(geburstagField) && staticInput.telefonValide(telefonField) && staticInput.mailValide(emailField)){
+
+                    PA_bearbeiten pab = new PA_bearbeiten();
+                    pab.speichernPA(Integer.parseInt(pidField.getText()), geschlecht.getSelectedItem().toString(), vornameField.getText(), zweitNameField.getText(), nameField.getText(),
+                            geburstagField.getText(), telefonField.getText(), emailField.getText(), strasseField.getText(), hausnummerField.getText(),
+                            hausnummerZusatzField.getText(), landField.getText(), bundeslandField.getText(), plzField.getText(), jobnameField.getText(),
+                            beschaeftigungField.getText(), abteilungField.getText(), abteilungsLeiterField.getText(), raumField.getText(), standortField.getText(), erstelltDate.getText());
+                    try {
+                        pab.con.close();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+
+                    JOptionPane.showMessageDialog(main, "Eingabe Erfolgreich!");
+                    frame.dispose();
+
+                } else {
+                    JOptionPane.showMessageDialog(main, "Ungueltige Angaben!");
+                }
+            }
+        });
     }
 
     @Override
@@ -159,7 +204,10 @@ public class Personalakte implements INTPersonalakte{
 
                             new File("src/main/resources/AktenFiles/"+id).delete();
                             frame.dispose();
+
+
                             JOptionPane.showMessageDialog(main,"Personalakte erfolgreich gelöscht");
+
                         }catch (SQLException ex) {
                             throw new RuntimeException(ex);
                         }
@@ -170,64 +218,5 @@ public class Personalakte implements INTPersonalakte{
                 }
             }
         });
-    }
-
-
-
-    public void create(JFrame frame, JPanel main, JButton button, ArrayList<JTextField> lettersOnly,ArrayList<JTextField> numbersOnly , ArrayList<JTextField> specialChars, JTextField beschaeftigungField, JTextField geburstagField, JTextField telefonField, JTextField emailField, JComboBox geschlecht ){
-
-        StaticInputProof staticInput = new StaticInputProof();
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                staticInput.setMaxInteger(beschaeftigungField, 100);
-
-                if (staticInput.inputNotNull(lettersOnly) &&
-                        staticInput.inputNotNull(numbersOnly) &&
-                        staticInput.inputNotNull(specialChars) &&
-                        staticInput.comboBoxFieldisEmpty(geschlecht)) {
-
-                    JOptionPane.showMessageDialog(main, "Es fehlen notwendige Eingaben!");
-
-                } else {
-                    //createMitarbeiter(frame, main, staticInput, );
-                }
-
-            }
-        });
-
-    }
-
-    private void createMitarbeiter(JFrame frame, JPanel main, StaticInputProof staticInput, JComboBox geschlecht, JTextField vornameField, JTextField zweitNameField, JTextField nameField,
-                                   JTextField strasseField, JTextField hausnummerField, JTextField hausnummerZusatzField, JTextField landField, JTextField bundeslandField,
-                                   JTextField plzField, JTextField jobnameField, JTextField beschaeftigungField, JTextField abteilungField, JTextField abteilungsLeiterField,
-                                   JTextField raumField, JTextField standortField, JTextField  geburstagField, JTextField telefonField, JTextField emailField) {
-
-        boolean testGeburstag = staticInput.dateValid(geburstagField);
-        boolean testTelefon = staticInput.telefonValide(telefonField);
-        boolean testMail = staticInput.mailValide(emailField);
-
-        if (testGeburstag && testTelefon && testMail) {
-
-            PA_erstellen pae = new PA_erstellen();
-
-            pae.einfuegenPA(geschlecht.getSelectedItem().toString(), vornameField.getText(), zweitNameField.getText(), nameField.getText(),
-                    geburstagField.getText(), telefonField.getText(), emailField.getText(), strasseField.getText(), hausnummerField.getText(),
-                    hausnummerZusatzField.getText(), landField.getText(), bundeslandField.getText(), plzField.getText(), jobnameField.getText(),
-                    beschaeftigungField.getText(), abteilungField.getText(), abteilungsLeiterField.getText(), raumField.getText(), standortField.getText(), main);
-
-            try {
-                pae.con.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-
-            JOptionPane.showMessageDialog(main, "Eingabe Erfolgreich!");
-            frame.dispose();
-
-        } else {
-            JOptionPane.showMessageDialog(main, "Ungueltige Angaben!");
-        }
     }
 }

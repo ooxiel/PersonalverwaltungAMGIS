@@ -28,7 +28,7 @@ SET FILES NIO TRUE
 SET FILES NIO SIZE 256
 SET FILES LOG TRUE
 SET FILES LOG SIZE 50
-SET FILES CHECK 18610
+SET FILES CHECK 18890
 SET DATABASE COLLATION "SQL_TEXT" PAD SPACE
 CREATE USER "amgis" PASSWORD DIGEST 'bb3a22cec7870af35d6cc6083439efa4'
 ALTER USER "amgis" SET LOCAL TRUE
@@ -77,7 +77,7 @@ INSERT INTO ADRESSINFO VALUES(23,'3120 Primis Ave','876','r','Germany','Sachsen-
 INSERT INTO ADRESSINFO VALUES(24,'Ap #614-3073 Sit Road','92','x','Germany','Sachsen-Anhalt','77764')
 INSERT INTO ADRESSINFO VALUES(25,'Ap #905-5152 Egestas. Avenue','273','y','Germany','Bayern','26574')
 INSERT INTO ADRESSINFO VALUES(26,'473-9811 Parturient Rd.','444','u','Germany','Schleswig-Holstein','57423')
-INSERT INTO ADRESSINFO VALUES(27,'Ap #655-7079 Dolor, Ave','572','r','Germany','Niedersachsen','51385')
+INSERT INTO ADRESSINFO VALUES(27,'Ap #655-7079 Dolor, Ave','r','r','Germany','Niedersachsen','51385')
 INSERT INTO ADRESSINFO VALUES(29,'485-1382 Duis Rd.','379','m','Germany','Baden-W\u00fcrtemberg','41505')
 INSERT INTO ADRESSINFO VALUES(30,'P.O. Box 890, 3585 Amet Avenue','665','k','Germany','Mecklenburg-Vorpommern','61587')
 INSERT INTO ADRESSINFO VALUES(31,'Ap #745-4008 Nulla. Rd.','957','i','Germany','Mecklenburg-Vorpommern','72811')
@@ -317,9 +317,11 @@ INSERT INTO AKTENKENNZEICHEN VALUES(59,'src\main\resources\AktenFiles\42\Mappe1.
 INSERT INTO AKTENKENNZEICHEN VALUES(60,'src\main\resources\AktenFiles\42\Mappe2.xlsx',42)
 INSERT INTO AKTENKENNZEICHEN VALUES(61,'src\main\resources\AktenFiles\20\Mappe1.xlsx',20)
 INSERT INTO AKTENKENNZEICHEN VALUES(62,'src\main\resources\AktenFiles\20\Mappe2.xlsx',20)
+INSERT INTO AKTENKENNZEICHEN VALUES(63,'src\main\resources\AktenFiles\27\Mappe1.xlsx',27)
+INSERT INTO AKTENKENNZEICHEN VALUES(64,'src\main\resources\AktenFiles\27\Mappe2.xlsx',27)
 INSERT INTO MITARBEITERSTAMM VALUES(1,'Herr','Franz','Florian','Weyh','06.04.2002','01737635661','franz.w@hotmail.com','28.07.2022','28.07.2022',1,1,1,1)
 INSERT INTO MITARBEITERSTAMM VALUES(2,'Frau','Daphne','illonka','Weyh','06.04.2002','01737635661','daphne@hotmail.com','28.07.2022','2022-07-28T18:27:22.314898200',2,2,2,NULL)
-INSERT INTO MITARBEITERSTAMM VALUES(3,'Frau ','Sylvester','Kylie','Donaldson','04.12.85','(032186) 671071','ligula.elit.pretium@google.edu','19.02.23','05.10.22',3,3,3,3)
+INSERT INTO MITARBEITERSTAMM VALUES(3,'Divers','Sylvester','Kylie','Donaldson','04.12.1984','123812938120398','ligula.elit.pretium@google.edu','19.02.23','2022-08-13T23:34:19.566647400',3,3,3,3)
 INSERT INTO MITARBEITERSTAMM VALUES(4,'Divers','Gary','Amelia','Owen','11.01.89','(032755) 691866','sed.nulla@hotmail.com','15.10.22','16.09.21',4,4,4,4)
 INSERT INTO MITARBEITERSTAMM VALUES(5,'Herr','Joseph','Kiayada','Gardner','18.07.99','(062) 32126130','non.egestas@protonmail.edu','21.02.22','18.06.23',5,5,5,5)
 INSERT INTO MITARBEITERSTAMM VALUES(6,'Divers','Lara','Stella','Berry','27.04.70','(0777) 26916101','est.mauris.eu@outlook.couk','23.06.22','22.05.22',6,6,6,6)
@@ -343,7 +345,7 @@ INSERT INTO MITARBEITERSTAMM VALUES(23,'Frau ','Stone','Wylie','Mcknight','22.07
 INSERT INTO MITARBEITERSTAMM VALUES(24,'Frau ','Lucian','Kirestin','Schneider','25.06.95','(078) 46195721','hymenaeos.mauris@hotmail.org','26.11.21','02.10.22',24,24,24,24)
 INSERT INTO MITARBEITERSTAMM VALUES(25,'Divers','Desirae','Porter','Olsen','18.05.70','(032283) 773733','amet@aol.com','21.01.23','15.09.22',25,25,25,25)
 INSERT INTO MITARBEITERSTAMM VALUES(26,'Divers','Rigel','Reece','Valencia','04.11.02','(0614) 24896977','dui@icloud.net','21.06.23','28.02.22',26,26,26,26)
-INSERT INTO MITARBEITERSTAMM VALUES(27,'Divers','McKenzie','Carly','Mccray','22.12.00','(082) 76188194','mauris.elit.dictum@protonmail.net','21.11.22','09.09.21',27,27,27,27)
+INSERT INTO MITARBEITERSTAMM VALUES(27,'Divers','McKenzie','Carly','Mccray','22.12.2000','(082) 76188194','mauris.elit.dictum@protonmail.net','21.11.22','2022-08-14T12:15:03.176655700',27,27,27,27)
 INSERT INTO MITARBEITERSTAMM VALUES(29,'Frau','Tad','Flavia','Grant','02.02.2004','(0272) 06795388','nunc@yahoo.com','13.04.22','2022-08-13T23:27:23.258453200',29,29,29,29)
 INSERT INTO MITARBEITERSTAMM VALUES(30,'Divers','Sonia','Odette','Strong','22.02.96','(028) 57578076','etiam.imperdiet.dictum@outlook.ca','13.09.22','20.03.23',30,30,30,30)
 INSERT INTO MITARBEITERSTAMM VALUES(31,'Herr','Sydney','Vivian','Morris','04.12.85','(0185) 01346475','sagittis.augue@outlook.com','16.11.22','05.08.21',31,31,31,31)
