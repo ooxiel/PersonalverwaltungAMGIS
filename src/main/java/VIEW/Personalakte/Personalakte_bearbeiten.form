@@ -598,7 +598,9 @@
                 <preferred-size width="150" height="50"/>
               </grid>
             </constraints>
-            <properties/>
+            <properties>
+              <dropMode value="USE_SELECTION"/>
+            </properties>
           </component>
           <component id="768e3" class="javax.swing.JTree" binding="pendingTree">
             <constraints>
@@ -606,7 +608,9 @@
                 <preferred-size width="150" height="50"/>
               </grid>
             </constraints>
-            <properties/>
+            <properties>
+              <dropMode value="USE_SELECTION"/>
+            </properties>
           </component>
           <grid id="abf64" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>

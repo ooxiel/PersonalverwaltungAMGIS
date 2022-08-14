@@ -4,6 +4,7 @@ import CONTROLLER.UserInput.CheckInput.StaticInputProof;
 import MODEL.Personalakten.PA_bearbeiten;
 import MODEL.Personalakten.PA_erstellen;
 import VIEW.Personalakte.Personalakte_bearbeiten;
+import VIEW.Personalakte.Personalakte_bearbeiten_ROOT;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -102,7 +103,7 @@ public class Personalakte implements INTPersonalakte{
     }
 
     @Override
-    public void edit(JTable table) {
+    public void edit(JTable table, String caller) {
 
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -151,7 +152,12 @@ public class Personalakte implements INTPersonalakte{
                             String standort = String.valueOf(rs.getString(20));
                             String erstelltDatum = String.valueOf(rs.getString(21));
                             String letzteAenderung = String.valueOf(rs.getString(22));
-                            new Personalakte_bearbeiten(id, anrede, vorname, zweitname, nachname, geburtsdatum, telefon, email, strasse, strassenNR, strassenBuchstabe, land, bundesland, plz, jobname, besGrad, abteilung, abtLeiter, raum, standort, erstelltDatum, letzteAenderung);
+
+                            if(caller.equals("ROOT")){
+                                new Personalakte_bearbeiten_ROOT(id, anrede, vorname, zweitname, nachname, geburtsdatum, telefon, email, strasse, strassenNR, strassenBuchstabe, land, bundesland, plz, jobname, besGrad, abteilung, abtLeiter, raum, standort, erstelltDatum, letzteAenderung);
+                            }else{
+                                new Personalakte_bearbeiten(id, anrede, vorname, zweitname, nachname, geburtsdatum, telefon, email, strasse, strassenNR, strassenBuchstabe, land, bundesland, plz, jobname, besGrad, abteilung, abtLeiter, raum, standort, erstelltDatum, letzteAenderung);
+                            }
                         }
 
                         stmt.close();

@@ -4,13 +4,10 @@ import CONTROLLER.DefaultApperance.DefaultFraming;
 import CONTROLLER.DefaultApperance.Filter;
 import CONTROLLER.Services.Personalakte;
 import MODEL.Update.MainHR_Table;
-import VIEW.Personalakte.Personalakte_erstellen;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.text.StyleContext;
@@ -21,47 +18,27 @@ import java.util.Locale;
 public class DefaultHR extends JFrame implements INT_DefaultScreen, INT_HRScreen {
     private JPanel main;
     private JTable personalaktenTable;
-    private JButton neuenHRMitarbeiterErstellenButton;
     private JButton neuePersonalakteErstellenButton;
     private JLabel anredeField;
     private JComboBox geschlecht;
     private JTextField nameField;
-    private JTextField zweitNameField;
     private JTextField vornameField;
-    private JTextField emailField;
-    private JTextField geburstagField;
-    private JTextField telefonField;
-    private JTextField strasseField;
-    private JTextField landField;
-    private JTextField hausnummerField;
-    private JTextField hausnummerZusatzField;
-    private JTextField plzField;
-    private JTextField bundeslandField;
     private JTextField jobnameField;
     private JTextField abteilungField;
-    private JTextField abteilungsLeiterField;
-    private JTextField raumField;
     private JTextField standortField;
-    private JTextField beschaeftigungField;
     private JButton sucheStartenButton;
     private javax.swing.JScrollPane JScrollPane;
-    private JLabel imgLogo;
-    private JTextField idField;
-    private JTable table1;
-    private JButton neuenHRUserErstellenButton;
-    private JButton neuePersonalakteAnlegenButton;
-    private JPanel dashboardPanel;
-    private JPanel personalakteErstellen;
+
 
     public DefaultHR() {
 
         JFrame frame = new JFrame();
+
             show(frame, null);
             logout(frame);
             createPersonalakte(neuePersonalakteErstellenButton);
-            editPersonalakte(personalaktenTable);
+            editPersonalakte(personalaktenTable, "HR");
             searchPersonalakte();
-
     }
     @Override
     public void show(JFrame frame, String id) {
@@ -72,6 +49,11 @@ public class DefaultHR extends JFrame implements INT_DefaultScreen, INT_HRScreen
     @Override
     public void logout(JFrame frame) {
         new DefaultFraming().defaultLogout(frame);
+    }
+
+    @Override
+    public void editPersonalakte(JTable table, String caller) {
+        new Personalakte().edit(table, caller);
     }
 
     @Override

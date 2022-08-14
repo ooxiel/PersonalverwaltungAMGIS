@@ -7,10 +7,8 @@ import CONTROLLER.DefaultApperance.DefaultFraming;
 import CONTROLLER.Services.HR;
 import CONTROLLER.Services.Personalakte;
 import CONTROLLER.UserInput.PullInput;
-import MODEL.Personalakten.PA_bearbeiten;
 import CONTROLLER.UserInput.DeleteInput.Delete;
 import CONTROLLER.UserInput.CheckInput.DynamicInputProof;
-import CONTROLLER.UserInput.CheckInput.StaticInputProof;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
@@ -20,8 +18,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.text.StyleContext;
 import java.awt.*;
-import java.awt.event.*;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -114,16 +110,18 @@ public class Personalakte_bearbeiten_ROOT implements INT_PersonalakteVIEW {
         createHR();
     }
 
+
     @Override
     public void show(JFrame frame, JButton button) {
 
         AnlagenTree anlagenTree = new AnlagenTree();
-        anlagenTree.show(pendingTree, main, null);
-        anlagenTree.show(fileTree, main, pidField.getText());
+            anlagenTree.show(pendingTree, main, null);
+            anlagenTree.show(fileTree, main, pidField.getText());
 
         new DefaultFraming().show(frame, main, 1000, 1000, "DISPOSE");
         new DIR().clearOnClose(frame, button);
     }
+
 
     @Override
     public ArrayList<JTextField> createOptionalInput() {

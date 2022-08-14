@@ -52,7 +52,7 @@ public class MainRoot extends JFrame implements INT_DefaultScreen, INT_HRScreen 
         logout(frame);
         searchPersonalakte();
         createPersonalakte(neuePersonalakteErstellenButton);
-        editPersonalakte(personalaktenTable);
+        editPersonalakte(personalaktenTable, "ROOT");
     }
 
     @Override
@@ -64,6 +64,11 @@ public class MainRoot extends JFrame implements INT_DefaultScreen, INT_HRScreen 
     @Override
     public void logout(JFrame frame) {
         new DefaultFraming().defaultLogout(frame);
+    }
+
+    @Override
+    public void editPersonalakte(JTable table, String caller) {
+        new Personalakte().edit(table, caller);
     }
 
     @Override

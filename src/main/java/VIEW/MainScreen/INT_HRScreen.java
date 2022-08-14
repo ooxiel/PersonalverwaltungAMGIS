@@ -17,8 +17,6 @@ public interface INT_HRScreen {
             }
         });
     };
-    default void editPersonalakte(JTable table){
-        new Personalakte().edit(table);
-    };
+    void editPersonalakte(JTable table, String caller);
     void searchPersonalakte();
 }
