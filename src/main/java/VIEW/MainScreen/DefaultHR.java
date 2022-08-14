@@ -56,7 +56,7 @@ public class DefaultHR extends JFrame implements INT_DefaultScreen, INT_HRScreen
     public DefaultHR() {
 
         JFrame frame = new JFrame();
-            show(frame);
+            show(frame, null);
             logout(frame);
             createPersonalakte(neuePersonalakteErstellenButton);
             editPersonalakte(personalaktenTable);
@@ -64,7 +64,7 @@ public class DefaultHR extends JFrame implements INT_DefaultScreen, INT_HRScreen
 
     }
     @Override
-    public void show(JFrame frame) {
+    public void show(JFrame frame, String id) {
         new DefaultFraming().show(frame, main, 1000, 1000, "EXIT");
         new Filter().changeBorderLook(geschlecht, nameField, vornameField, jobnameField, abteilungField, standortField);
     }

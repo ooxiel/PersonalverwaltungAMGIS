@@ -147,7 +147,7 @@ public class Personalakte_bearbeiten_ROOT implements INT_PersonalakteVIEW {
 
     @Override
     public void createAttachements() {
-        new AnlagenTree().addAttachements(setAnlagenButton, pendingTree, main, pidField.getText());
+        new AnlagenTree().addAttachements(setAnlagenButton, pendingTree, main, null);
     }
 
     @Override
