@@ -28,16 +28,16 @@ public class PA_bearbeiten {
         }
     }
 
-    public void generateHR (int id, String vorname, String nachname, JPanel main){
+    public void generateHR (int id, String vorname, String nachname, boolean root, JPanel main){
         AccountErzeugen aE = new AccountErzeugen();
         String HR_username = aE.hr_kontoname_erzeugen(id,vorname,nachname);
         String HR_pw       = aE.passwort_erzeugen();
-        String sqlCHECKID = "SELECT HR_ID FROM mitarbeiterstamm";
-        String sql = "INSERT INTO HRROOT VALUES("+id+",'"+HR_username+"','"+HR_pw+"',false); UPDATE MITARBEITERSTAMM SET HR_ID="+id+";";
+        String sqlCHECKID = "SELECT HR_ID FROM mitarbeiterstamm WHERE person_id="+id+" AND HR_ID=-1";
+        String sql = "INSERT INTO HRROOT VALUES("+id+",'"+HR_username+"','"+HR_pw+"',"+root+"); UPDATE MITARBEITERSTAMM SET HR_ID="+id+" WHERE person_id="+id+";";
         try {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sqlCHECKID);
-            if(!rs.next()){
+            if(rs.next()){
                 stmt.executeQuery(sql);
                 stmt.close();
                 JOptionPane.showMessageDialog(main,"HR Logindaten: \nKontoname: "+HR_username+"\nPasswort: "+HR_pw);

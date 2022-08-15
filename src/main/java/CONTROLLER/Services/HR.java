@@ -16,17 +16,25 @@ public class HR {
 
                 JOptionPane confirmCreate = new JOptionPane();
 
-                int res = confirmCreate.showConfirmDialog(main, "Wollen Sie einen neuen HR-Mitarbeiter für " + vornameField.getText() + " " + zweitNameField.getText() + " " + nameField.getText() + " erstellen?");
+                int res = confirmCreate.showConfirmDialog(main, "Wollen Sie einen neuen HR-Zugang für " + vornameField.getText() + " " + zweitNameField.getText() + " " + nameField.getText() + " erstellen?");
 
                 switch (res) {
 
                     // Yes
                     case 0:
-
-                        PA_bearbeiten pab = new PA_bearbeiten();
-                        pab.generateHR(Integer.parseInt(pidField.getText()), vornameField.getText(), nameField.getName(), main);
-                        break;
-
+                        int res2 = confirmCreate.showConfirmDialog(main, "Wollen Sie dem Account Adminrechte geben?");
+                        switch (res2) {
+                            // Yes
+                            case 0:
+                                PA_bearbeiten pab = new PA_bearbeiten();
+                                pab.generateHR(Integer.parseInt(pidField.getText()), vornameField.getText(), nameField.getText(), true, main);
+                                break;
+                            // No
+                            case 1:
+                                PA_bearbeiten p = new PA_bearbeiten();
+                                p.generateHR(Integer.parseInt(pidField.getText()), vornameField.getText(), nameField.getText(), false, main);
+                                break;
+                        }
                     // No
                     case 1:
                         confirmCreate.setVisible(false);
