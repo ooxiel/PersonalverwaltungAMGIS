@@ -1,8 +1,8 @@
 package VIEW.MainScreen;
 
 import CONTROLLER.Attachments.AnlagenTree;
-import CONTROLLER.DefaultApperance.DefaultFraming;
-import VIEW.TableModel.Mitarbeiter.Mitarbeiter;
+import CONTROLLER.Appearance.DefaultFraming;
+import CONTROLLER.TableModel.Mitarbeiter.Mitarbeiter;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;

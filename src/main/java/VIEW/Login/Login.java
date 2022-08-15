@@ -1,8 +1,8 @@
 package VIEW.Login;
 
 
-import VIEW.TableModel.Mitarbeiter.HR_Mitarbeiter;
-import VIEW.TableModel.Mitarbeiter.Mitarbeiter;
+import CONTROLLER.TableModel.Mitarbeiter.HR_Mitarbeiter;
+import CONTROLLER.TableModel.Mitarbeiter.Mitarbeiter;
 import MODEL.Login.Check.LoginCheck;
 import VIEW.MainScreen.DefaultHR;
 import VIEW.MainScreen.DefaultMitarbeiter;

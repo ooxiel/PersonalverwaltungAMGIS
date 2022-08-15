@@ -1,6 +1,6 @@
 package VIEW.Personalakte;
 
-import CONTROLLER.Services.Personalakte;
+import CONTROLLER.Functions.Personalakte;
 
 import javax.swing.*;
 import java.util.ArrayList;

@@ -1,6 +1,5 @@
 package VIEW.MainScreen;
 
-import CONTROLLER.Services.Personalakte;
 import VIEW.Personalakte.Personalakte_erstellen;
 
 import javax.swing.*;

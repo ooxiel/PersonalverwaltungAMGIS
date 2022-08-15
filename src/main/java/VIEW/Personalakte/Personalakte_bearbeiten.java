@@ -2,10 +2,10 @@ package VIEW.Personalakte;
 
 import CONTROLLER.Attachments.AnlagenTree;
 import CONTROLLER.Attachments.DIR;
-import CONTROLLER.DefaultApperance.DefaultFraming;
-import CONTROLLER.AdditionalDesignElements.IconDesign;
-import CONTROLLER.Services.Personalakte;
-import CONTROLLER.UserInput.PullInput;
+import CONTROLLER.Appearance.DefaultFraming;
+import CONTROLLER.Appearance.IconDesign;
+import CONTROLLER.Functions.Personalakte;
+import CONTROLLER.UserInput.PullInput.Pull;
 import CONTROLLER.UserInput.CheckInput.DynamicInputProof;
 import CONTROLLER.UserInput.DeleteInput.Delete;
 import com.intellij.uiDesigner.core.GridConstraints;
@@ -119,22 +119,22 @@ public class Personalakte_bearbeiten implements INT_PersonalakteVIEW {
 
     @Override
     public ArrayList<JTextField> createOptionalInput() {
-        return new PullInput().itemstoAdd(zweitNameField, hausnummerZusatzField, abteilungsLeiterField);
+        return new Pull().itemstoAdd(zweitNameField, hausnummerZusatzField, abteilungsLeiterField);
     }
 
     @Override
     public ArrayList<JTextField> createLettersOnly() {
-        return new PullInput().itemstoAdd(nameField, vornameField, strasseField, landField, bundeslandField, jobnameField, standortField);
+        return new Pull().itemstoAdd(nameField, vornameField, strasseField, landField, bundeslandField, jobnameField, standortField);
     }
 
     @Override
     public ArrayList<JTextField> createNumbersOnly() {
-        return new PullInput().itemstoAdd(plzField, beschaeftigungField, hausnummerField);
+        return new Pull().itemstoAdd(plzField, beschaeftigungField, hausnummerField);
     }
 
     @Override
     public ArrayList<JTextField> createSpecialChars() {
-        return new PullInput().itemstoAdd(emailField, geburstagField, telefonField, abteilungField);
+        return new Pull().itemstoAdd(emailField, geburstagField, telefonField, abteilungField);
     }
 
     @Override

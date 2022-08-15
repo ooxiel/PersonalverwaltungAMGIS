@@ -1,9 +1,9 @@
 package VIEW.MainScreen;
 
-import CONTROLLER.DefaultApperance.DefaultFraming;
-import CONTROLLER.DefaultApperance.Filter;
-import CONTROLLER.Services.Personalakte;
-import MODEL.Update.MainHR_Table;
+import CONTROLLER.Appearance.DefaultFraming;
+import CONTROLLER.Appearance.FilterDesign;
+import CONTROLLER.Functions.Personalakte;
+import MODEL.Table.MainHR_Table;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 
@@ -43,7 +43,7 @@ public class DefaultHR extends JFrame implements INT_DefaultScreen, INT_HRScreen
     @Override
     public void show(JFrame frame, String id) {
         new DefaultFraming().show(frame, main, 1000, 1000, "EXIT");
-        new Filter().changeBorderLook(geschlecht, nameField, vornameField, jobnameField, abteilungField, standortField);
+        new FilterDesign().changeBorderLook(geschlecht, nameField, vornameField, jobnameField, abteilungField, standortField);
     }
 
     @Override
