@@ -24,7 +24,7 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class AnlagenTree {
 
-    public void show(JTree fileTree, JPanel main, String id){
+    public void show(JTree fileTree, JPanel main, String id, String caller){
 
         File fileRoot = idIsEmpty(id);
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(new FileNode(fileRoot));
@@ -43,7 +43,7 @@ public class AnlagenTree {
                     FileNode fileNode = (FileNode) dmtn.getUserObject();
                     File file = fileNode.getFile();
 
-                    OpenAndDeleteAttachements(fileTree,main, file, id);
+                    OpenAndDeleteAttachements(fileTree,main, file, id, caller);
 
                 }catch (NullPointerException ex){
                     ex.getMessage();
@@ -55,7 +55,7 @@ public class AnlagenTree {
         new Thread(ccn).start();
     }
 
-    public void addAttachements(JButton anlage, JTree fileTree, JPanel main, String id){
+    public void addAttachements(JButton anlage, JTree fileTree, JPanel main, String id, String caller){
 
         anlage.addActionListener(new ActionListener() {
             @Override
@@ -74,7 +74,7 @@ public class AnlagenTree {
 
                         try {
                             Files.copy(Path.of(fileSelected.getAbsolutePath()), newDIR.resolve(fileSelected.getName()), REPLACE_EXISTING);
-                            show(fileTree, main, id);
+                            show(fileTree, main, id, caller);
 
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
@@ -84,7 +84,7 @@ public class AnlagenTree {
         });
     }
 
-    private void OpenAndDeleteAttachements(JTree fileTree, JPanel main, File file, String id){
+    private void OpenAndDeleteAttachements(JTree fileTree, JPanel main, File file, String id, String caller){
 
         JPopupMenu pop = new JPopupMenu();
             JMenuItem open = new JMenuItem("Open");
@@ -103,30 +103,31 @@ public class AnlagenTree {
                         }
                     }
             });
-
-            JMenuItem delete = new JMenuItem("Delete");
-            delete.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            if(file.exists() && file.isFile()){
-                try {Class.forName("org.hsqldb.jdbcDriver");}catch(ClassNotFoundException ee) {return;}
-                try {
-                    Connection con = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis");
-                    System.out.println("src/main/resources/AktenFiles/"+id+"/"+file.getName());
-                    String sql = "DELETE FROM Aktenkennzeichen WHERE Dateipfad='src\\main\\resources\\AktenFiles\\"+id+"\\"+file.getName()+"'";
-                    Statement stmt = con.createStatement();
-                    stmt.executeQuery(sql);
-                    stmt.close();
-                    }catch(SQLException eee){eee.printStackTrace();}
-                file.delete();
-                show(fileTree, main, id);
-            }
-            }
-            });
-
             pop.add(open);
-            pop.add(delete);
+
+            if(caller.equals("HR")){
+                JMenuItem delete = new JMenuItem("Delete");
+                delete.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        if(file.exists() && file.isFile()){
+                            try {Class.forName("org.hsqldb.jdbcDriver");}catch(ClassNotFoundException ee) {return;}
+                            try {
+                                Connection con = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis");
+                                System.out.println("src/main/resources/AktenFiles/"+id+"/"+file.getName());
+                                String sql = "DELETE FROM Aktenkennzeichen WHERE Dateipfad='src\\main\\resources\\AktenFiles\\"+id+"\\"+file.getName()+"'";
+                                Statement stmt = con.createStatement();
+                                stmt.executeQuery(sql);
+                                stmt.close();
+                            }catch(SQLException eee){eee.printStackTrace();}
+                            file.delete();
+                            show(fileTree, main, id, caller);
+                        }
+                    }
+                });
+                pop.add(delete);
+            }
 
                 fileTree.addMouseListener(new MouseListener() {
                     @Override

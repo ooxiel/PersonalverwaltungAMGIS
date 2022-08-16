@@ -25,10 +25,10 @@ abstract class AbstractPersonalakte {
         System.out.println(id);
 
         if(fileTree == null){
-            anlagenTree.show(pendingTree, main, null);
+            anlagenTree.show(pendingTree, main, null, "HR");
         }else{
-            anlagenTree.show(pendingTree, main, null);
-            anlagenTree.show(fileTree, main, id);
+            anlagenTree.show(pendingTree, main, null, "HR");
+            anlagenTree.show(fileTree, main, id, "HR");
         }
     }
 
@@ -49,7 +49,7 @@ abstract class AbstractPersonalakte {
     }
 
     public void createAttachements(JButton button, JPanel main, JTree pendingTree) {
-        new AnlagenTree().addAttachements(button, pendingTree, main, null);
+        new AnlagenTree().addAttachements(button, pendingTree, main, null, "HR");
     }
 
     public void design(JFrame frame, JLabel logoIconLeft, JLabel logoIconRight) {

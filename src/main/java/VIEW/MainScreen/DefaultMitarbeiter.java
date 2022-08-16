@@ -462,6 +462,6 @@ public class        DefaultMitarbeiter implements INT_Screen {
     @Override
     public void show(JFrame frame, JPanel main, String id) {
         new DefaultFraming().show(frame, main, 1000, 1000, "EXIT");
-        new AnlagenTree().show(fileTree, main, id);
+        new AnlagenTree().show(fileTree, main, id, "Mitarbeiter");
     }
 }
