@@ -17,6 +17,9 @@ abstract class AbstractPersonalakte {
 
     public void show(JFrame frame, JPanel main, JTree pendingTree, JTree fileTree, JButton button, String id) {
 
+        new DefaultFraming().show(frame, main, 1000, 1000, "DISPOSE");
+        new DIR().clearOnClose(frame, button);
+
         AnlagenTree anlagenTree = new AnlagenTree();
 
         System.out.println(id);
@@ -27,9 +30,6 @@ abstract class AbstractPersonalakte {
             anlagenTree.show(pendingTree, main, null);
             anlagenTree.show(fileTree, main, id);
         }
-
-        new DefaultFraming().show(frame, main, 1000, 1000, "DISPOSE");
-        new DIR().clearOnClose(frame, button);
     }
 
     public ArrayList<JTextField> createOptionalInput(JTextField zweitNameField, JTextField hausnummerZusatzField, JTextField abteilungsLeiterField) {
