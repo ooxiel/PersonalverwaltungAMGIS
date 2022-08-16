@@ -105,6 +105,8 @@ public class Personalakte_bearbeiten extends AbstractPersonalakte {
         savePersonalakte(frame, main, aenderungenUebernehmenButton, geschlecht, pidField, beschaeftigungField, lettersOnly, numbersOnly, specialChars, geburstagField,
                 telefonField, emailField, vornameField, zweitNameField, nameField, strasseField, hausnummerField, hausnummerZusatzField, landField, bundeslandField,
                 plzField, jobnameField, abteilungField, abteilungsLeiterField, raumField, standortField, erstelltDate);
+
+        deletePersonalakte(frame, main, personalakteLoeschenButton, pidField.getText());
     }
 
 

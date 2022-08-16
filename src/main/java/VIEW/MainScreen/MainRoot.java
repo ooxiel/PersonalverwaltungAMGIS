@@ -32,10 +32,6 @@ public class MainRoot extends JFrame implements INT_Screen, INT_HRScreen {
     private JComboBox geschlecht;
     private JTable mitarbeiterLoginTable;
 
-    public static void main(String[] args) {
-        new MainRoot();
-    }
-
     public MainRoot() {
 
         JFrame frame = new JFrame();

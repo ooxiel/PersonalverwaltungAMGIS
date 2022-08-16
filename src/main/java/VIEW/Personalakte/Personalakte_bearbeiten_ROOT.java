@@ -100,6 +100,8 @@ public class Personalakte_bearbeiten_ROOT extends AbstractPersonalakte {
                 telefonField, emailField, vornameField, zweitNameField, nameField, strasseField, hausnummerField, hausnummerZusatzField, landField, bundeslandField,
                 plzField, jobnameField, abteilungField, abteilungsLeiterField, raumField, standortField, erstelltDate);
 
+        deletePersonalakte(frame, main, personalakteLoeschenButton, pidField.getText());
+
         createHR();
     }
 

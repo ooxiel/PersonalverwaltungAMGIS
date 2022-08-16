@@ -98,4 +98,7 @@ abstract class AbstractPersonalakte {
                 telefonField, emailField, vornameField, zweitNameField, nameField, strasseField, hausnummerField, hausnummerZusatzField, landField, bundeslandField,
                 plzField, jobnameField, abteilungField, abteilungsLeiterField, raumField, standortField, erstelltDate);
     }
+    public void deletePersonalakte(JFrame frame, JPanel main, JButton button, String pid){
+        new Personalakte().delete(frame, main, button, pid);
+    }
 }
