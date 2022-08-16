@@ -1,16 +1,12 @@
 package VIEW.Login;
 
 
-import CONTROLLER.TableModel.Mitarbeiter.HR_Mitarbeiter;
-import CONTROLLER.TableModel.Mitarbeiter.Mitarbeiter;
-import MODEL.Login.Check.LoginCheck;
-import VIEW.MainScreen.DefaultHR;
-import VIEW.MainScreen.DefaultMitarbeiter;
-import VIEW.MainScreen.MainRoot;
+import CONTROLLER.Appearance.DefaultFraming;
+import CONTROLLER.Appearance.IconDesign;
+import CONTROLLER.Login.PushLogin;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
@@ -18,18 +14,12 @@ import javax.swing.border.TitledBorder;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.text.StyleContext;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Locale;
 
 public class Login {
-
-    // Main, Variablendeklarierung
 
     private JPanel main;
     private JPasswordField passwordField;
@@ -41,8 +31,7 @@ public class Login {
     private JLabel passwordImage;
     private JLabel loginLabel;
     private JLabel logoImage;
-    private ImageIcon userImage;
-    private ImageIcon passImage;
+
 
     public static void main(String[] args) throws IOException {
         new Login();
@@ -51,6 +40,15 @@ public class Login {
     public Login() throws IOException {
 
         JFrame frame = new JFrame();
+
+        show(frame);
+        design(frame);
+        check(frame);
+
+    }
+
+    private void show(JFrame frame) {
+
         frame.add(main);
         frame.setSize(500, 300);
         frame.setResizable(false);
@@ -58,52 +56,23 @@ public class Login {
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+        new DefaultFraming().defaultDispose(frame, abbrechenButton);
+    }
 
-    /*
-        Zentrierung Login-Panel in Abhängigkeit der Monitorauflösung
-     */
-
-
-    /*
-        Login-Frame wird geschlossen
-     */
-
-        abbrechenButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-            }
-        });
-
-    /*
-        Design
-     */
-
-        // Icons werden im JLabel
-
-        Image imgUser = ImageIO.read(new File("src/main/resources/icons/user.png"));
-        ImageIcon userIcon = new ImageIcon(imgUser);
-        usernameImage.setIcon(userIcon);
-
-        Image imgPass = ImageIO.read(new File("src/main/resources/icons/password.png"));
-        ImageIcon passwordIcon = new ImageIcon(imgPass);
-        passwordImage.setIcon(passwordIcon);
-
-        Image imgLogo = ImageIO.read(new File("src/main/resources/icons/LogoGross.png"));
-        ImageIcon logoIcon = new ImageIcon(imgLogo);
-        logoImage.setIcon(logoIcon);
-
-
-        // Border-Types werden geändert
+    private void design(JFrame frame) {
+        IconDesign icon = new IconDesign();
+        icon.setIcon(frame, usernameImage, "src/main/resources/icons/user.png");
+        icon.setIcon(frame, passwordImage, "src/main/resources/icons/password.png");
+        icon.setIcon(frame, logoImage, "src/main/resources/icons/LogoGross.png");
 
         Border border = new BevelBorder(0, Color.white, Color.decode("#050a30"));
-
         usernameField.setBorder(border);
         passwordField.setBorder(border);
+    }
 
-    /*
-        Username und Password-Eingabe wird zur Ueberpruefung weitergeleitet
-     */
+    private void check(JFrame frame) {
+
+        PushLogin login = new PushLogin();
 
         besteatigenButton.addKeyListener(new KeyAdapter() {
             @Override
@@ -112,7 +81,7 @@ public class Login {
                 char input = e.getKeyChar();
 
                 if ((input == KeyEvent.VK_ENTER)) {
-                    anmeldungAusfuehren(frame);
+                    login.anmelden(frame, main, usernameField, passwordField);
                 }
             }
         });
@@ -124,7 +93,7 @@ public class Login {
                 char input = e.getKeyChar();
 
                 if ((input == KeyEvent.VK_ENTER)) {
-                    anmeldungAusfuehren(frame);
+                    login.anmelden(frame, main, usernameField, passwordField);
                 }
 
             }
@@ -137,65 +106,13 @@ public class Login {
                 char input = e.getKeyChar();
 
                 if ((input == KeyEvent.VK_ENTER)) {
-                    anmeldungAusfuehren(frame);
+                    login.anmelden(frame, main, usernameField, passwordField);
                 }
 
             }
         });
 
-        abbrechenButton.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-                char input = e.getKeyChar();
-
-                if ((input == KeyEvent.VK_ENTER)) {
-                    frame.dispose();
-                }
-
-            }
-        });
-
-        besteatigenButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                anmeldungAusfuehren(frame);
-            }
-        });
-    }
-
-    public void anmeldungAusfuehren(JFrame frame) {
-        if (usernameField.getText().isEmpty() && passwordField.getPassword().length == 0) {
-            JOptionPane.showMessageDialog(main, "Username oder Passwort nicht aufgefuellt!");
-        } else {
-            LoginCheck lc = new LoginCheck();
-
-
-            if (lc.validateKontoname_HR(usernameField.getText()) && lc.validatePasswort_HR(usernameField.getText(), String.valueOf(passwordField.getPassword()))) {
-                if (lc.isRoot(Integer.parseInt(lc.searchIDwithKN_HR(usernameField.getText())))) {
-                    frame.dispose();
-                    new MainRoot();
-                } else {
-                    //Mitarbeiter Objekt erzeugen
-                    HR_Mitarbeiter hrMitarbeiter = new HR_Mitarbeiter(Integer.parseInt(lc.searchIDwithKN_HR(usernameField.getText())), usernameField.getText(), String.valueOf(passwordField.getPassword()), true);
-                    frame.dispose();
-                    new DefaultHR(/*hrMitarbeiter*/);
-                }
-            } else if (lc.validateKontoname_M(usernameField.getText()) && lc.validatePasswort_M(usernameField.getText(), String.valueOf(passwordField.getPassword()))) {
-                //Mitarbeiter Objekt erzeugen
-                frame.dispose();
-                Mitarbeiter m = new Mitarbeiter(Integer.parseInt(lc.searchIDwithKN_M(usernameField.getText())), usernameField.getText(), String.valueOf(passwordField.getPassword()));
-                new DefaultMitarbeiter(m);
-            } else {
-                JOptionPane.showMessageDialog(main, "Username oder Passwort ist falsch!");
-                passwordField.setText("");
-                try {
-                    lc.c.close();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }
+        besteatigenButton.addActionListener(e -> login.anmelden(frame, main, usernameField, passwordField));
     }
 
     {
