@@ -3,9 +3,6 @@ package MODEL.Table;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-
-import java.util.function.BooleanSupplier;
 
 import static org.junit.jupiter.api.Assertions.*;
 

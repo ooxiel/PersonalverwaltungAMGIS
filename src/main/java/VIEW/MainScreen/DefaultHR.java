@@ -2,7 +2,6 @@ package VIEW.MainScreen;
 
 import CONTROLLER.Appearance.DefaultFraming;
 import CONTROLLER.Appearance.FilterDesign;
-import CONTROLLER.Functions.Personalakte;
 import MODEL.Table.MainHR_Table;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
