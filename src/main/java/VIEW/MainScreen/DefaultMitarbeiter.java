@@ -1,6 +1,7 @@
 package VIEW.MainScreen;
 
 import CONTROLLER.Appearance.DefaultFraming;
+import CONTROLLER.Attachments.AnlagenTree;
 import CONTROLLER.TableModel.Mitarbeiter.Mitarbeiter;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
@@ -14,7 +15,7 @@ import java.awt.*;
 import java.sql.*;
 import java.util.Locale;
 
-public class DefaultMitarbeiter implements INT_Screen {
+public class        DefaultMitarbeiter implements INT_Screen {
 
     private JPanel main;
     private JPanel personalInfoPanel;
@@ -461,5 +462,6 @@ public class DefaultMitarbeiter implements INT_Screen {
     @Override
     public void show(JFrame frame, JPanel main, String id) {
         new DefaultFraming().show(frame, main, 1000, 1000, "EXIT");
+        new AnlagenTree().show(fileTree, main, id);
     }
 }
