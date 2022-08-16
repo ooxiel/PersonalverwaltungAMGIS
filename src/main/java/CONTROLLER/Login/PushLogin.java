@@ -18,7 +18,6 @@ public class PushLogin {
         } else {
             LoginCheck lc = new LoginCheck();
 
-
             if (lc.validateKontoname_HR(usernameField.getText()) && lc.validatePasswort_HR(usernameField.getText(), String.valueOf(passwordField.getPassword()))) {
                 if (lc.isRoot(Integer.parseInt(lc.searchIDwithKN_HR(usernameField.getText())))) {
                     frame.dispose();
