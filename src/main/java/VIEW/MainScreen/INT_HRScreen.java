@@ -1,5 +1,6 @@
 package VIEW.MainScreen;
 
+import CONTROLLER.Functions.Personalakte;
 import VIEW.Personalakte.Personalakte_erstellen;
 
 import javax.swing.*;
@@ -16,6 +17,9 @@ public interface INT_HRScreen {
             }
         });
     };
-    void editPersonalakte(JTable table, String caller);
+
+    default void editPersonalakte(JTable table, String caller){
+        new Personalakte().edit(table, caller);
+    };
     void searchPersonalakte();
 }

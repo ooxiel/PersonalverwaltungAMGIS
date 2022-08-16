@@ -15,7 +15,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Locale;
 
-public class DefaultHR extends JFrame implements INT_DefaultScreen, INT_HRScreen {
+public class DefaultHR implements INT_Screen, INT_HRScreen {
     private JPanel main;
     private JTable personalaktenTable;
     private JButton neuePersonalakteErstellenButton;
@@ -34,28 +34,18 @@ public class DefaultHR extends JFrame implements INT_DefaultScreen, INT_HRScreen
 
         JFrame frame = new JFrame();
 
-            show(frame, null);
+            show(frame, main, null);
             logout(frame);
             createPersonalakte(neuePersonalakteErstellenButton);
             editPersonalakte(personalaktenTable, "HR");
             searchPersonalakte();
     }
+
     @Override
-    public void show(JFrame frame, String id) {
+    public void show(JFrame frame, JPanel main, String id) {
         new DefaultFraming().show(frame, main, 1000, 1000, "EXIT");
         new FilterDesign().changeBorderLook(geschlecht, nameField, vornameField, jobnameField, abteilungField, standortField);
     }
-
-    @Override
-    public void logout(JFrame frame) {
-        new DefaultFraming().defaultLogout(frame);
-    }
-
-    @Override
-    public void editPersonalakte(JTable table, String caller) {
-        new Personalakte().edit(table, caller);
-    }
-
     @Override
     public void searchPersonalakte() {
         sucheStartenButton.addActionListener(new ActionListener() {
@@ -289,6 +279,7 @@ public class DefaultHR extends JFrame implements INT_DefaultScreen, INT_HRScreen
     public JComponent $$$getRootComponent$$$() {
         return main;
     }
+
 
 }
 
