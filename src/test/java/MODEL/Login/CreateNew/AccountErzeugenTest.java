@@ -5,7 +5,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AccountErzeugenTest {
+    //Objekt der zu testenden Klasse erzeugen
     AccountErzeugen ae = new AccountErzeugen();
+
+
+    //Pruefen ob die erwarteten Kontonamen mit dem Output der Methode uebereinstimmen
     @Test
     void test_kontoname_erzeugen() {
         assertAll(
@@ -23,6 +27,7 @@ class AccountErzeugenTest {
     }
 
     @Test
+    //erzeugte Passwort sollte nicht null sein
     void test_passwort_erzeugen() {
         assertAll(
                 () -> assertNotNull(ae.passwort_erzeugen()),

@@ -5,7 +5,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LoginCheckTest {
+    //Objekt der zu testenden Klasse erzeugen
     LoginCheck lc = new LoginCheck();
+
+    //Pruefen aller möglichen Eingabekombinationen
     @Test
     void test_validatePasswort_M() {
         assertAll(
@@ -26,7 +29,7 @@ class LoginCheckTest {
 
         );
     }
-
+    //Pruefen der isRoot Methode
     @Test
     void test_isRoot() {
         assertAll(

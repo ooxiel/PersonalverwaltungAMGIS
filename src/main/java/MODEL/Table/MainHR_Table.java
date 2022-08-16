@@ -14,13 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainHR_Table {
+    //Globale Variable fuer die Datenbank Connection
     public Connection con=null;
 
     public AbstractTableModel resultSQL_PA(String sql){
         try{
-            con=getCon();
-            Statement stmt = con.createStatement();
-            ResultSet rs=stmt.executeQuery(sql);
+            con=getCon();//Verbindung herstellen
+            Statement stmt = con.createStatement();//Statement fuer die Datenbank erstellen
+            ResultSet rs=stmt.executeQuery(sql);//
 
             List<Personalakten> personalakten = new ArrayList<>();
 
@@ -104,9 +105,10 @@ public class MainHR_Table {
         return table;
     }
 
-
+    //Methode mit der die Connection zur Datenbank hergestellt wird
     public Connection getCon(){
         try {Class.forName("org.hsqldb.jdbcDriver");}catch(ClassNotFoundException e) {return null;}
+        //Datenbank ist dem Projektordner gespeichert. Wir uebergeben der Methode den Pfad, Den Benutzernamen und Passwort der Datenbank
         try {Connection con = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis");return con;}catch(SQLException e){e.printStackTrace();}
         return null;
     }
