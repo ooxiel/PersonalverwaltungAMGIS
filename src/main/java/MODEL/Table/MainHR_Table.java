@@ -16,7 +16,7 @@ import java.util.List;
 public class MainHR_Table {
     public Connection con=null;
 
-    private AbstractTableModel resultSQL_PA(String sql){
+    public AbstractTableModel resultSQL_PA(String sql){
         try{
             con=getCon();
             Statement stmt = con.createStatement();
