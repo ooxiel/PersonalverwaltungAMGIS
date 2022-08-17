@@ -15,7 +15,7 @@ import java.awt.*;
 import java.sql.*;
 import java.util.Locale;
 
-public class        DefaultMitarbeiter implements INT_Screen {
+public class DefaultMitarbeiter implements INT_Screen {
 
     private JPanel main;
     private JPanel personalInfoPanel;

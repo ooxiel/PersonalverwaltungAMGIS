@@ -1,21 +1,19 @@
 package CONTROLLER.TableModel.Mitarbeiter;
 
 public class HR_Mitarbeiter {
+    //Attribute der Klasse
     public final int id;
     public String kontoname;
     private String passwort;
     public boolean root;
-
-
-
-
+    //Kontruktor
     public HR_Mitarbeiter(int id, String kontoname, String passwort, boolean root) {
         this.id = id;
         this.kontoname = kontoname;
         this.passwort = passwort;
         this.root = root;
     }
-
+    //Getter und Setter
     public int getId() {
         return id;
     }
@@ -43,5 +41,4 @@ public class HR_Mitarbeiter {
     public void setRoot(boolean root) {
         this.root = root;
     }
-
 }

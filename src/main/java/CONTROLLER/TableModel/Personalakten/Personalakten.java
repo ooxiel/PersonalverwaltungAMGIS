@@ -1,6 +1,7 @@
 package CONTROLLER.TableModel.Personalakten;
 
 public class Personalakten {
+    //Attribute der Klasse
     public int id;
     String anrede;
     String vorname;
@@ -23,7 +24,7 @@ public class Personalakten {
     String standort;
     String erstelltDatum;
     String letzteAenderung;
-
+    //Konstruktor für die Klasse
     public Personalakten(int id, String anrede, String vorname, String zweitname, String nachname, String geburtsdatum, String telefon, String email) {
         this.id = id;
         this.anrede = anrede;
@@ -48,7 +49,7 @@ public class Personalakten {
         this.erstelltDatum = erstelltDatum;
         this.letzteAenderung = letzteAenderung;
     }
-
+    //Getter und Setter
     public int getId() {
         return id;
     }

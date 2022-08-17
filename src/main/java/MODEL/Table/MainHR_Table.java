@@ -18,11 +18,16 @@ public class MainHR_Table {
     public Connection con=null;
 
     public AbstractTableModel resultSQL_PA(String sql){
+        // Das SQL Statement wird im Methodenaufruf übergeben!!
         try{
             con=getCon();//Verbindung herstellen
             Statement stmt = con.createStatement();//Statement fuer die Datenbank erstellen
-            ResultSet rs=stmt.executeQuery(sql);//
-
+            ResultSet rs=stmt.executeQuery(sql);
+            /*
+            Ergebnisse des ausgeführten Statements werden in einem ResultSet gespeichert und
+            werden in der While schleife nacheinander ausgelesen und damit ein Personalaktenobjekt erzeugt.
+            und der ArrayList personalakten hinzugefügt.
+            */
             List<Personalakten> personalakten = new ArrayList<>();
 
             while (rs.next()){
@@ -37,31 +42,41 @@ public class MainHR_Table {
                 Personalakten pa = new Personalakten(id,anrede,vorname,zweitname,nachname,jobname,abteilung,standort);
                 personalakten.add(pa);
             }
+            //Ein PersonalaktenTableModel wird erstellt, welche die ArrayList mit den vorher erzeugten
+            //Objekten als Parameter übergeben bekommt und die Tabelle damit füllt.
             PersonalaktenTableModel patm = new PersonalaktenTableModel(personalakten);
-            rs.close();
-            stmt.close();
-            try{con.close();}catch(SQLException ex) {ex.printStackTrace();}
-            return patm;
+            rs.close();//resultset schließen
+            stmt.close();//statement schließen
+            try{con.close();/*Verbindung schließen*/}catch(SQLException ex) {ex.printStackTrace();}
+            return patm;//Tabelle wird zurückgegeben
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
     public JTable filterTable(JTable table,String anrede, String vorname, String nachname,String jobname, String abteilung, String standort){
+        //SQL Statement. Die Parameter werden in den String eingefügt.
         String sql= "SELECT  ms.person_id, ms.anrede, ms.vorname, ms.zweitname,ms.nachname,ji.jobname,  ji.abteilung,ji.standort FROM mitarbeiterstamm ms, adressinfo ai, jobinfo ji  WHERE  ms.anrede LIKE '%"+anrede+"%' AND ms.vorname LIKE '%"+vorname+"%' AND ms.nachname LIKE '%"+nachname+"%' AND ji.jobname LIKE '%"+jobname+"%' AND ji.abteilung LIKE'%"+abteilung+"%' AND ji.standort LIKE '%"+standort+"%' AND ms.person_id=ai.Adress_ID AND person_id=ji.job_ID";
+        //Das Table, dass übergeben wurde, wird aktualisiert indem wir die resultSQL_PA(sql) Methode aufrufen
+        //und das table mit .setModel auf das Ergebniss der Methode gesetzt wird.
         table.setModel(resultSQL_PA(sql));
-        return table;
+        return table;//zurückgeben der gefilterten Tabelle
     }
 
     public JTable defaultTableAccounts(JTable table){//ganzen Inhalt der Accounts auslesen und in einer Table darstellen
         try{
-            con=getCon();
-            String sql= "SELECT  * FROM HRroot";
-            Statement stmt = con.createStatement();
+            con=getCon();//Connection herstellen
+            String sql= "SELECT  * FROM HRroot";//SQL Abfrage
+            Statement stmt = con.createStatement();//Statement fuer die Datenbank erstellen
+            //Statement wird ausgeführt und Ergebnisse werden in einem ResultSet gespeichert
             ResultSet rs=stmt.executeQuery(sql);
 
+            //ArrayList erstellen in dem die Objekte gespeichert werden
             List<Logindaten> logindaten = new ArrayList<>();
 
             while (rs.next()){
+                //Solange unser ResultSet weitere Daten hat, werden diese ausgelesen und ein Objekt erzeugt
+                //und der ArrayList hinzugefügt
                 int id = rs.getInt(1);
                 String kontoname = String.valueOf(rs.getString(2));
                 String passwort = String.valueOf(rs.getString(3));
@@ -69,38 +84,43 @@ public class MainHR_Table {
                 Logindaten ld = new Logindaten(id,kontoname,passwort,isRoot);
                 logindaten.add(ld);
             }
+            //LogindatenTableModel Objekt erzeugen und die ArrayList übergeben
             LogindatenTableModel ldtm = new LogindatenTableModel(logindaten);
-            table.setModel(ldtm);
-            rs.close();
+            table.setModel(ldtm);//Table mit dem neuen Daten aktualisieren
+            rs.close();//ResultSet und Statement schließen
             stmt.close();
-            try{con.close();}catch(SQLException ex) {ex.printStackTrace();}
-            return table;
+            try{con.close();}catch(SQLException ex) {ex.printStackTrace();}//Verbindung schließen
+            return table;//Tabelle zurückgeben
         }catch (Exception e){e.printStackTrace();}
     return table;
     }
 
     public JTable defaultTableMlogin(JTable table){//ganzen Inhalt der Accounts auslesen und in einer Table darstellen
         try{
-            con=getCon();
-            String sql= "SELECT * FROM Mitarbeiterlogin";
-            Statement stmt = con.createStatement();
+            con=getCon();//Connection herstellen
+            String sql= "SELECT * FROM Mitarbeiterlogin";//SQL Abfrage
+            Statement stmt = con.createStatement();//Statement fuer die Datenbank erstellen
+            //Statement wird ausgeführt und Ergebnisse werden in einem ResultSet gespeichert
             ResultSet rs=stmt.executeQuery(sql);
-
+            //ArrayList erstellen in dem die Objekte gespeichert werden
             List<Mitarbeiterlogindaten> mitarbeiterlogindaten = new ArrayList<>();
 
             while (rs.next()){
+                //Solange unser ResultSet weitere Daten hat, werden diese ausgelesen und ein Objekt erzeugt
+                //und der ArrayList hinzugefügt
                 int id = rs.getInt(1);
                 String kontoname = String.valueOf(rs.getString(2));
                 String passwort = String.valueOf(rs.getString(3));
                 Mitarbeiterlogindaten mld = new Mitarbeiterlogindaten(id,kontoname,passwort);
                 mitarbeiterlogindaten.add(mld);
             }
+            //MitarbeiterlogindatenTableModel Objekt erzeugen und die ArrayList übergeben
             MitarbeiterlogindatenTableModel mldtm = new MitarbeiterlogindatenTableModel(mitarbeiterlogindaten);
-            table.setModel(mldtm);
-            rs.close();
+            table.setModel(mldtm);//Table mit dem neuen Daten aktualisieren
+            rs.close();//ResultSet und Statement schließen
             stmt.close();
-            try{con.close();}catch(SQLException ex) {ex.printStackTrace();}
-            return table;
+            try{con.close();}catch(SQLException ex) {ex.printStackTrace();}//Verbindung schließen
+            return table;//Tabelle zurückgeben
         }catch (Exception e){e.printStackTrace();}
         return table;
     }
