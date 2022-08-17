@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class IconDesign {
+
     //setIcon bekommt den aktuellen frame, das Label in dem das Bild angezeigt wird und den Path von dem Image übergeben
     public void setIcon(JFrame frame, JLabel label, String path){
 

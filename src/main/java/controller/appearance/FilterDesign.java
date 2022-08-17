@@ -6,7 +6,9 @@ import javax.swing.border.Border;
 import java.awt.*;
 
 public class FilterDesign {
-
+    /*
+    Die Ränder der Filtereingabefelder bei HRView und RootView werden geändert
+     */
     public void changeBorderLook(JComboBox geschlecht, JTextField nameField, JTextField vornameField, JTextField jobnameField, JTextField abteilungField, JTextField standortFeild){
 
 

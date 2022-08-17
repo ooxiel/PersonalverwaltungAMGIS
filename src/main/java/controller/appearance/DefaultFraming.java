@@ -13,24 +13,28 @@ import java.io.IOException;
 public class DefaultFraming {
 
     public void show(JFrame frame, JPanel main, int width, int height, String exitType){
-
+        //Standard Methode zum anzeigen
         frame.add(main);
         frame.setSize(width, height);
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
         disposeType(frame, exitType);
     }
-
+    //Unterscheiden zwischen den dispose Typen
     private void disposeType(JFrame frame, String exitType){
-
         if (exitType.equals("EXIT")){
+            //Gesamtes Programm wird beendet
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         }
         if(exitType.equals("DISPOSE")){
+            //Aktuelles Fenster wird geschlossen -> Programm läuft weiter
             frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         }
     }
-
+    /*
+    Anzeigen einer Menuleiste mit einem "Logout" Knopf.
+    Bei Betätigen wird ein Loginfenster generiert und der aktuelle Bildschirm geschlossen
+     */
     public void defaultLogout (JFrame frame){
 
         JMenuBar menu = new JMenuBar();
@@ -64,6 +68,7 @@ public class DefaultFraming {
 
         frame.setJMenuBar(menu);
     }
+    //schliesst die Anwendung auf Knopfdruck
     public void defaultDispose (JFrame frame, JButton button){
         button.addActionListener(new ActionListener() {
             @Override

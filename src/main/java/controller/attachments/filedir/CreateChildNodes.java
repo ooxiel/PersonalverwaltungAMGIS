@@ -4,7 +4,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import java.io.File;
 
 public class CreateChildNodes implements Runnable {
-
+    /*
+    source:
+    https://stackoverflow.com/questions/60234270/how-to-display-full-file-path-in-jtree
+    */
     private DefaultMutableTreeNode root;
     private File fileRoot;
 

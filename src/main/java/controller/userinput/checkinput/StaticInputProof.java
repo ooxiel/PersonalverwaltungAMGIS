@@ -45,21 +45,16 @@ public class StaticInputProof {
     }
 
     public boolean dateValid (JTextField field) {
-
         String input = field.getText();
-
             char[] inputs = input.toCharArray();
             char[] outputs = new char[8];
             int counter = 0;
-
                 for (char k : inputs) {
-
                     if (k != '.') {
                         outputs[counter] = k;
                         counter++;
                     }
                 }
-
             String outputDay = String.copyValueOf(outputs,0,2);
             String outputMonth = String.copyValueOf(outputs,2,2);
             String outputYear = String.copyValueOf(outputs,4,4);
@@ -69,43 +64,29 @@ public class StaticInputProof {
             int year;
 
             try {
-
                 day     = Integer.parseInt(outputDay);
                 month   = Integer.parseInt(outputMonth);
                 year    = Integer.parseInt(outputYear);
-
             } catch (NumberFormatException e) {
-
                 addAndRemoveFocusListener(field);
                 setBorderColorAndToolTip(field,"Datum ungültig");
-
                 return false;
             }
-
         GregorianCalendar gregorianCalendar = new GregorianCalendar();
             gregorianCalendar.setLenient(false);
-
             if(LocalDate.now().getYear() < year){
-
                 addAndRemoveFocusListener(field);
                 setBorderColorAndToolTip(field,"Datum ungültig");
-
                 return false;
-
             }else{
                 gregorianCalendar.set(year,month-1,day);
-
                 try{
                     gregorianCalendar.getTime();
-
                 }catch(IllegalArgumentException e){
-
                     addAndRemoveFocusListener(field);
                     setBorderColorAndToolTip(field,"Datum ungültig");
-
                     return false;
                 }
-
             return true;
             }
     }
@@ -181,15 +162,13 @@ public class StaticInputProof {
             }
         return true;
     }
-
+    //ToolTip-Text ändern
     private void fieldEmpty(JTextField k){
-
         setBorderColorAndToolTip(k,"Bitte nehmen Sie eine Eingabe vor!");
         addAndRemoveFocusListener(k);
     }
 
     private void addAndRemoveFocusListener(JTextField field){
-
         field.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -197,25 +176,23 @@ public class StaticInputProof {
                 resetBorderColorAndToolTip(field);
                 field.setEditable(true);
             }
-
             @Override
             public void focusLost(FocusEvent e) {
                 field.removeFocusListener(this);
             }
         });
     }
-
+    // Wenn in ein rot markiertes Feld geklickt wird, wird es zurueckgesetzt
     private void resetBorderColorAndToolTip(JTextField field){
-
         if(KeyEvent.VK_DELETE == 127 || KeyEvent.KEY_TYPED == 400){
-
             field.setBorder(LineBorder.createGrayLineBorder());
             field.setToolTipText(null);
         }
-
     }
-    private void setBorderColorAndToolTip (JTextField field, String text){
 
+    private void setBorderColorAndToolTip (JTextField field, String text){
+        //Border von Feld mit falscher/fehlender Angabe wird Rot gesetzt
+        //ToolTip wird angezeigt wenn mit der Maus darueber geschwebt wird
         field.setToolTipText(text);
         field.setBorder(new LineBorder(Color.red));
         ToolTipManager.sharedInstance().setInitialDelay(0);

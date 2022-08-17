@@ -13,6 +13,7 @@ import java.io.IOException;
 
 public class PendingDirectory {
 
+    //Wenn beim Erstellen oder Bearbeiten einer Personalakte das Fenster geschlossen/abgebrochen wird, wird der Pending Ordner geleert
     public void clearOnClose(JFrame frame, JButton button){
 
         frame.addWindowListener(new WindowAdapter() {
@@ -22,13 +23,14 @@ public class PendingDirectory {
 
                 File dir = new File("src/main/resources/AktenFiles/Pending/");
                 try {
-                    FileUtils.cleanDirectory(dir);
+                    FileUtils.cleanDirectory(dir);//säubern des Directory
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
             }
         });
 
+        //AbbrechenButton
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
