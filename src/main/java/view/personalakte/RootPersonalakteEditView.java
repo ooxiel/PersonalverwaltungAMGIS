@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class RootPersonalakteEditView extends AbstractPersonalakte {
-
+    //Variablen deklarierung
     private JPanel main;
     private JPanel personalInfoPanel;
     private JTextField nameField;
@@ -55,9 +55,10 @@ public class RootPersonalakteEditView extends AbstractPersonalakte {
     private JTree fileTree;
     private JTree pendingTree;
 
+    //Konstruktor
     public RootPersonalakteEditView(int id, String anrede, String vorname, String zweitname, String nachname, String geburtsdatum, String telefon, String email, String strasse, String strassenNR, String strassenBuchstabe, String land, String bundesland,
                                     String plz, String jobname, String besGrad, String abteilung, String abtLeiter, String raum, String standort, String erstelltDatum, String letzteAenderung) {
-
+        //Initialisierung
         this.mitarbeiterField.setText("Akte von: " + vorname + " " + zweitname + " " + nachname);
         this.pidField.setText(String.valueOf(id));
         this.geschlecht.setSelectedItem(anrede);
@@ -81,13 +82,13 @@ public class RootPersonalakteEditView extends AbstractPersonalakte {
         this.standortField.setText(standort);
         this.erstelltDate.setText(erstelltDatum);
         this.geandertDate.setText(letzteAenderung);
-
+        //Fenster erstellen
         JFrame frame = new JFrame();
-
+        //Fensterinhalte initialisieren(Buttons, Ordnerstrukturen)
         show(frame, main, pendingTree, fileTree, abbrechenButton, pidField.getText());
         design(frame, logoIconLeft, logoIconRight);
         createAttachements(setAnlagenButton, main, pendingTree);
-
+        //Felder  in ArrayList sortiert um den Input zu pruefen
         ArrayList<JTextField> optionalInput = createOptionalInput(zweitNameField, hausnummerZusatzField, abteilungsLeiterField);
         ArrayList<JTextField> lettersOnly = createLettersOnly(nameField, vornameField, strasseField, landField, bundeslandField, jobnameField, standortField);
         ArrayList<JTextField> numbersOnly = createNumbersOnly(plzField, beschaeftigungField, hausnummerField);
@@ -95,16 +96,16 @@ public class RootPersonalakteEditView extends AbstractPersonalakte {
 
         proofInputDynamic(optionalInput, lettersOnly, numbersOnly, telefonField, hausnummerZusatzField, plzField, beschaeftigungField, geburstagField);
         deleteAll(optionalInput, lettersOnly, numbersOnly, specialChars, alleEingabenLoeschenButton, raumField, geschlecht);
-
+        //speichern
         savePersonalakte(frame, main, aenderungenUebernehmenButton, geschlecht, pidField, beschaeftigungField, lettersOnly, numbersOnly, specialChars, geburstagField,
                 telefonField, emailField, vornameField, zweitNameField, nameField, strasseField, hausnummerField, hausnummerZusatzField, landField, bundeslandField,
                 plzField, jobnameField, abteilungField, abteilungsLeiterField, raumField, standortField, erstelltDate);
-
+        //löschen
         deletePersonalakte(frame, main, personalakteLoeschenButton, pidField.getText());
-
+        //Zugang erstellen
         createHR();
     }
-
+    //MEthode zum erstellen eines HR-Zugangs
     private void createHR() {
         new HRController().create(main, HRMitarbeiterErstellenButton, pidField, vornameField, zweitNameField, nameField);
     }

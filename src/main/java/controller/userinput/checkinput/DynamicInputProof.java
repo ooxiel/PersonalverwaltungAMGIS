@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.awt.Robot;
 
 public class DynamicInputProof {
-
+    //Maximale Anzahl an Zeichen fuer ein Feld
     public void setAmountofCharacterAllowed (JTextField field, int amount){
 
         field.addKeyListener(new KeyAdapter() {
@@ -82,7 +82,7 @@ public class DynamicInputProof {
 
 
     }
-
+    //Pruefmethode - prueft ob das Feld nur Buchstaben beinhaltet
     public void onlyLetterField(ArrayList<JTextField> list){
 
         for (JTextField k : list) {
@@ -94,7 +94,7 @@ public class DynamicInputProof {
                     char input = e.getKeyChar();
 
                     if(!Character.isLetter(input) || (input == KeyEvent.VK_BACK_SPACE) || (input == KeyEvent.VK_DELETE || (input == KeyEvent.VK_ENTER))){
-                        e.consume();
+                        e.consume();//Event wird beendet -> Zahlen etc. werden nicht in das Feld eingetragen
                         k.setToolTipText("Keine Eingabe von Zahlen oder Sonderzeichen moeglich! Bitte nur Buchstaben eingeben.");
                         ToolTipManager.sharedInstance().setInitialDelay(0);
                     }else{
@@ -106,7 +106,7 @@ public class DynamicInputProof {
         }
 
     }
-
+    //prueft ob das Feld nur Zahlen beinhaltet
     public void onlyNumberField(ArrayList<JTextField> list){
 
         for (JTextField k : list) {
@@ -118,7 +118,7 @@ public class DynamicInputProof {
                     char input = e.getKeyChar();
 
                     if(!Character.isDigit(input) || (input == KeyEvent.VK_BACK_SPACE) || (input == KeyEvent.VK_DELETE) || (input == KeyEvent.VK_ENTER)) {
-                        e.consume();
+                        e.consume();//Event wird beendet -> Zahlen etc. werden nicht in das Feld eingetragen
                         k.setToolTipText("Keine Eingabe von Buchstaben oder Sonderzeichen moeglich! Bitte nur Zahlen eingeben.");
                         ToolTipManager.sharedInstance().setInitialDelay(0);
                     }else{

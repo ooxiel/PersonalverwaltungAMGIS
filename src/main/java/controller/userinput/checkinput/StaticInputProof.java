@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 
 
 public class StaticInputProof {
-
+    //Prueft ob das Dropdown-Menu fuer die Anrede ausgewählt wurde
     public boolean comboBoxFieldisEmpty(JComboBox comboBox){
 
         if(comboBox.getSelectedIndex() == 0){
@@ -43,7 +43,7 @@ public class StaticInputProof {
 
         return false;
     }
-
+    //Datum validieren
     public boolean dateValid (JTextField field) {
         String input = field.getText();
             char[] inputs = input.toCharArray();
@@ -90,17 +90,15 @@ public class StaticInputProof {
             return true;
             }
     }
-
+    //E-Mail validieren
     public boolean mailValide(JTextField field){
 
         String input = field.getText();
-
+        //Regualr Expression fuer die E-Mail
         String  regex       = "[A-Z0-9._%+-]+@[A-Z0-9.-]+[.A-Z]{2,6}";
         Pattern pattern     = Pattern.compile(regex,Pattern.CASE_INSENSITIVE);
         Matcher matcher     = pattern.matcher(input);
-
         if(!matcher.find()){
-
             addAndRemoveFocusListener(field);
             setBorderColorAndToolTip(field,"Keine gueltige E-Mail-Adresse!");
 
@@ -108,17 +106,14 @@ public class StaticInputProof {
         }
         return true;
     }
-
+    //Telefonnummer validieren
     public boolean telefonValide(JTextField field){
-
         String input = field.getText();
-
+        //Regular Expression fuer die Telefonnummer
         String regex    = "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$";
         Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(input);
-
         if(!matcher.find()){
-
             setBorderColorAndToolTip(field,"Keine gueltige Telefonnummer!");
             addAndRemoveFocusListener(field);
 
@@ -127,26 +122,22 @@ public class StaticInputProof {
 
         return true;
     }
-
+    //Maximale Anzahl an Zahlen die ein Feld haben darf
     public void setMaxInteger (JTextField field, int max){
-
         int input;
         try{
             input = Integer.parseInt(field.getText());
         }catch (NumberFormatException e){
             input = 0;
         }
-
         if (input > max) {
             field.setText(Integer.toString(max));
         }
     }
-
+    //Input des Feldes
     public boolean inputNotNull(ArrayList<JTextField> list){
-
         ArrayList<Integer> notNullConfirm = new ArrayList<>();
         int counter = 0;
-
             for (JTextField k : list) {
 
                 if(k.getText().isEmpty()){
@@ -156,7 +147,6 @@ public class StaticInputProof {
                     counter++;
                 }
             }
-
             if(notNullConfirm.isEmpty()){
                 return false;
             }
@@ -167,7 +157,7 @@ public class StaticInputProof {
         setBorderColorAndToolTip(k,"Bitte nehmen Sie eine Eingabe vor!");
         addAndRemoveFocusListener(k);
     }
-
+    //Setzt die Border zurueck
     private void addAndRemoveFocusListener(JTextField field){
         field.addFocusListener(new FocusListener() {
             @Override
@@ -189,7 +179,6 @@ public class StaticInputProof {
             field.setToolTipText(null);
         }
     }
-
     private void setBorderColorAndToolTip (JTextField field, String text){
         //Border von Feld mit falscher/fehlender Angabe wird Rot gesetzt
         //ToolTip wird angezeigt wenn mit der Maus darueber geschwebt wird

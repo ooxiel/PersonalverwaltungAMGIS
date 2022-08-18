@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public interface InterfaceHRScreen {
-
+    //Interface fuer die HRView und RootView
     default void createPersonalakte(JButton button){
         button.addActionListener(new ActionListener() {
             @Override

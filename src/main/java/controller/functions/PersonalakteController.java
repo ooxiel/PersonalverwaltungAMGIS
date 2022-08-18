@@ -20,12 +20,12 @@ public class PersonalakteController {
     public void create(JFrame frame, JPanel main, JButton button, JComboBox geschlecht, JTextField beschaeftigungField, ArrayList<JTextField> lettersOnly, ArrayList<JTextField> numbersOnly, ArrayList<JTextField> specialChars,
                        JTextField geburstagField, JTextField telefonField, JTextField emailField, JTextField vornameField, JTextField zweitNameField, JTextField nameField, JTextField strasseField, JTextField hausnummerField,
                        JTextField hausnummerZusatzField, JTextField landField, JTextField bundeslandField, JTextField plzField, JTextField jobnameField, JTextField abteilungField, JTextField abteilungsLeiterField, JTextField raumField, JTextField standortField) {
-
+        //Objekt erzeugen um den Input zu pruefen
         StaticInputProof staticInput = new StaticInputProof();
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                //Input der Felder pruefen
                 staticInput.setMaxInteger(beschaeftigungField, 100);
 
                 if (staticInput.inputNotNull(lettersOnly) &&
@@ -38,7 +38,7 @@ public class PersonalakteController {
                 } else if(staticInput.dateValid(geburstagField) && staticInput.telefonValide(telefonField) && staticInput.mailValide(emailField)){
 
                         PersonalakteCreateModel pae = new PersonalakteCreateModel();
-
+                        //Methode bei der die Daten in die Datenbank eingetragen werden
                         pae.einfuegen(geschlecht.getSelectedItem().toString(), vornameField.getText(), zweitNameField.getText(), nameField.getText(),
                                 geburstagField.getText(), telefonField.getText(), emailField.getText(), strasseField.getText(), hausnummerField.getText(),
                                 hausnummerZusatzField.getText(), landField.getText(), bundeslandField.getText(), plzField.getText(), jobnameField.getText(),
@@ -63,12 +63,12 @@ public class PersonalakteController {
     public void save(JFrame frame, JPanel main, JButton button, JComboBox geschlecht, JLabel pidField, JTextField beschaeftigungField, ArrayList<JTextField> lettersOnly, ArrayList<JTextField> numbersOnly, ArrayList<JTextField> specialChars,
                      JTextField geburstagField, JTextField telefonField, JTextField emailField, JTextField vornameField, JTextField zweitNameField, JTextField nameField, JTextField strasseField, JTextField hausnummerField,JTextField hausnummerZusatzField,
                      JTextField landField, JTextField bundeslandField, JTextField plzField, JTextField jobnameField, JTextField abteilungField, JTextField abteilungsLeiterField, JTextField raumField, JTextField standortField, JLabel erstelltDate) {
-
+        //Objekt erzeugen um den Input zu pruefen
         StaticInputProof staticInput = new StaticInputProof();
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                //Input der Felder pruefen
                 staticInput.setMaxInteger(beschaeftigungField, 100);
 
                 if (staticInput.inputNotNull(lettersOnly) &&
@@ -79,7 +79,7 @@ public class PersonalakteController {
                     JOptionPane.showMessageDialog(main, "Es fehlen notwendige Eingaben!");
 
                 } else if(staticInput.dateValid(geburstagField) && staticInput.telefonValide(telefonField) && staticInput.mailValide(emailField)){
-
+                    //Methode bei der die Daten in der Datenbank geändert werden
                     PersonalakteEditModel pab = new PersonalakteEditModel();
                     pab.speichernPA(Integer.parseInt(pidField.getText()), geschlecht.getSelectedItem().toString(), vornameField.getText(), zweitNameField.getText(), nameField.getText(),
                             geburstagField.getText(), telefonField.getText(), emailField.getText(), strasseField.getText(), hausnummerField.getText(),
@@ -110,7 +110,7 @@ public class PersonalakteController {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-
+                //Bei Doppelklick in der Tabelle öffnet wird die ID der gewählten Personalakte in die Datenbankabfrage uebergeben
                 if (e.getClickCount() == 2) {
                     JTable selected = (JTable) e.getSource();
                     int row = selected.getSelectedRow();
@@ -122,7 +122,7 @@ public class PersonalakteController {
                     } catch (ClassNotFoundException ee) {
                         return;
                     }
-
+                    //Laden der ausgewählten Personalakte aus der Datenbank
                     try {
                         con = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis");
                         String sql = "SELECT ms.person_id, ms.anrede, ms.vorname, ms.zweitname,ms.nachname, ms.geburtstag, ms.telefon, ms.email, ai.strasse, ai.strassen_nummer, ai.strassen_buchstabe, ai.land, ai.bundesland, ai.plz, ji.jobname, ji.beschaeftigungsgrad, ji.abteilung, ji.abteilungsleiter, ji.raum, ji.standort, ms.erstellt_datum, ms.aenderung_datum FROM mitarbeiterstamm ms, adressinfo ai, jobinfo ji WHERE ms.person_id=" + id_toEdit + " AND ms.person_id=ai.Adress_ID AND person_id=ji.job_ID";
@@ -152,6 +152,8 @@ public class PersonalakteController {
                             String erstelltDatum = String.valueOf(rs.getString(21));
                             String letzteAenderung = String.valueOf(rs.getString(22));
 
+                            //Unterscheidung zwischen Admin und HR-Mitarbeiter
+                            //Neue EditView wird erstellt
                             if(caller.equals("ROOT")){
                                 new RootPersonalakteEditView(id, anrede, vorname, zweitname, nachname, geburtsdatum, telefon, email, strasse, strassenNR, strassenBuchstabe, land, bundesland, plz, jobname, besGrad, abteilung, abtLeiter, raum, standort, erstelltDatum, letzteAenderung);
                             }else{
@@ -169,18 +171,19 @@ public class PersonalakteController {
         });
     }
 
+    //Personalakte löschen
     public void delete(JFrame frame, JPanel main, JButton button, String pid) {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                //Abfrage ob die Akte wirklich gelöscht werden soll
                 JOptionPane confirmDelete = new JOptionPane();
                 int res = confirmDelete.showConfirmDialog(main, "Sind Sie sicher, dass diese Personalakte endgültig gelöscht werden soll?");
 
                 switch (res) {
-
+                    // Ja
                     case 0:
-
+                        //Verbindung zur Datenbank
                         Connection con = null;
                         try {
                             Class.forName("org.hsqldb.jdbcDriver");
@@ -190,12 +193,15 @@ public class PersonalakteController {
                         try {con = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis");}catch (SQLException ee) {ee.printStackTrace();}
 
                         int id = Integer.parseInt(pid);
+                        //Löschen alle Datenbankeinträge
                         String sql = "DELETE FROM Mitarbeiterstamm WHERE Person_ID=" + id + "; DELETE FROM Aktenkennzeichen WHERE Akten_ID="+id+"; DELETE FROM adressinfo WHERE Adress_ID=" + id + ";DELETE FROM aktenstamm WHERE Akten_id=" + id + ";DELETE FROM jobinfo WHERE job_id=" + id + ";DELETE FROM aktenkennzeichen WHERE Akten_id=" + id + ";DELETE FROM mitarbeiterlogin  WHERE m_id=" + id + ";DELETE FROM hrroot WHERE hr_id=" + id + ";";
-                        try {
+                        try {//Statement erstellung und ausfuehren
                             Statement stmt = con.createStatement();
                             stmt.executeQuery(sql);
 
-
+                            /*
+                            Der Aktenordner der Personalakte wird durchlaufen und jede Datei wird gelöscht
+                             */
                             File file = new File( "src/main/resources/AktenFiles/"+id);
                             if ( file.isDirectory() )
                             {
@@ -206,7 +212,7 @@ public class PersonalakteController {
                                     file.delete();
                                 }
                             }
-
+                            //Aktenordner wird gelöscht
                             new File("src/main/resources/AktenFiles/"+id).delete();
                             frame.dispose();
 
@@ -217,7 +223,9 @@ public class PersonalakteController {
                             throw new RuntimeException(ex);
                         }
                         break;
+                    // Nein
                     case 1:
+                        //PopUp-Fenster nicht mehr sichtbar machen
                         confirmDelete.setVisible(false);
                         break;
                 }
