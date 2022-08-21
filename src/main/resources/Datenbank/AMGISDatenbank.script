@@ -28,7 +28,7 @@ SET FILES NIO TRUE
 SET FILES NIO SIZE 256
 SET FILES LOG TRUE
 SET FILES LOG SIZE 50
-SET FILES CHECK 23698
+SET FILES CHECK 23754
 SET DATABASE COLLATION "SQL_TEXT" PAD SPACE
 CREATE USER "amgis" PASSWORD DIGEST 'bb3a22cec7870af35d6cc6083439efa4'
 ALTER USER "amgis" SET LOCAL TRUE
@@ -110,7 +110,7 @@ INSERT INTO AKTENKENNZEICHEN VALUES(71,'src\main\resources\AktenFiles\1\OOADP_pa
 INSERT INTO MITARBEITERSTAMM VALUES(1,'Herr','Andreas','','Schmietendorf','30.08.1980','+49 12312312312','andreas.schmietendorf@hwr-berlin.de','28.07.2022','2022-08-21T16:49:55.465589700',1,1,1,1)
 INSERT INTO MITARBEITERSTAMM VALUES(2,'Herr','Andreas','','Schmietendorf','30.08.1980','+49 123123123','andreas.schmietendorf@hwr-berlin.de','21.08.22','21.08.22',2,2,2,2)
 INSERT INTO MITARBEITERSTAMM VALUES(3,'Herr','Franz','Watkins','Fischer','30.09.2002','+49171576','franz.fischer@gmail.com','14.06.23','29.12.21',3,3,3,-1)
-INSERT INTO MITARBEITERSTAMM VALUES(4,'Divers','Barrett','','Reinke','01.11.1989','+49418923','barrett.reinke@yahoo.de','27.02.22','15.05.23',4,4,4,-1)
+INSERT INTO MITARBEITERSTAMM VALUES(4,'Divers','Barrett','test','Reinke','01.11.1989','+49418923','barrett.reinke@yahoo.de','27.02.22','2022-08-21T23:18:10.157880700',4,4,4,-1)
 INSERT INTO MITARBEITERSTAMM VALUES(5,'Frau ','Marc','Donaldson','Sch\u00e4fer','04.12.1985','+49671071','marc.schaefer@gmail.com','19.02.23','05.10.22',5,5,5,-1)
 INSERT INTO MITARBEITERSTAMM VALUES(6,'Divers','Gary','','Gr\u00fcningen','11.01.1989','+49691866','gray.gr\u00fcningen@yahoo.de','15.10.22','16.09.21',6,6,6,-1)
 INSERT INTO MITARBEITERSTAMM VALUES(7,'Herr','Jonas','Gardner','Becker','18.07.1999','+4932126130','jonas.becker@gmail.com','21.02.22','18.06.23',7,7,7,-1)
