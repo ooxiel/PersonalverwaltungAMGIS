@@ -14,6 +14,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Locale;
 
+/** ====================================================================================================================
+ *  Klasse kontruiert den HR-Bildschirm mit allen funktionalen und nicht-funktionalen Elementen
+ * =====================================================================================================================
+ */
 public class HRView implements InterfaceScreen, InterfaceHRScreen {
     private JPanel main;
     private JTable personalaktenTable;
@@ -28,7 +32,9 @@ public class HRView implements InterfaceScreen, InterfaceHRScreen {
     private JButton sucheStartenButton;
     private javax.swing.JScrollPane JScrollPane;
 
-
+    /** ================================================================================================================
+     * Konstruktor der Klasse HRView
+     */
     public HRView() {
 
         JFrame frame = new JFrame();
@@ -40,11 +46,23 @@ public class HRView implements InterfaceScreen, InterfaceHRScreen {
             searchPersonalakte();
     }
 
+    /** ================================================================================================================
+     * Methode als Buendelung die allgemeine Anzeige-Methode auf und setzt das Filter-Design.
+     *
+     * @param frame     Anzeigefenster
+     * @param main      anzuzeigende Inhalte
+     * @param id        Personal-ID
+     */
     @Override
     public void show(JFrame frame, JPanel main, String id) {
         new DefaultFraming().show(frame, main, 1000, 1000, "EXIT");
         new FilterDesign().changeBorderLook(geschlecht, nameField, vornameField, jobnameField, abteilungField, standortField);
     }
+
+    /** ================================================================================================================
+     * Methode wendet beim Betaetigen des 'Suche starten'-Button die eingestellten Filter an bzw. aktualisiert auch die
+     * JTable
+     */
     @Override
     public void searchPersonalakte() {
         sucheStartenButton.addActionListener(new ActionListener() {

@@ -2,10 +2,20 @@ package model.login.check;
 
 import java.sql.*;
 
+/** ====================================================================================================================
+ * Klasse enthaelt alle Datenbankabfragen, welche fuer die Validierung beim Login notwendig sind
+ * =====================================================================================================================
+ */
 public class LoginCheck {
-    public Connection c=null;//Globale Variable für die Verbindung zur Datenbank
+    public Connection c=null;               //Globale Variable für die Verbindung zur Datenbank
+
+    /** ================================================================================================================
+     *  Konstruktor der Klasse LoginCheck
+     */
     public LoginCheck() {
-        //Verbindung zur Datenbank wird hergestellt
+        /*
+            Verbindung zur Datenbank wird hergestellt
+         */
         try {
             Class.forName("org.hsqldb.jdbcDriver");
         }catch(ClassNotFoundException e) {
@@ -17,29 +27,61 @@ public class LoginCheck {
             e.printStackTrace();
         }
     }
-    //Prüfung ob die Eingabe mit einem Datenbankeintrag in der Mitarbeiterlogintabelle übereinstimmt
+
+    /** ================================================================================================================
+     * Methode ueberprueft, ob die Eingabe mit einem Datenbankeintrag in der Mitarbeiterlogintablle uebereinstimmt
+     *
+     * @param eingabeKN     Username
+     * @return              true -> Kontoname ist enthaelten; false -> Kontoname ist nicht enthaelten
+     */
     public boolean validateKontoname_M(String eingabeKN){
         if(eingabeKN.equals(checkKontonameInMitarbeiter(eingabeKN))){return true;}
         else{return false;}
     }
-    //Prüfung ob die Eingabe mit einem Datenbankeintrag in der HRlogintabelle übereinstimmt
+
+    /** ================================================================================================================
+     * Methode ueberprueft ruft Methode auf, um zu pruefen, ob die Eingabe mit einem Datenbankeintrag in der HRLogintablle uebereinstimmt
+     *
+     * @param eingabeKN     Username
+     * @return              true -> Kontoname ist enthaelten; false -> Kontoname ist nicht enthaelten
+     */
     public boolean validateKontoname_HR(String eingabeKN){
         if(eingabeKN.equals(checkKontonameInHR(eingabeKN))){return true;}
         else{return false;}
     }
-    //(Mitarbeiter)PRüfung ob der Kontoname und Passwort in der Datenbank vorhanden sind und richtig sind
+
+
+    /** ================================================================================================================
+     * Methode ueberprueft, ob Mitarbeiter-Kontoname und Passwort in der Datenbank vorhanden und richtig sind
+     *
+     * @param eingabeKN     Username
+     * @param eingabePW     Password
+     * @return              true -> Kontoname kombiniert mit Passwort enthaelten; false -> Kontoname kombiniert mit Passwort nicht enthaelten
+     */
     public boolean validatePasswort_M(String eingabeKN,String eingabePW){
         if (validateKontoname_M(eingabeKN)==true && eingabePW.equals(getPasswort_M(Integer.parseInt(searchIDwithKN_M(eingabeKN))))){
             return true;
         }else{return false;}
     }
-    //(HR)PRüfung ob der Kontoname und Passwort in der Datenbank vorhanden sind und richtig sind
+
+    /** ================================================================================================================
+     * Methode ueberprueft, ob HR-Kontoname und Passwort in der Datenbank vorhanden und richtig sind
+     *
+     * @param eingabeKN     Username
+     * @param eingabePW     Password
+     * @return              true -> Kontoname kombiniert mit Passwort enthaelten; false -> Kontoname kombiniert mit Passwort nicht enthaelten
+     */
     public boolean validatePasswort_HR(String eingabeKN,String eingabePW){
         if (validateKontoname_HR(eingabeKN)==true && eingabePW.equals(getPasswort_HR(Integer.parseInt(searchIDwithKN_HR(eingabeKN))))){
             return true;
         }else{return false;}
     }
-    //Prüfen ob der Kontoname in der HR Logintabelle vorhanden ist
+
+    /** ================================================================================================================
+     * Methode ueberprueft ob die Eingabe mit einem Datenbankeintrag in der HRLogintablle uebereinstimmt
+     * @param KN        Kontoname
+     * @return          true -> Kontoname ist vorhanden; false -> Kontoname ist nicht vorhanden
+     */
     private String checkKontonameInHR(String KN) {
         try {
             Statement stmt=c.createStatement();
@@ -56,7 +98,11 @@ public class LoginCheck {
         }
         return "Kontoname nicht vorhanden";
     }
-    //Prüfen ob der Kontoname in der Mitarbeiterlogintabelle vorhanden ist
+    /** ================================================================================================================
+     * Methode ueberprueft ob die Eingabe mit einem Datenbankeintrag in der MitarbeiterLogintablle uebereinstimmt
+     * @param KN        Kontoname
+     * @return          true -> Kontoname ist vorhanden; false -> Kontoname ist nicht vorhanden
+     */
     private String checkKontonameInMitarbeiter(String KN) {
         try {
             Statement stmt=c.createStatement();
@@ -73,7 +119,13 @@ public class LoginCheck {
         }
         return "Kontoname nicht vorhanden";
     }
-    //Prüfen ob ein HR Account Root-Berechtigung besitzt
+
+    /** ================================================================================================================
+     * Methode ueberpruft, ob Root-Berechtigungen vorhanden sind
+     *
+     * @param id        Personal-ID
+     * @return          true -> Root-Berechtigung; false -> keine Root-Berechtigung
+     */
     public boolean isRoot(int id) {
         try {
             Statement stmt = c.createStatement();
@@ -89,7 +141,13 @@ public class LoginCheck {
         }
         return false;
     }
-    //ID suchen mithilfe des Kontonamen
+
+    /** ================================================================================================================
+     * Methoden macht Datenbankabfrage, um eine ID mit Hilfe des Kontonamen zu finden
+     *
+     * @param kontoname     Kontoname
+     * @return              Personal-ID
+     */
     public String searchIDwithKN_HR(String kontoname){
         try {
             Statement stmt=c.createStatement();
@@ -107,6 +165,13 @@ public class LoginCheck {
         return "Falscher Kontoname!";
     }
     //ID suchen mithilfe des Kontonamen
+
+    /** ================================================================================================================
+     *  Methode macht Datenbankabfrage, um einen Kontonamen mit Hilfe einer ID zu finden
+     *
+      * @param kontoname       Kontoname
+     * @return                 Personal-ID
+     */
     public String searchIDwithKN_M(String kontoname){
         try {
             Statement stmt=c.createStatement();
@@ -124,6 +189,14 @@ public class LoginCheck {
         return "Falscher Kontoname!";
     }
     //Passwort suchen mit dem Primary Key ID für HR Daten
+
+    /** ================================================================================================================
+     * Methode macht eine Datenbankabfrage, um ein Passwort mit Hilfe des PK fuer HR-Daten zu suchen
+     *
+     * @param id    Personal-ID
+     * @return      Passwort
+     */
+
     private String getPasswort_HR(int id) {
         try {
             Statement stmt=c.createStatement();//Statement erstellen
@@ -141,7 +214,13 @@ public class LoginCheck {
         }
         return "id/passwort nicht vorhanden";
     }
-    //Passwort suchen mit dem Primary Key ID für Mitarbeiterdaten
+
+    /** ================================================================================================================
+     *  Methode macht eine Datenbankabfrage, um ein Passwort mit Hilfe des PK fuer Mitarbeiterdaten zu suchen
+     *
+     * @param id   Personal-ID
+     * @return      Passwort
+     */
     private String getPasswort_M(int id) {
         try {
             Statement stmt=c.createStatement();//Statement erstellen

@@ -3,40 +3,60 @@ package controller.tablemodel.login.hr;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
+/** ====================================================================================================================
+ *  Klasse wird genutzt um eine JTable mit den Logindaten der HR-Mitarbeiter anzuzeigen
+ * ====================================================================================================================
+ */
 public class LogindatenTableModel extends AbstractTableModel {
-    //Überschriften der Spalten
-    private final String[] columnNames = {"ID", "KONTONAME", "PASSWORT","Root-Zugang"};
-    //Liste von HR logindatenobjekten
-    private List<Logindaten> logindaten;
-    //Klassen der einzelnen Spalten
-    private final Class[] columnClass = new Class[]{
+    private final String[] columnNames = {"ID", "KONTONAME", "PASSWORT","Root-Zugang"};     //Ueberschriften der Spalten
+    private List<Logindaten> logindaten;                                                    //Liste von HR-Logindatenobjekten
+    private final Class[] columnClass = new Class[]{                                        //Klassen der einzelnen Spalten
             Integer.class, String.class, String.class, Boolean.class
     };
-    //getter Methode für den Klassentyp der Spalte
+
+    /** ================================================================================================================
+     * Konstruktor der Klasse LogindatenTableModel
+     *
+     * @param logindaten    Arraylist, welche alle Logindaten enthaelt
+     */
+    public LogindatenTableModel(List<Logindaten> logindaten) {
+        this.logindaten = logindaten;
+    }
+
+    /*
+        Getter-Methode für den Klassentyp der Spalte
+     */
     public Class<?> getColumnClass(int columnIndex){
         return columnClass[columnIndex];
     }
-    //getter Methode für den Spaltenüberschrift
+    /*
+        Getter-Methode für den Spaltenueberschrift
+     */
     public String getColumnName(int column){
       return columnNames[column];
     };
 
-    public LogindatenTableModel(List<Logindaten> logindaten) {
-        this.logindaten = logindaten;
-    }
-    //Getter Methoden
-    @Override//getter Methode für Row-größe
+
+    /*
+        Getter-Methode fuer die Row-Groesse
+     */
+    @Override
     public int getRowCount() {
         return logindaten.size();
     }
 
-    @Override//getter Methode für Column-länge
+    /*
+        Getter-Methode fuer die Column-Laenge
+     */
+    @Override
     public int getColumnCount() {
         return columnNames.length;
     }
 
-
-    @Override//getter Methode für den Wert in der Tabelle an Koordinate ('row','column')
+    /*
+        Getter-Methoden fuer den Wert in der Tabelle an festgelegter Koordinate ('row','column')
+     */
+    @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Logindaten row = logindaten.get(rowIndex);
 

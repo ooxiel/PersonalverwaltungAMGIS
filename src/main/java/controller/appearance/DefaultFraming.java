@@ -10,53 +10,80 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+/**
+ * =====================================================================================================================
+ *  DefaultFraming ist eine Klasse,welche dazu genutzt wird, damit GUI-Komponeten bestimmte Basisfunktionen
+ *  wiederverwendbar nutzen koennen.
+ *  ====================================================================================================================
+ */
 public class DefaultFraming {
 
+    /** ================================================================================================================
+     * Ein Frame muss ueber mehrere Methodenaufrufe implementiert werden. Die Methode 'show' bundelt diese notwendigen
+     * Implementierungen in einer Methode.
+     *
+     * @param frame     Anzeigerahmen
+     * @param main      Anzeigeinhalte
+     * @param width     Breite des Fensters
+     * @param height    Hoehe des Fensters
+     * @param exitType  Schliessverhalten des Fensters
+     */
     public void show(JFrame frame, JPanel main, int width, int height, String exitType){
-        //Standard Methode zum anzeigen
-        frame.add(main);
-        frame.setSize(width, height);
-        frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
-        disposeType(frame, exitType);
+
+        frame.add(main);                    // Das JPanel main, enthaelt alle Inhalte, und wird dem Frame hinzugefuegt
+        frame.setSize(width, height);       // Groesse des Frames wird gesetzt
+        frame.setVisible(true);             // Frame wird auf "Sichtbar" gesetzt
+        frame.setLocationRelativeTo(null);  // Frame wird in der Bildschirm-Mitte platziert
+        disposeType(frame, exitType);       // Methodenausruf des Schliessverhaltens des Frames
     }
-    //Unterscheiden zwischen den dispose Typen
+
+    /** ================================================================================================================
+     * Im Programm werden zwei verschiedene Schlieessverhalten (DisposeTypes) verwendet:
+     *      - Exit    = Das Programm wird komplett geschlossen
+     *      - Dispose = Es wird nur das einzelne Fenster geschlossen, das Programm wird aber weiter ausgefuehrt
+     *
+     * @param frame     Anzeigerahmen
+     * @param exitType  Schliessverhalten des Fensters
+     */
     private void disposeType(JFrame frame, String exitType){
         if (exitType.equals("EXIT")){
-            //Gesamtes Programm wird beendet
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         }
         if(exitType.equals("DISPOSE")){
-            //Aktuelles Fenster wird geschlossen -> Programm läuft weiter
             frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         }
     }
-    /*
-    Anzeigen einer Menuleiste mit einem "Logout" Knopf.
-    Bei Betätigen wird ein Loginfenster generiert und der aktuelle Bildschirm geschlossen
+
+    /** ================================================================================================================
+     * Mit Hilfe der Methode defaultLogout kann jeder View (wenn notwendig) eine Menuleiste mit einem "Logout"-Button
+     * anzeigen lassen.
+     * Beim Betaetigen wird der LoginView ausgerufen und der aktuelle Bildschirm geschlossen.
+     *
+     * @param frame Anzeigerahmen
      */
     public void defaultLogout (JFrame frame){
 
-        JMenuBar menu = new JMenuBar();
-        JMenu logout = new JMenu("Logout");
+        JMenuBar menu = new JMenuBar();                     // Generierung der Menuleiste
+        JMenu logout = new JMenu("Logout");              // Der Menuleiste wird das Menu mit dem Namen "Logout" hinzugefuegt
 
-        logout.setForeground(Color.white);
+        logout.setForeground(Color.white);                 // Schriftfarbe von "Logout"-Menu wird aus weiss gesetzt
+        menu.setBackground(Color.decode("#050a30"));   // Menu-Hintergrundfarbe wird auf Hexcode-Farbe gesetzt
 
-        menu.setBackground(Color.decode("#050a30"));
+        menu.add(logout);                                   // Menu Logout wird der Menuleiste hinzugefuegt
 
-        menu.add(logout);
+        /*
+        "Lougout"-Menu bekommt einen Listener zugewiesen, welcher beim Betaetigen das aktuelle Fenster schliesst
+        und den LoginView oeffnet
+         */
         logout.addMenuListener(new MenuListener() {
-
             @Override
             public void menuSelected(MenuEvent e) {
-                try {
-                    new LoginView();
-                    frame.dispose();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+                new LoginView();
+                frame.dispose();
             }
-
+        /*
+        MenuListener ist ein Interface somit muessen die folgenden Methoden ebenfalls implementiert werden
+         */
             @Override
             public void menuDeselected(MenuEvent e) {
             }
@@ -66,9 +93,17 @@ public class DefaultFraming {
             }
         });
 
-        frame.setJMenuBar(menu);
+        frame.setJMenuBar(menu);                                // Menuleiste wird dem Frame hinzugefuegt
     }
-    //schliesst die Anwendung auf Knopfdruck
+
+    /** ================================================================================================================
+     * defaultDispose wird fuer die implementierten "Abbrechen"-Button genutzt
+     * Wenn der Button betaetigt wird, schliesst sich der entsprechende Frame.
+     * Das Programm wird aber nicht beendet
+     *
+     * @param frame     Anzeigerahmen
+     * @param button    Abbrechen-Button
+     */
     public void defaultDispose (JFrame frame, JButton button){
         button.addActionListener(new ActionListener() {
             @Override

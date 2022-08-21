@@ -1,5 +1,9 @@
 package controller.tablemodel.personalakten;
 
+/** ====================================================================================================================
+ *  Klasse wird genutzt, um alle Personalakten in einer JTable anzuzeigen
+ * =====================================================================================================================
+ */
 public class Personalakten {
     //Attribute der Klasse
     public int id;
@@ -24,7 +28,20 @@ public class Personalakten {
     String standort;
     String erstelltDatum;
     String letzteAenderung;
-    //Konstruktor für die Klasse
+
+    /** ================================================================================================================
+     * Konstruktor fuer die Klasse Personalakte
+     *
+     * @param id                Personal-ID
+     * @param anrede            Anrede
+     * @param vorname           Vorname
+     * @param zweitname         Zweitname
+     * @param nachname          Nachname
+     * @param geburtsdatum      Geburstag
+     * @param telefon           Telefonnummer
+     * @param email             E-Mail-Adresse
+     */
+
     public Personalakten(int id, String anrede, String vorname, String zweitname, String nachname, String geburtsdatum, String telefon, String email) {
         this.id = id;
         this.anrede = anrede;
@@ -49,7 +66,10 @@ public class Personalakten {
         this.erstelltDatum = erstelltDatum;
         this.letzteAenderung = letzteAenderung;
     }
-    //Getter und Setter
+
+    /*
+        Getter- und Setter-Methoden
+     */
     public int getId() {
         return id;
     }

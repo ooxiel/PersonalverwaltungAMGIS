@@ -12,6 +12,10 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Locale;
 
+/** ====================================================================================================================
+ * Klasse kontruiert den HRPersonalakteEditView mit allen funktionalen und nicht-funktionalen Elementen
+ * =====================================================================================================================
+ */
 public class HRPersonalakteEditView extends AbstractPersonalakte {
 
     private JPanel main;
@@ -53,8 +57,18 @@ public class HRPersonalakteEditView extends AbstractPersonalakte {
     private JTree fileTree;
     private JTree pendingTree;
 
+    /** ================================================================================================================
+     * Konstruktor der Klasse PersonalakteCreateView
+     *
+     * Der Konstruktor ruft alle Informationen zum Anzeigen der richtigen Informationen ab.
+     * Der Konstruktor enthaelt alle notwendigen Funktionen, um eine Personalakte zu bearbeiten.
+     *
+     */
+
     public HRPersonalakteEditView(int id, String anrede, String vorname, String zweitname, String nachname, String geburtsdatum, String telefon, String email, String strasse, String strassenNR, String strassenBuchstabe, String land, String bundesland,
                                   String plz, String jobname, String besGrad, String abteilung, String abtLeiter, String raum, String standort, String erstelltDatum, String letzteAenderung) {
+
+        // Initialisierung
 
         this.mitarbeiterField.setText("Akte von: " + vorname + " " + zweitname + " " + nachname);
         this.pidField.setText(String.valueOf(id));
@@ -80,12 +94,15 @@ public class HRPersonalakteEditView extends AbstractPersonalakte {
         this.erstelltDate.setText(erstelltDatum);
         this.geandertDate.setText(letzteAenderung);
 
+        // Fenster erstellen
         JFrame frame = new JFrame();
 
+        // Fensterinhalte initialisierung (Buttons, Ordnerstrukturen)
         show(frame, main, pendingTree, fileTree, abbrechenButton, pidField.getText());
         design(frame, logoIconLeft, logoIconRight);
         createAttachements(setAnlagenButton, main, pendingTree);
 
+        // Felder in ArrayList sortiert um den Input zu pruefen
         ArrayList<JTextField> optionalInput = createOptionalInput(zweitNameField, hausnummerZusatzField, abteilungsLeiterField);
         ArrayList<JTextField> lettersOnly = createLettersOnly(nameField, vornameField, strasseField, landField, bundeslandField, jobnameField, standortField);
         ArrayList<JTextField> numbersOnly = createNumbersOnly(plzField, beschaeftigungField, hausnummerField);
@@ -94,10 +111,12 @@ public class HRPersonalakteEditView extends AbstractPersonalakte {
         proofInputDynamic(optionalInput, lettersOnly, numbersOnly, telefonField, hausnummerZusatzField, plzField, beschaeftigungField, geburstagField);
         deleteAll(optionalInput, lettersOnly, numbersOnly, specialChars, alleEingabenLoeschenButton, raumField, geschlecht);
 
+        // speichern der Personalakte
         savePersonalakte(frame, main, aenderungenUebernehmenButton, geschlecht, pidField, beschaeftigungField, lettersOnly, numbersOnly, specialChars, geburstagField,
                 telefonField, emailField, vornameField, zweitNameField, nameField, strasseField, hausnummerField, hausnummerZusatzField, landField, bundeslandField,
                 plzField, jobnameField, abteilungField, abteilungsLeiterField, raumField, standortField, erstelltDate);
 
+        // Loeschen der Personalakte
         deletePersonalakte(frame, main, personalakteLoeschenButton, pidField.getText());
     }
 

@@ -1,30 +1,27 @@
-package controller.tablemodel.login.hr;
+package controller.functions;
 
 /** ====================================================================================================================
- * Klasse wird genutzt, um Logindaten in einer JTable anzuzeigen
+ *  Klasse wird genutzt, um alle Informationen im MitarbeiterView anzuzeigen
  * =====================================================================================================================
  */
+public class MitarbeiterController {
 
-public class Logindaten {
     //Attribute der Klasse
     public int id;
     public String kontoname;
-    public String passwort;
-    public boolean isRoot;
+    private String passwort;
 
     /** ================================================================================================================
-     * Konstruktor der Logindaten-Klasse
+     * Konstruktor der Klasse MitarbeiterController
      *
      * @param id            Personal-ID
      * @param kontoname     Username
      * @param passwort      Passwort
-     * @param isRoot        Root-Berechtigungen
      */
-    public Logindaten(int id, String kontoname, String passwort, boolean isRoot) {
+    public MitarbeiterController(int id, String kontoname, String passwort) {
         this.id = id;
         this.kontoname = kontoname;
         this.passwort = passwort;
-        this.isRoot = isRoot;
     }
 
     /*
@@ -38,11 +35,16 @@ public class Logindaten {
         return kontoname;
     }
 
+    public void setKontoname(String kontoname) {
+        this.kontoname = kontoname;
+    }
+
     public String getPasswort() {
         return passwort;
     }
 
-    public boolean isHrmitarbeiter() {
-        return isRoot;
+    public void setPasswort(String passwort) {
+        this.passwort = passwort;
     }
 }
+

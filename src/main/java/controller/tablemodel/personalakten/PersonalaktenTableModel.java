@@ -4,37 +4,62 @@ import javax.swing.table.AbstractTableModel;
 
 import java.util.List;
 
+/** ====================================================================================================================
+ *  lasse wird genutzt um eine JTable mit alle Personalakten aus der Datenbank anzuzeigen
+ * ====================================================================================================================
+ */
+
 public class PersonalaktenTableModel extends AbstractTableModel {
-    //Überschriften der Spalten
-    private final String[] columnNames = {"PERSONAL-ID","ANREDE","VORNAME","ZWEITNAME","NAME","JOBNAME","ABTEILUNG","STANDORT"};
-    //Liste von personalaktenobjekten
-    private List<Personalakten> personalakten;
-    //Klassen der einzelnen Spalten
-    private final Class[] columnClass = new Class[]{
+    private final String[] columnNames = {"PERSONAL-ID","ANREDE","VORNAME","ZWEITNAME","NAME","JOBNAME","ABTEILUNG","STANDORT"};    //Ueberschriften der Spalten
+    private List<Personalakten> personalakten;                                                                                       //Liste von personalaktenobjekten
+    private final Class[] columnClass = new Class[]{                                                                                //Klassen der einzelnen Spalten
             Integer.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class
     };
-    //getter Methode für den Klassentyp der Spalte
+
+    /** ================================================================================================================
+     * Konstruktor der Klasse
+     *
+     * @param personalakten     Arraylist, welche alle Personalakten enthaelt
+     */
+    public PersonalaktenTableModel(List<Personalakten> personalakten){
+        this.personalakten=personalakten;
+    }
+
+
+    /*
+        Getter-Methode für den Klassentyp der Spalte
+     */
     public Class<?> getColumnClass(int columnIndex){
         return columnClass[columnIndex];
     }
-    //getter Methode für den Spaltenüberschrift
+
+    /*
+        Getter-Methode für den Spaltenueberschrift
+     */
     public String getColumnName(int column){
         return columnNames[column];
     };
 
-    public PersonalaktenTableModel(List<Personalakten> personalakten){this.personalakten=personalakten;}
-
-    @Override//getter Methode für Row-größe
+    /*
+        Getter-Methode fuer die Row-Groesse
+     */
+    @Override
     public int getRowCount() {
         return personalakten.size();
     }
 
-    @Override//getter Methode für Column-länge
+    /*
+        Getter-Methode fuer die Column-Laenge
+     */
+    @Override
     public int getColumnCount() {
         return columnNames.length;
     }
 
-    @Override //getter Methode für den Wert in der Tabelle an Koordinate ('row','column')
+    /*
+        Getter-Methoden fuer den Wert in der Tabelle an festgelegter Koordinate ('row','column')
+     */
+    @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Personalakten row = personalakten.get(rowIndex);
 

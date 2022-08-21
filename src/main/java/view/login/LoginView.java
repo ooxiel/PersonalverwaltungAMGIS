@@ -19,6 +19,12 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Locale;
 
+/**
+ * =====================================================================================================================
+ * Klasse kontruiert den Login-Bildschirm mit allen funktionalen und nicht-funktionalen Elementen
+ * =====================================================================================================================
+ */
+
 public class LoginView {
 
     private JPanel main;
@@ -33,11 +39,21 @@ public class LoginView {
     private JLabel logoImage;
 
 
-    public static void main(String[] args) throws IOException {
+    /**
+     * ================================================================================================================
+     * Startpunkt des gesamten Programms
+     *
+     * @param args Argumenten
+     */
+    public static void main(String[] args) {
         new LoginView();
     }
 
-    public LoginView() throws IOException {
+    /**
+     * ================================================================================================================
+     * Konstruktor der LoginView
+     */
+    public LoginView() {
 
         JFrame frame = new JFrame();
 
@@ -47,32 +63,69 @@ public class LoginView {
 
     }
 
+    /**
+     * ================================================================================================================
+     * Methode ruft alle notwendigen Methoden gebuendelt auf, damit der Login-Bildschirm erscheinen kann. Der
+     * Login-Bilschirm hat speziellere Anforderungen als die anderen Bildschirme, weshalb dieser eine eigene
+     * Implementierung besitzt
+     *
+     * @param frame Anzeigefenster
+     */
     private void show(JFrame frame) {
 
-        frame.add(main);
-        frame.setSize(500, 300);
-        frame.setResizable(false);
-        frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.add(main);                                                    // Inhalte werden Fenster hinzugefuegt
+        frame.setSize(500, 300);                                // Fenstsergroesse auf Weite = 500 und Hoehe = 300 fixiert
+        frame.setResizable(false);                                          // Fenstergroesse unveraenderbar
+        frame.setVisible(true);                                             // Fenster ist Sichtbar
+        frame.setLocationRelativeTo(null);                                  // Platzierung Fenster in Bildschirm-Mitte
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);      // Programm wird beim Schließen geschlossen
 
-        new DefaultFraming().defaultDispose(frame, abbrechenButton);
+        new DefaultFraming().defaultDispose(frame, abbrechenButton);        // Fenster wird ueber Abbrechen-Button geschlossen
     }
 
+    /**
+     * ================================================================================================================
+     * Methode ruft alle notwendigen Methoden gebuendelt auf, damit die Icons geladen werden koennen. Der
+     * Login-Bilschirm hat speziellere Anforderungen als die anderen Bildschirme, weshalb dieser eine eigene
+     * Implementierung besitzt
+     *
+     * @param frame Anzeigefenster
+     */
     private void design(JFrame frame) {
+
+        /*
+            Username, Passwort und Logo werden dem jeweiligen Label zugewiesen
+         */
+
         IconDesign icon = new IconDesign();
         icon.setIcon(frame, usernameImage, "src/main/resources/icons/user.png");
         icon.setIcon(frame, passwordImage, "src/main/resources/icons/password.png");
         icon.setIcon(frame, logoImage, "src/main/resources/icons/LogoGross.png");
+
+        /*
+            Rand-LookAndFeel von Username und Passwort-Feld wird personalisiert
+         */
 
         Border border = new BevelBorder(0, Color.white, Color.decode("#050a30"));
         usernameField.setBorder(border);
         passwordField.setBorder(border);
     }
 
+    /**
+     * ================================================================================================================
+     * Methode ruft den Controller zum Validieren der User-Eingaben auf. Hierfuer muss der Anmelden-Button gedrueckt
+     * werden oder Alternativ die Enter-Taste in einem der Textfelder.
+     *
+     * @param frame Anzeigefenster
+     */
+
     private void check(JFrame frame) {
 
-        LoginController login = new LoginController();
+        LoginController login = new LoginController();      // Generierung des LoginController-Objekts zur Validierung
+
+        /*
+            Anmelden-Button gibt Eingaben an LoginController ueber Enter-Taste weiter
+         */
 
         besteatigenButton.addKeyListener(new KeyAdapter() {
             @Override
@@ -85,6 +138,10 @@ public class LoginView {
                 }
             }
         });
+
+        /*
+            Betaetigen der Enter-Taste im Usernamefeld gibt Eingaben an LoginController weiter
+         */
 
         usernameField.addKeyListener(new KeyAdapter() {
             @Override
@@ -99,6 +156,10 @@ public class LoginView {
             }
         });
 
+        /*
+            Betaetigen der Enter-Taste im Passwortfeld gibt Eingaben an LoginController weiter
+         */
+
         passwordField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -111,6 +172,10 @@ public class LoginView {
 
             }
         });
+
+        /*
+            Anmelden-Button gibt Eingaben an LoginController betaetigen des 'Anmelden'-Buttons weiter
+         */
 
         besteatigenButton.addActionListener(e -> login.singIn(frame, main, usernameField, passwordField));
     }

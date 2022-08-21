@@ -12,6 +12,10 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Locale;
 
+/** ====================================================================================================================
+ * Klasse kontruiert den PersonalakteCreateView mit allen funktionalen und nicht-funktionalen Elementen
+ * =====================================================================================================================
+ */
 public class PersonalakteCreateView extends AbstractPersonalakte {
 
     private JPanel main;
@@ -51,6 +55,12 @@ public class PersonalakteCreateView extends AbstractPersonalakte {
     private JButton setAnlagenButton;
     private JTree pendingTree;
 
+    /** ================================================================================================================
+     * Konstruktor der Klasse PersonalakteCreateView
+     *
+     * Der Konstruktor enthaelt alle notwendigen Funktionen, um eine Personalakte zu erstellen
+     *
+     */
     public PersonalakteCreateView() {
 
         JFrame frame = new JFrame();
