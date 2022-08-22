@@ -27,8 +27,6 @@ public class StaticInputProof {
      */
     public boolean comboBoxFieldisEmpty(JComboBox comboBox){
 
-
-
         if(comboBox.getSelectedIndex() == 0){
 
             comboBox.setToolTipText("Bitte nehmen Sie eine Eingabe vor!");      // User-Information das ComboBox leer ist

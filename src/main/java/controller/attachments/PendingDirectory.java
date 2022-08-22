@@ -21,7 +21,7 @@ public class PendingDirectory {
 
     //Wenn beim Erstellen oder Bearbeiten einer Personalakte das Fenster geschlossen/abgebrochen wird, wird der Pending Ordner geleert
 
-    /** ====================================================================================================================
+    /** ================================================================================================================
      * 'clearOnClose' dient dazu, wenn die Erstellung oder Bearbeitung einer Personalakte über den Button abbrechen oder
      * durch das schliessen der Form beendet wird, wird mit dieser Methode ebenfalls der Pending-Ordner geleert.
      * Dadurch kann die Dateienorganisation gewaehrleistet werden.

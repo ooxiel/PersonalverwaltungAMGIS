@@ -28,7 +28,9 @@ public class PersonalakteCreateModel {
      */
     public PersonalakteCreateModel(){
 
-        //Verbindung zur Datenbank wird hergestellt
+        /*
+            Verbindung zur Datenbank wird hergestellt
+         */
         try {Class.forName("org.hsqldb.jdbcDriver");}catch(ClassNotFoundException e) {return;}
         try {con = DriverManager.getConnection("jdbc:hsqldb:file:src/main/resources/Datenbank/AMGISDatenbank", "amgis", "amgis"); }catch(SQLException e){e.printStackTrace();}}
 
@@ -79,6 +81,11 @@ public class PersonalakteCreateModel {
 
         //Statement mit Connection und dem String aktualisieren
 
+        /*
+            Mit 'prep_Tabelle.set___(Index, x)'
+            wird an der Stelle des Index das '?' durch x ersetzt
+             */
+
         try {
             prep_Mstamm = con.prepareStatement(sql_Mstamm);
             prep_Adr = con.prepareStatement(sql_Adr);
@@ -89,13 +96,9 @@ public class PersonalakteCreateModel {
         try {
 
             /*
-            Mit 'prep_Tabelle.set___(Index, x)'
-            wird an der Stelle des Index das '?' durch x ersetzt
+                Mitarbeiterlogin-Objekt erzeugen, um Kontoname+Passwort zu erzeugen
              */
 
-
-            //Mitarbeiterlogin
-            //Objekt erzeugen um Kontoname+Passwort zu erzeugen
             AccountErzeugen aE=new AccountErzeugen();
 
             prep_MLogin.setInt(1,newID);
@@ -174,38 +177,65 @@ public class PersonalakteCreateModel {
         } catch (SQLException e) {e.printStackTrace();}
     }
 
-    //Nach erstellen einer Personalakte sollen die Anmeldedaten gezeigt werden
+    /** ================================================================================================================
+     * Methode zeigt nach dem Erstellen einer Personalakte die Anmeldedaten in einem Pop-Up an
+     *
+     * @param newID     Personal-ID
+     * @param main      anzuzeigende Inhalte
+     */
     private void  showLogindaten(int newID, JPanel main) {
-        //Wir wollen nur den username und passwort von einer Person anzeigen, deshalb die WHERE-Bedingung
-        String sql="SELECT username, password FROM Mitarbeiterlogin WHERE M_ID="+newID;//SQL Statement als String
-        String username = null;String password = null;//Strings initialisieren
+        /*
+            Username und Passwort der erstellten Personalakte ueber die ID angezeigen
+         */
+        String sql="SELECT username, password FROM Mitarbeiterlogin WHERE M_ID="+newID;     //SQL Statement als String
+        String username = null;String password = null;                                      //Strings initialisieren
+
         try {
-            Statement stmt = con.createStatement();//Statement erstellen
-            ResultSet r= stmt.executeQuery(sql);//Statement ausführen und Ergebniss speichern
+            Statement stmt = con.createStatement();                                         //Statement erstellen
+            ResultSet r= stmt.executeQuery(sql);                                            //Statement ausfuehren und Ergebnis speichern
             while(r.next()) {
-                //Username und Passwort aktualiseren mit den Daten aus der Datenbank
+
+                /*
+                    Username und Passwort aktualiseren mit den Daten aus der Datenbank
+                 */
                 username = String.valueOf(r.getString(1));
                 password = String.valueOf(r.getString(2));
             }
-            r.close();//schließen
+            r.close();                                                                      //schliessen
             stmt.close();
         } catch (SQLException e) {throw new RuntimeException(e);}
-        //PopUp-Fenster öffnet sich und zeigt die Daten an
+
+        /*
+            PopUp-Fenster öffnet sich und zeigt die Daten an
+         */
         showMessageDialog(main, "Logindaten  \nKontoname:  "+username+"\nPasswort:  "+password);
     }
+
+    /** ================================================================================================================
+     * Methode zeigt Dateien aus einem Dateipfad in einem JTree an
+     *
+     * @param file          Datei
+     * @param targetPath    Zielpfad der Datei
+     * @param newID         Personal-ID
+     */
 
     public void showFile(File file, Path targetPath,int newID) {
         if(file.isDirectory()) {
             return;
         } else {
             try {
-                //File wird aus dem Pending Ordner in den Persönlichen Ordner verlegt
+                /*
+                    Datei wird aus dem Pending Ordner in den persoenlichen Ordner verlegt
+                 */
                 Files.move(Path.of(file.getAbsolutePath()), targetPath.resolve(file.getName()));
-                //SQL Statement als String erstellen
+
+                /*
+                    SQL Statement als String erstellen
+                 */
                 String sql_insertFile = "INSERT INTO AKTENKENNZEICHEN VALUES ("+nextPOS_NR()+" ,'"+targetPath.resolve(file.getName())+"',"+newID+");";
-                Statement stmt = con.createStatement();//Statement erstellen
-                stmt.executeQuery(sql_insertFile);//Statement ausführen
-                stmt.close();//Statement schließen
+                Statement stmt = con.createStatement();     //Statement erstellen
+                stmt.executeQuery(sql_insertFile);          //Statement ausfuehren
+                stmt.close();                               //Statement schliessen
             } catch (IOException e) {throw new RuntimeException(e);} catch (SQLException e) {throw new RuntimeException(e);}
         }
     }

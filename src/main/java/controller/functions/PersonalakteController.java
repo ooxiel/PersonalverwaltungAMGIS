@@ -88,7 +88,9 @@ public class PersonalakteController {
 
                         PersonalakteCreateModel pae = new PersonalakteCreateModel();
 
-                        //Methode bei der die Daten in die Datenbank eingetragen werden
+                        /*
+                            Methodeaufruf bei der die Daten in die Datenbank eingetragen werden
+                         */
                         pae.einfuegen(geschlecht.getSelectedItem().toString(), vornameField.getText(), zweitNameField.getText(), nameField.getText(),
                                 geburstagField.getText(), telefonField.getText(), emailField.getText(), strasseField.getText(), hausnummerField.getText(),
                                 hausnummerZusatzField.getText(), landField.getText(), bundeslandField.getText(), plzField.getText(), jobnameField.getText(),
@@ -99,7 +101,6 @@ public class PersonalakteController {
                         } catch (SQLException ex) {
                             ex.printStackTrace();
                         }
-
 
                         JOptionPane.showMessageDialog(main, "Eingabe Erfolgreich!");        //Erfolgsmeldung bei erfolgreicher Eingabe
                         frame.dispose();

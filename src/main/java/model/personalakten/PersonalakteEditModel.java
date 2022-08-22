@@ -150,6 +150,7 @@ public class PersonalakteEditModel {
                         Path sourcePath = Paths.get("src/main/resources/AktenFiles/Pending");
                         Files.walk(sourcePath).forEach(path -> showFile(path.toFile(),targetPath,id));
                     }else{
+
                         /*
                             Ordner erstellen mit der ID der Personalakte
                             (Pending ist der Start, id der Personalakte das Ziel)
